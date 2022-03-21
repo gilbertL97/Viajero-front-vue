@@ -1,23 +1,44 @@
+/* eslint-disable vue/no-export-in-script-setup */
 /<template>
  <div class="login-page">
   <div class="form">
-    <form class="login-form">
-      <img src="../assets/logogenerico.png" alt="">
-      <input type="text" placeholder="Nombre de Usuario"/>
-      <input type="password" placeholder="Contraseña"/>
-      <button>login</button>
-     
-   
+    <form class="login-form"  >
+      <img src="../../assets/logogenerico.png" alt="">
+      <input 
+        v-model="form.username" 
+        type="text"
+        placeholder="Nombre de Usuario"
+        required/>
+      <input 
+        v-model="form.password" 
+        type="password"
+        placeholder="Contraseña" 
+        required />
+      <button @click="si" >login</button> 
+       <p v-if="error" class="error">Has introducido mal el nombre o la contraseña.</p>
     </form>
   </div>
 </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts"  setup>
+import { reactive, ref } from 'vue';
+const error =ref(true);
 
+   
+    const form = reactive({
+      username: '',
+      password: ''
+    });
+function si():void {
+  const api=import.meta.env.VITE_BASE_URL;
+  console.log('aqui');
+  console.log(api);
+};
 </script>
 
 <style scoped>
+
 .login-page {
   width: 360px;
   padding: 8% 0 0;
@@ -72,10 +93,6 @@
   color: #b3b3b3;
   font-size: 12px;
 }
-.form .message a {
-  color: #4CAF50;
-  text-decoration: none;
-}
 .form .register-form {
   display: none;
 }
@@ -113,11 +130,15 @@
   color: #EF3B3A;
 }
 body {
-  background: #76b852; /* fallback for old browsers */
-  background: rgb(141,194,111);
-  background: linear-gradient(90deg, rgba(141,194,111,1) 0%, rgba(118,184,82,1) 50%);
+  background: #0047b3; /* fallback for old browsers */
+  background: 	rgb(0, 71, 179);
+  background: linear-gradient(90deg, 	rgb(0, 71, 179) 0%, 	rgb(51, 133, 255) 50%);
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      
+}
+.error {
+  margin: 1rem 0 0;
+  color: #EF3B3A;
 }
 </style>
