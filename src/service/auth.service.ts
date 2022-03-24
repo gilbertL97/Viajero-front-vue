@@ -7,7 +7,9 @@ interface LoginAPIResponse {
   authToken: string
   user: User
 }
-
+interface TestUSer{
+  user:User
+}
 interface RegisterAPISuccess {
  UserLogged: {
    id: number,
@@ -55,7 +57,7 @@ export async function loginService(
 ): Promise<AxiosResponse<LoginAPIResponse>> {
   const config: AxiosRequestConfig = {
     method: 'POST',
-    url: API+'/auth/login',
+    url: '/auth/login', ///http://localhost:3001/viajero/auth/login
     data: {
      username,
       password,

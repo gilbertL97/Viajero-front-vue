@@ -2,7 +2,7 @@
 /<template>
  <div class="login-page">
   <div class="form">
-    <form class="login-form"  >
+    <div class="login-form"  >
       <img src="../../assets/logogenerico.png" alt="">
       <input 
         v-model="form.username" 
@@ -14,27 +14,36 @@
         type="password"
         placeholder="Contraseña" 
         required />
-      <button @click="si" >login</button> 
-       <p v-if="error" class="error">Has introducido mal el nombre o la contraseña.</p>
-    </form>
+      <button @click="login" >login</button> 
+       <p v-if="errorL" class="error">Has introducido mal el nombre o la contraseña.</p>
+    </div>
   </div>
 </div>
 </template>
 
 <script lang="ts"  setup>
 import { reactive, ref } from 'vue';
-const error =ref(true);
+import API from '../../service/api';
+import { loginService } from '../../service/auth.service';
+let errorL =ref(false);
 
    
     const form = reactive({
       username: '',
       password: ''
     });
-function si():void {
-  const api=import.meta.env.VITE_BASE_URL;
-  console.log('aqui');
-  console.log(api);
+const login=async ():Promise<void>=> {
+ console.log(API);
+  try {
+    const token = await loginService(form.username, form.password);
+    console.log(token.request);
+  } catch (error) {
+     console.log(error);
+  }
+
+
 };
+
 </script>
 
 <style scoped>
