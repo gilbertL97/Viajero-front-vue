@@ -1,21 +1,15 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 import API from './api'
-import { User,  } from '../types/authTypes'
+import { User, UserLogged,  } from '../types/authTypes'
 
 interface LoginAPIResponse {
   authToken: string
   user: User
 }
-interface TestUSer{
-  user:User
-}
+
 interface RegisterAPISuccess {
- UserLogged: {
-   id: number,
-   name: string,
-   role:string,
-  }
+ userLog:UserLogged
 }
 
 /**

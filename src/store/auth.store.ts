@@ -1,28 +1,24 @@
 
 
-import { defineStore } from 'pinia'
-import { resetRouter } from '@/router'
-import { setLogin, doLogout, getUserInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
-import { createPinia } from 'pinia'
-import { UserLogged, UserLogin } from '../types/authTypes'
+import { defineStore,createPinia } from 'pinia'
+import { User} from '../types/authTypes'
 
 const store = createPinia()
 
 interface UserState {
   token?: string |null;
-  userInfo:UserLogged | null;
+  userInfo:User | null;
 }
 
-export const useUserStore = defineStore({
+export const authStore = defineStore({
   id: 'app-user',
   state: (): UserState => ({
-    token: getToken(),
+    token: '',
     userInfo: null
   }),
   getters: {
-    getUserInfo(): any {
-      return this.userInfo || {}
+    getUserInfo(): User | null {
+      return this.userInfo;
     },
     getToken(): any {
       return this.token
@@ -31,21 +27,21 @@ export const useUserStore = defineStore({
   actions: {
     setToken(token: string | undefined) {
       this.token = token || ''
-      setToken(token)
+      //setToken(token)
     },
-    setUserInfo(info: UserLogged) {
+    setUserInfo(info: User) {
       this.userInfo = info
     },
     resetState() {
       this.token = ''
       this.userInfo = null
-      removeToken()
-      resetRouter()
+     /* removeToken()
+      resetRouter()*/
     },
     /**
      * @description: login
      */
-    async login(params: { username: string; password: string }) {
+  /*  async login(params: { username: string; password: string }) {
       try {
         const { username, password } = params
         const { data } = await setLogin({ username, password })
@@ -67,7 +63,7 @@ export const useUserStore = defineStore({
     /**
      * @description: logout
      */
-    async logout() {
+    /*async logout() {
       if (this.getToken) {
         try {
           await doLogout()
@@ -77,11 +73,11 @@ export const useUserStore = defineStore({
           return Promise.reject('logout error')
         }
       }
-    }
+    }*/
   }
 })
 
 // Need to be used outside the setup
-export function useUserStoreWithOut() {
-  return useUserStore(store)
+export function useAuthStore() {
+  return authStore(store)
 }

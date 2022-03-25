@@ -23,8 +23,12 @@
 
 <script lang="ts"  setup>
 import { reactive, ref } from 'vue';
+import { useRouter} from 'vue-router'
 import API from '../../service/api';
 import { loginService } from '../../service/auth.service';
+import {useAuthStore} from '../../store/auth.store'
+const store = useAuthStore();
+const router=useRouter();
 let errorL =ref(false);
 
    
@@ -32,17 +36,25 @@ let errorL =ref(false);
       username: '',
       password: ''
     });
-const login=async ():Promise<void>=> {
- console.log(API);
-  try {
-    const token = await loginService(form.username, form.password);
-    console.log(token.request);
-  } catch (error) {
-     console.log(error);
-  }
+const login=async (): Promise<void> => {
+console.log(API);
+try {
+const token = await loginService(form.username, form.password);
+if(token){
+  //const store= authStore();
+  store.setUserInfo(token.data.user);
+  store.setToken(token.data.authToken);
+  router.push('/');
+}
+//console.log(token.data.user);
+} catch (error) {
+console.log(error);
+}
 
 
 };
+
+
 
 </script>
 
