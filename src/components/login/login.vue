@@ -43,7 +43,7 @@ const token = await loginService(form.username, form.password);
 if(token){
   //const store= authStore();
   store.setUserInfo(token.data.user);
-  store.setToken(token.data.authToken);
+  store.setToken(token.data.access_token);
   router.push('/');
 }
 //console.log(token.data.user);

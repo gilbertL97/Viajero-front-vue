@@ -25,8 +25,8 @@ export const authStore = defineStore({
     }
   },
   actions: {
-    setToken(token: string | undefined) {
-      this.token = token || ''
+    setToken(token1: string | undefined) {
+      this.token = token1;
       //setToken(token)
     },
     setUserInfo(info: User) {

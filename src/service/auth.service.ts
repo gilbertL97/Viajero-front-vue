@@ -4,7 +4,7 @@ import API from './api'
 import { User, UserLogged,  } from '../types/authTypes'
 
 interface LoginAPIResponse {
-  authToken: string
+  access_token: string
   user: User
 }
 
