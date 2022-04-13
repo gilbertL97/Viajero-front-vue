@@ -15,17 +15,13 @@
 <script lang="ts" setup>
 import {  ref } from 'vue';
 
-interface props{
-     visible_edit:boolean;
-     visible_delete:boolean;
-     visible_view:boolean;
-};
-let model=ref(Object);
-const props = withDefaults(defineProps<props>(),{
-    visibleEdit:true,
-    visible_delete:true,
-    visible_view:true,
-    
+interface DataType {
+  key: string | number;
+  name: string;
+  age: number;
+  address: string;
+}
+
 })
 </script>
 
