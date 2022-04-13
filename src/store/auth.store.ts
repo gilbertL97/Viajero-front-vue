@@ -8,19 +8,21 @@ const store = createPinia()
 interface UserState {
   token?: string |null;
   userInfo:User | null;
+  isloggedIn:boolean;
 }
 
 export const authStore = defineStore({
   id: 'app-user',
   state: (): UserState => ({
     token: '',
-    userInfo: null
+    userInfo: null,
+    isloggedIn:false
   }),
   getters: {
     getUserInfo(): User | null {
       return this.userInfo;
     },
-    getToken(): any {
+    getToken():string |null|undefined{
       return this.token
     }
   },
@@ -32,52 +34,20 @@ export const authStore = defineStore({
     setUserInfo(info: User) {
       this.userInfo = info
     },
+    setLogged(){
+        if(typeof(this.getToken)=== 'string'&& this.getToken!='')
+        this.isloggedIn = false;
+    },
     resetState() {
       this.token = ''
       this.userInfo = null
      /* removeToken()
       resetRouter()*/
     },
-    /**
-     * @description: login
-     */
-  /*  async login(params: { username: string; password: string }) {
-      try {
-        const { username, password } = params
-        const { data } = await setLogin({ username, password })
-        this.setToken(data.token)
-        return data
-      } catch (error) {
-        return Promise.reject(error)
-      }
-    },
-    async getInfo(): Promise<UserLogged | null> {
-      try {
-        const { data } = await getUserInfo({ token: this.getToken })
-        this.setUserInfo(data)
-        return Promise.resolve(data)
-      } catch (error) {
-        return Promise.reject(error)
-      }
-    },
-    /**
-     * @description: logout
-     */
-    /*async logout() {
-      if (this.getToken) {
-        try {
-          await doLogout()
-          this.resetState()
-          return Promise.resolve()
-        } catch {
-          return Promise.reject('logout error')
-        }
-      }
-    }*/
   }
 })
 
-// Need to be used outside the setup
+
 export function useAuthStore() {
   return authStore(store)
 }

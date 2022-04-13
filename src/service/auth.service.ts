@@ -1,16 +1,14 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 import API from './api'
-import { User, UserLogged,  } from '../types/authTypes'
+import { User } from '../types/authTypes'
 
 interface LoginAPIResponse {
   access_token: string
   user: User
 }
 
-interface RegisterAPISuccess {
- userLog:UserLogged
-}
+
 
 /**
  * @description Used for development puropses ONLY!
@@ -65,7 +63,6 @@ export async function loginService(
  * @description Registration API
  * @params {User} - new user object
  *
- * @returns {Promise<AxiosResponse<RegisterAPISuccess>>} - user object
  *
  * @example registerUser(user)
  */

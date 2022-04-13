@@ -3,7 +3,7 @@
  <div class="login-page">
   <div class="form">
     <div class="login-form"  >
-      <img src="../../assets/logogenerico.png" alt="">
+      <img src="../../assets/imagenes/logogenerico.png" alt="" >
       <input 
         v-model="form.username" 
         type="text"
@@ -37,7 +37,7 @@ let errorL =ref(false);
       password: ''
     });
 const login=async (): Promise<void> => {
-console.log(API);
+//console.log(API);
 try {
 const token = await loginService(form.username, form.password);
 if(token){

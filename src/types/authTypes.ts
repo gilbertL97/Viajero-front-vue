@@ -9,7 +9,6 @@ export interface User {
 }
   export type AuthState = {
     user?: User
-    registeredEmail?: string | undefined
     isLoggedIn: boolean
     userToken?: string
     error: storeErrorT
