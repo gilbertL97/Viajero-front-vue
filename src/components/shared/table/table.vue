@@ -9,10 +9,10 @@
     >
         <template #bodyCell="{ column,record }">
       <template v-if="column.dataIndex === 'action'">
-        <a-popconfirm title="Title" @confirm="onDelete(record.id)">
+        <a-popconfirm title="Esta seguro que desea eliminar el usuario" @confirm="onDelete(record.id)">
          <a-button type="danger" > <DeleteOutlined /></a-button>
             </a-popconfirm>
-            <a-button type="primary" ><EyeOutlined /> </a-button>
+            <a-button type="primary" ><EditOutlined /> </a-button>
   
       </template>
     </template>
@@ -33,7 +33,7 @@
 <script lang="ts" setup>
 import { defineComponent, computed, ref, onMounted, reactive } from 'vue';
 import  {DeleteOutlined} from '@ant-design/icons-vue';
-import  {EyeOutlined} from '@ant-design/icons-vue';
+import  {EditOutlined} from '@ant-design/icons-vue';
 import {getUsers} from '../../../service/user.service';
 import { User } from '@/types/modelTypes';
 
@@ -102,6 +102,7 @@ const columns = [
     };
 
         const onDelete = (key: number) => {
+          
           console.log(data.value);
       data.value = data.value.filter(item => item.id !== key);
           console.log(data.value);
