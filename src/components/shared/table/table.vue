@@ -9,10 +9,10 @@
     >
         <template #bodyCell="{ column,record }">
       <template v-if="column.dataIndex === 'action'">
-        <a-popconfirm title="Esta seguro que desea eliminar el usuario" @confirm="onDelete(record.id)">
+        <a-popconfirm :title=" `Desea eliminar al Usuario ${record.name} ?` " @confirm="onDelete(record.id)">
          <a-button type="danger" > <DeleteOutlined /></a-button>
             </a-popconfirm>
-            <a-button type="primary" ><EditOutlined /> </a-button>
+         <modal-user/>
   
       </template>
     </template>
@@ -36,6 +36,8 @@ import  {DeleteOutlined} from '@ant-design/icons-vue';
 import  {EditOutlined} from '@ant-design/icons-vue';
 import {getUsers} from '../../../service/user.service';
 import { User } from '@/types/modelTypes';
+import {modalUser} from '../modal/modalUser.vue'
+import ModalUser from '../modal/modalUser.vue'
 
 
  let data=ref<User[]>([]);
@@ -102,7 +104,6 @@ const columns = [
     };
 
         const onDelete = (key: number) => {
-          
           console.log(data.value);
       data.value = data.value.filter(item => item.id !== key);
           console.log(data.value);
