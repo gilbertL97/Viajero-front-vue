@@ -1,0 +1,50 @@
+import { defineStore, createPinia } from 'pinia';
+import { UserAuth } from '../types/authTypes';
+
+const store = createPinia();
+
+interface UserState {
+    token?: string | null;
+    userInfo: UserAuth | null;
+    isloggedIn: boolean;
+}
+
+export const authStore = defineStore({
+    id: 'app-user',
+    state: (): UserState => ({
+        token: '',
+        userInfo: null,
+        isloggedIn: false,
+    }),
+    getters: {
+        getUserInfo(): UserAuth | null {
+            return this.userInfo;
+        },
+        getToken(): string | null | undefined {
+            return this.token;
+        },
+    },
+    actions: {
+        setToken(token1: string | undefined) {
+            this.token = token1;
+            //setToken(token)
+        },
+        setUserInfo(info: UserAuth) {
+            this.userInfo = info;
+        },
+        setLogged() {
+            if (typeof this.getToken === 'string' && this.getToken != '')
+                this.isloggedIn = false;
+        },
+        resetState() {
+            this.token = '';
+            this.userInfo = null;
+            /* removeToken()
+      resetRouter()*/
+        },
+    },
+});
+
+export function useAuthStore() {
+    return authStore(store);
+}
