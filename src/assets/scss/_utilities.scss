@@ -1,109 +1,108 @@
 .u-pointer {
-  cursor: pointer !important;
+    cursor: pointer !important;
 }
 
 .u-cursor-help {
-  cursor: help !important;
+    cursor: help !important;
 }
 
 .border-dashed {
-  border: 1px dashed #dee2e6 !important
+    border: 1px dashed #dee2e6 !important;
 }
 
 .u-w-auto {
-  width: auto !important;
+    width: auto !important;
 }
 
 .transition-none {
-  transition: none !important
+    transition: none !important;
 }
 
 .break-word {
-  overflow-wrap: break-word !important;
+    overflow-wrap: break-word !important;
 }
 
 .u-absCenter {
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
 }
 
 .backface-hidden {
-  backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
 }
 
 .align-center {
-  align-items: center;
+    align-items: center;
 }
 
 .u-text-ellipsis {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
-
 .fs-smaller {
-  font-size: smaller !important;
+    font-size: smaller !important;
 }
 
 .fs-small {
-  font-size: small !important;
+    font-size: small !important;
 }
 
 .fs-medium {
-  font-size: medium !important;
+    font-size: medium !important;
 }
 
 .fs-larger {
-  font-size: larger !important;
+    font-size: larger !important;
 }
 
 .w-fit-content {
-  width: fit-content !important;
+    width: fit-content !important;
 }
 
 .h-fit-content {
-  height: fit-content !important;
+    height: fit-content !important;
 }
 
 .u-cover {
-  object-fit: cover;
+    object-fit: cover;
 }
 
 .justify-center {
-  justify-content: center !important;
+    justify-content: center !important;
 }
 
 .flex-center {
-  display: flex !important;
-  align-items: center !important;
+    display: flex !important;
+    align-items: center !important;
 }
 
 .fw-400 {
-  font-weight: 400 !important;
+    font-weight: 400 !important;
 }
 
 .fw-500 {
-  font-weight: 500 !important;
+    font-weight: 500 !important;
 }
 
 .ant-modal-close:focus {
-  outline: none;
+    outline: none;
 }
 
 .dashed-primary {
-  color: #67368e !important;
-  background-color: #fff !important;
-  border-color: #67368e !important;
+    color: #67368e !important;
+    background-color: #fff !important;
+    border-color: #67368e !important;
 }
 
 .opacity-4 {
-  opacity: .4;
+    opacity: 0.4;
 }
 
 .disabled {
-  cursor: no-drop;
-  opacity: .4;
+    cursor: no-drop;
+    opacity: 0.4;
 }

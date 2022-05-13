@@ -1,11 +1,11 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-import API from './api';
-import { UserAuth } from '../types/authTypes';
+import API from '@/service/api';
+import { User } from '@/components/entities/user/types/modeltypes';
 
 interface LoginAPIResponse {
     access_token: string;
-    user: UserAuth;
+    user: User;
 }
 
 /**

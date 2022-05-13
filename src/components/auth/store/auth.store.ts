@@ -1,11 +1,11 @@
 import { defineStore, createPinia } from 'pinia';
-import { UserAuth } from '../types/authTypes';
+import { User } from '@/components/entities/user/types/modeltypes';
 
 const store = createPinia();
 
 interface UserState {
     token?: string | null;
-    userInfo: UserAuth | null;
+    userInfo: User | null;
     isloggedIn: boolean;
 }
 
@@ -17,7 +17,7 @@ export const authStore = defineStore({
         isloggedIn: false,
     }),
     getters: {
-        getUserInfo(): UserAuth | null {
+        getUserInfo(): User | null {
             return this.userInfo;
         },
         getToken(): string | null | undefined {
@@ -29,7 +29,7 @@ export const authStore = defineStore({
             this.token = token1;
             //setToken(token)
         },
-        setUserInfo(info: UserAuth) {
+        setUserInfo(info: User) {
             this.userInfo = info;
         },
         setLogged() {

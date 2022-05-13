@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import LoginView from '../components/login/login.vue';
-import Home from '../components/home/index.vue';
-import { useAuthStore } from '../store/auth.store';
+import LoginView from '@/view/login/loginH.vue';
+import Home from '@/view/home/indexHome.vue';
+import { useAuthStore } from '@/components/auth/store/auth.store';
 const store = useAuthStore();
 
 const beforeEnter = (_to: any, _from: any, next: any) => {

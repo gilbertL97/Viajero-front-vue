@@ -1,38 +1,40 @@
 <template>
-    <div>
+    <div class="form">
         <h5>Nombre</h5>
-        <a-input placeholder="Nombre " :defaultValue="userEdit.name" />
+        <a-input placeholder="Nombre " v-model:value="user.name" />
         <h5>Correo</h5>
-        <a-input placeholder="Email" :defaultValue="userEdit.email" />
-        <h5>Rol : {{ userEdit.role }}</h5>
-        <a-dropdown :trigger="['click']">
-            <a class="ant-dropdown-link" @click.prevent>
-                <h5>{{ role }}</h5>
-                <DownOutlined />
-            </a>
-            <template #overlay>
-                <a-menu>
-                    <a-menu-item key="marketing"> Administrador </a-menu-item>
-                    <a-menu-item key="consult"> Consultante </a-menu-item>
-                    <a-menu-item key="client">
-                        Agente de Marketing
-                    </a-menu-item>
-                    <a-menu-item key="comercial">
-                        Agente de Viajes
-                    </a-menu-item>
-                </a-menu>
-            </template>
-        </a-dropdown>
+        <a-input placeholder="Email" v-model:value="user.email" />
+        <h5>Rol</h5>
+        <a-select v-model:value="user.role" placeholder="Seleccione el rol">
+            <a-select-option :value="UserRole.MARKAGENT"
+                >Agente de Marketing</a-select-option
+            >
+            <a-select-option :value="UserRole.CONSULT">
+                Consultante</a-select-option
+            >
+            <a-select-option :value="UserRole.COMAGENT"
+                >Agente Comercial</a-select-option
+            >
+            <a-select-option :value="UserRole.ADMIN"
+                >Administrador</a-select-option
+            >
+        </a-select>
+        <div class="btns">
+            <a-button type="primary" :loading="loading" @click="handleOk"
+                >Aceptar</a-button
+            >
+            <a-divider type="vertical" />
+            <a-button @click="handleCancel"> Cancelar </a-button>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
     import { User } from '@/components/entities/user/types/modelTypes';
-    import { DownOutlined } from '@ant-design/icons-vue';
     import { PropType, reactive, ref } from 'vue';
-    const role = ref<String>(' ');
-    /*const user =reactive<User>(
- );*/
+    import { editUsers, addUsers } from '../services/user.service';
+    import { UserRole } from '@/components/entities/user/types/modelTypes';
+    import generator from 'generate-password-ts';
 
     const props = defineProps({
         user: {
@@ -40,23 +42,59 @@
             required: true,
         },
     });
-    const userEdit = reactive({
+
+    const loading = ref(false);
+    const user: User = reactive({
+        id: props.user.id,
         name: props.user.name,
         email: props.user.email,
         role: props.user.role,
-    });
-    /* const emit = defineEmits<{
-        (e: 'change', visible: boolean): void;
-        (e: 'update', user: User): void;
-    }>();
-    const userUpdt = computed<User>(() => {
-        // type error if this doesn't return a number
-        return props.user;
+        active: false,
     });
 
-    /*const handleCancel = () => {
-      visible = false;
-    };*/
+    const emit = defineEmits<{
+        (e: 'finish', visible: boolean): void;
+    }>();
+
+    const handleOk = async () => {
+        loading.value = true;
+        if (props.user.active) await editUser();
+        else await addUser();
+        loading.value = false;
+        emit('finish', false);
+    };
+    const handleCancel = () => {
+        emit('finish', false);
+        console.log('test');
+    };
+    const editUser = async () => {
+        console.log(props.user);
+        try {
+            await editUsers(user);
+        } catch (error) {}
+    };
+    const addUser = async () => {
+        genPass();
+        try {
+            await addUsers(user);
+        } catch (error) {}
+    };
+
+    const genPass = () => {
+        const password = generator.generate({
+            length: 10,
+            numbers: true,
+        });
+        user.password = password;
+        window.alert('la contraseña momentania sera esta ' + password);
+    };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+    .form {
+        display: block;
+    }
+    .btns {
+        float: right;
+    }
+</style>

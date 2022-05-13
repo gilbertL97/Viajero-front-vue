@@ -8,7 +8,7 @@ module.exports = {
     parser: 'vue-eslint-parser',
     parserOptions: {
         parser: '@typescript-eslint/parser',
-        ecmaVersion: 2020,
+        ecmaVersion: 2021,
         sourceType: 'module',
         jsxPragma: 'React',
         ecmaFeatures: {
@@ -20,7 +20,6 @@ module.exports = {
         'plugin:@typescript-eslint/recommended',
         'prettier',
         'plugin:prettier/recommended',
-        'plugin:jest/recommended',
     ],
     rules: {
         'vue/script-setup-uses-vars': 'error',
