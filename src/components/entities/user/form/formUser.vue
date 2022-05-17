@@ -4,21 +4,38 @@
         <a-input placeholder="Nombre " v-model:value="user.name" />
         <h5>Correo</h5>
         <a-input placeholder="Email" v-model:value="user.email" />
-        <h5>Rol</h5>
-        <a-select v-model:value="user.role" placeholder="Seleccione el rol">
-            <a-select-option :value="UserRole.MARKAGENT"
-                >Agente de Marketing</a-select-option
-            >
-            <a-select-option :value="UserRole.CONSULT">
-                Consultante</a-select-option
-            >
-            <a-select-option :value="UserRole.COMAGENT"
-                >Agente Comercial</a-select-option
-            >
-            <a-select-option :value="UserRole.ADMIN"
-                >Administrador</a-select-option
-            >
-        </a-select>
+        <div v-if="props.editAdmin">
+            <h5>Rol</h5>
+            <a-select v-model:value="user.role" placeholder="Seleccione el rol">
+                <a-select-option
+                    @select="client = false"
+                    :value="UserRole.MARKAGENT"
+                    >{{ UserRoleEquivalen.MARKAGENT }}</a-select-option
+                >
+                <a-select-option
+                    @select="client = false"
+                    :value="UserRole.CONSULT"
+                >
+                    {{ UserRoleEquivalen.CONSULT }}</a-select-option
+                >
+                <a-select-option
+                    @select="client = false"
+                    :value="UserRole.COMAGENT"
+                    >{{ UserRoleEquivalen.COMAGENT }}</a-select-option
+                >
+                <a-select-option
+                    @select="client = false"
+                    :value="UserRole.ADMIN"
+                    >{{ UserRoleEquivalen.ADMIN }}</a-select-option
+                >
+                <a-select-option
+                    @select="client = false"
+                    :value="UserRole.CLIENT"
+                    >{{ UserRoleEquivalen.CLIENT }}</a-select-option
+                >
+            </a-select>
+            <dropdownContrac v-if="client" />
+        </div>
         <div class="btns">
             <a-button type="primary" :loading="loading" @click="handleOk"
                 >Aceptar</a-button
@@ -33,7 +50,12 @@
     import { User } from '@/components/entities/user/types/modelTypes';
     import { PropType, reactive, ref } from 'vue';
     import { editUsers, addUsers } from '../services/user.service';
-    import { UserRole } from '@/components/entities/user/types/modelTypes';
+    import {
+        UserRole,
+        UserRoleEquivalen,
+    } from '@/components/entities/user/types/modelTypes';
+    import dropdownContrac from '../../contratctor/dropdown/dropdownContrac.vue';
+
     import generator from 'generate-password-ts';
 
     const props = defineProps({
@@ -41,8 +63,18 @@
             type: Object as PropType<User>,
             required: true,
         },
+        editAdmin: {
+            //para saber si un solo user se esta editando el perfil
+            type: Boolean,
+            required: true,
+        },
+        newUser: {
+            //para saber si es un nuevo user
+            type: Boolean,
+            required: true,
+        },
     });
-
+    const client = ref(true);
     const loading = ref(false);
     const user: User = reactive({
         id: props.user.id,
@@ -58,14 +90,13 @@
 
     const handleOk = async () => {
         loading.value = true;
-        if (props.user.active) await editUser();
-        else await addUser();
+        if (props.newUser == true) await addUser();
+        else await editUser();
         loading.value = false;
         emit('finish', false);
     };
     const handleCancel = () => {
         emit('finish', false);
-        console.log('test');
     };
     const editUser = async () => {
         console.log(props.user);
@@ -95,6 +126,6 @@
         display: block;
     }
     .btns {
-        float: right;
+        padding-top: 15px;
     }
 </style>
