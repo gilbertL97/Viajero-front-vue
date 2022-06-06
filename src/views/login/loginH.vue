@@ -3,22 +3,7 @@
         <div class="form">
             <div class="login-form">
                 <img src="../../assets/imagenes/logogenerico.png" alt="" />
-                <input
-                    v-model="form.username"
-                    type="text"
-                    placeholder="Nombre de Usuario"
-                    required
-                />
-                <input
-                    v-model="form.password"
-                    type="password"
-                    placeholder="Contraseña"
-                    required
-                />
-                <button @click="login">login</button>
-                <p v-if="errorL" class="error"
-                    >Has introducido mal el nombre o la contraseña.</p
-                >
+                <login-form-vue />
             </div>
         </div>
     </div>
@@ -29,6 +14,7 @@
     import { useRouter } from 'vue-router';
     import { loginService } from '@/modules/auth/services/auth.service';
     import { useAuthStore } from '@/modules/auth/store/auth.store';
+    import loginFormVue from '@/modules/auth/form/loginForm.vue';
     const store = useAuthStore();
     const router = useRouter();
     let errorL = ref(false);
@@ -80,33 +66,11 @@
         box-sizing: border-box;
         font-size: 14px;
     }
-    .form button {
-        text-transform: uppercase;
-        outline: 0;
-        background: #0047b3;
-        width: 100%;
-        border: 0;
-        padding: 15px;
-        color: #ffffff;
-        font-size: 14px;
-        -webkit-transition: all 0.3 ease;
-        transition: all 0.3 ease;
-        cursor: pointer;
-    }
     .form img {
         border: 0;
         padding-bottom: 15%;
     }
-    .form button:hover,
-    .form button:active,
-    .form button:focus {
-        background: #3385ff;
-    }
-    .form .message {
-        margin: 15px 0 0;
-        color: #b3b3b3;
-        font-size: 12px;
-    }
+
     .form .register-form {
         display: none;
     }

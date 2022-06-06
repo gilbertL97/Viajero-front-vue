@@ -14,7 +14,7 @@ const GuestRouter: RouteRecordRaw[] = [
     },
     {
         path: '/:pathMatch(.*)*',
-        redirect: '/404',
+        redirect: '/login',
     },
     {
         path: '/',
