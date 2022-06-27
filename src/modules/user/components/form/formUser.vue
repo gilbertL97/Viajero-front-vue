@@ -38,9 +38,9 @@
 <script setup lang="ts">
     import { User } from '@/modules/user/types/modelTypes';
     import { PropType, reactive, ref } from 'vue';
-    import { editUsers, addUsers } from '../services/user.service';
+    import { editUsers, addUsers } from '../../services/user.service';
     import { UserRole, UserRoleEquivalen } from '@/modules/user/types/modelTypes';
-    import dropdownContrac from '../../contratctor/dropdown/dropdownContrac.vue';
+    import dropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
 
     import generator from 'generate-password-ts';
 

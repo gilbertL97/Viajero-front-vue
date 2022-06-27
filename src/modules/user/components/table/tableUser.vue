@@ -63,9 +63,9 @@
 <script lang="ts" setup>
     import { computed, ref, onMounted, reactive } from 'vue';
     import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
-    import { getUsers, deleteUsers } from '../services/user.service';
+    import { getUsers, deleteUsers } from '../../services/user.service';
     import { User, UserRole, rolKeyvalue } from '@/modules/user/types/modelTypes';
-    import UserForm from '@/modules/user/form/formUser.vue';
+    import UserForm from '@/modules/user/components/form/formUser.vue';
     import { useAuthStore } from '@/modules/auth/store/auth.store';
     const store = useAuthStore();
     const selectedRowKeys = ref<User['id'][]>([]);

@@ -9,8 +9,8 @@
 </template>
 <script lang="ts" setup>
     import { onMounted, ref } from 'vue';
-    import { getContractors } from '../services/contractor.service';
-    import { Contractor } from '../types/modeltypes';
+    import { getContractors } from '../../services/contractor.service';
+    import { Contractor } from '../../types/modeltypes';
     import type { SelectProps } from 'ant-design-vue';
 
     let data = ref<Contractor[]>([]);

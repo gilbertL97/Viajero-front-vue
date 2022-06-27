@@ -17,18 +17,19 @@ const TravelersRouter: RouteRecordRaw[] = [
             {
                 path: '/users',
                 name: 'users',
-                component: () => import('@/modules/user/table/tableUser.vue'),
+                component: () => import('@/modules/user/components/table/tableUser.vue'),
             },
             {
                 path: '/clients',
                 name: 'clients',
                 component: () =>
-                    import('@/modules/contratctor/table/tableContractor.vue'),
+                    import('@/modules/contratctor/table/components/tableContractor.vue'),
             },
             {
                 path: '/plains',
                 name: 'plains',
-                component: () => import('@/modules/plains/table/tablePlans.vue'),
+                component: () =>
+                    import('@/modules/plains/components/table/tablePlans.vue'),
             },
             {
                 path: '',

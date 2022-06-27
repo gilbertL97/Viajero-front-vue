@@ -34,7 +34,7 @@ export const authStore = defineStore({
         },
         setLogged() {
             if (typeof this.getToken === 'string' && this.getToken != '')
-                this.isloggedIn = false;
+                this.isloggedIn = true;
         },
         resetState() {
             this.token = '';

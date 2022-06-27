@@ -1,7 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { addAuthHeader } from '@/modules/auth/services/auth.service';
 import { useAuthStore } from '@/modules/auth/store/auth.store';
-const store = useAuthStore();
 
 const url = import.meta.env.VITE_BASE_URL as string;
 const API: AxiosInstance = axios.create({
@@ -14,14 +13,15 @@ const API: AxiosInstance = axios.create({
 export default API;
 
 API.interceptors.request.use((config) => {
-    if (store.isloggedIn) {
+    const store = useAuthStore();
+    console.log(store.getToken);
+    if (store.getToken != null) {
         addAuthHeader(store.getToken as string);
     }
-    console.log(store.getToken);
     return config;
 });
-/*
-const respInt = axios_vue.interceptors.response.use(
+
+API.interceptors.response.use(
     (res) => {
         return res;
     },
@@ -39,4 +39,4 @@ const respInt = axios_vue.interceptors.response.use(
               };
         throw error;
     },
-);*/
+);

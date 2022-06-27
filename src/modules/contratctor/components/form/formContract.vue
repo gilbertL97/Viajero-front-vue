@@ -5,11 +5,7 @@
         <h5>Correo</h5>
         <a-input placeholder="Email" v-model:value="contract.email" />
         <h5>Direccion</h5>
-        <a-textarea
-            placeholder="Direccion"
-            v-model:value="contract.addres"
-            auto-size
-        />
+        <a-textarea placeholder="Direccion" v-model:value="contract.addres" auto-size />
         <h5>Telefono</h5>
         <a-input placeholder="Telefono" v-model:value="contract.telf" />
         <h5>Poliza</h5>
@@ -26,11 +22,8 @@
 
 <script setup lang="ts">
     import { PropType, reactive, ref } from 'vue';
-    import {
-        editContractors,
-        addContractors,
-    } from '../services/contractor.service';
-    import { Contractor } from '../types/modeltypes';
+    import { editContractors, addContractors } from '../../services/contractor.service';
+    import { Contractor } from '../../types/modeltypes';
     const props = defineProps({
         contractor: {
             type: Object as PropType<Contractor>,

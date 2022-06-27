@@ -10,34 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-    import { reactive, ref } from 'vue';
-    import { useRouter } from 'vue-router';
-    import { loginService } from '@/modules/auth/services/auth.service';
-    import { useAuthStore } from '@/modules/auth/store/auth.store';
-    import loginFormVue from '@/modules/auth/form/loginForm.vue';
-    const store = useAuthStore();
-    const router = useRouter();
-    let errorL = ref(false);
-
-    const form = reactive({
-        username: '',
-        password: '',
-    });
-    const login = async (): Promise<void> => {
-        //console.log(API);
-        try {
-            const token = await loginService(form.username, form.password);
-            if (token) {
-                //const store= authStore();
-                store.setUserInfo(token.data.user);
-                store.setToken(token.data.access_token);
-                router.push('/');
-            }
-            //console.log(token.data.user);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    import loginFormVue from '@/modules/auth/components/form/loginForm.vue';
 </script>
 
 <style scoped>

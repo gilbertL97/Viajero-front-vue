@@ -43,7 +43,7 @@
     import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
     import { loginService } from '@/modules/auth/services/auth.service';
     import { useAuthStore } from '@/modules/auth/store/auth.store';
-    import { UserLogin } from '../types/authTypes';
+    import { UserLogin } from '../../types/authTypes';
     const store = useAuthStore();
     const router = useRouter();
 
@@ -63,6 +63,7 @@
             if (token) {
                 store.setUserInfo(token.data.user);
                 store.setToken(token.data.access_token);
+                store.setLogged();
                 router.push('/');
             }
         } catch (error) {

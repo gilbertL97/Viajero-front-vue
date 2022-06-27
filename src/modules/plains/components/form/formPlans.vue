@@ -23,9 +23,9 @@
 </template>
 
 <script setup lang="ts">
-    import { Plans } from '../types/typePlains';
+    import { Plans } from '../../types/typePlains';
     import { PropType, reactive, ref } from 'vue';
-    import { editPlans, addPlans } from '../services/planService';
+    import { editPlans, addPlans } from '../../services/planService';
 
     const props = defineProps({
         plain: {

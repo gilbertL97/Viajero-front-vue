@@ -13,18 +13,22 @@
             <template #bodyCell="{ column, record }">
                 <template v-if="column.dataIndex === 'action'">
                     <a-popconfirm
-                        :title="`Desea eliminar al Cliente ${record.client} ?`"
+                        :title="`Desea eliminar el plan ${record.name} ?`"
                         @confirm="onDelete(record.id)"
                     >
                         <a-button type="danger"
                             ><template #icon> <DeleteOutlined /></template
                         ></a-button>
                     </a-popconfirm>
-                    <a-button type="primary" @click="handleContractor(record)">
+                    <a-button type="primary" @click="handlePlans(record)">
                         <template #icon>
                             <EditOutlined />
                         </template>
                     </a-button>
+                </template>
+                <template v-if="column.dataIndex === 'daily'">
+                    <h4 v-if="record.daily">Si</h4>
+                    <h4 v-else>No</h4>
                 </template>
             </template>
         </a-table>
@@ -34,7 +38,7 @@
             type="danger"
             :disabled="!hasSelected"
             :loading="state.loading"
-            @click="deletecontractor"
+            @click="deleteplainor"
         >
             Eliminar
         </a-button>
@@ -44,48 +48,41 @@
             </template>
         </span>
     </div>
-    <a-button @click="handleContractor">Añadir</a-button>
+    <a-button @click="handlePlans">Añadir</a-button>
     <a-modal
         v-model:visible="showModal"
-        title="Contractor"
+        title="Plans"
         :footer="null"
         :destroy-on-close="true"
-        width="100%"
     >
-        <ContractorForm :contractor="contract" @finish="handleFinishModal" />
+        <PlansForm :plain="plain" @finish="handleFinishModal" />
     </a-modal>
 </template>
 <script lang="ts" setup>
     import { computed, ref, onMounted, reactive } from 'vue';
     import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
-    import { getContractors, deleteContractors } from '../services/contractor.service';
-    import { Contractor } from '../types/modelTypes';
-    import ContractorForm from '../form/formContract.vue';
-    // import { useAuthStore } from '@/components/auth/store/auth.store';
+    import { getPlans, deletePlans } from '../../services/planService';
+    import { Plans } from '../../types/typePlains';
+    import PlansForm from '../../form/formPlans.vue';
 
-    //const store = useAuthStore();
+    const selectedRowKeys = ref<Plans['id'][]>([]);
 
-    const selectedRowKeys = ref<Contractor['id'][]>([]);
-
-    let data = ref<Contractor[]>([]);
+    let data = ref<Plans[]>([]);
     let showModal = ref(false);
-    const contract = reactive<Contractor>({
+    const plain = reactive<Plans>({
         id: -1,
-        email: '',
-        client: '',
-        telf: '',
-        addres: '',
-        file: '',
-        poliza: '',
+        name: '',
+        price: '',
+        daily: false,
     });
-    // let editable: Contractor = reactive({
+    // let editable: Plans= reactive({
     //     name: '',
     //     email: '',
     //     role: '',
     // });
 
     const state = reactive<{
-        selectedRowKeys: Contractor[];
+        selectedRowKeys: Plans[];
         loading: boolean;
     }>({
         selectedRowKeys: [], // Aqui configurar a columna por default
@@ -99,32 +96,25 @@
     const columns = [
         {
             title: 'Nombre',
-            dataIndex: 'client',
+            dataIndex: 'name',
         },
         {
-            title: 'Telefono',
-            dataIndex: 'telf',
+            title: 'Precio',
+            dataIndex: 'price',
         },
         {
-            title: 'Direccion',
-            dataIndex: 'addres',
+            title: 'diario',
+            dataIndex: 'daily',
         },
-        {
-            title: 'Correo',
-            dataIndex: 'email',
-        },
-        {
-            title: 'Poliza',
-            dataIndex: 'poliza',
-        },
+
         { title: 'Operaciones', dataIndex: 'action' },
     ];
 
-    //const selectedRowKeys = ref<Contractor['id'][]>([]); // Check here to configure the default column
+    //const selectedRowKeys = ref<Plans['id'][]>([]); // Check here to configure the default column
 
     const hasSelected = computed(() => state.selectedRowKeys.length > 0);
 
-    const deletecontractor = () => {
+    const deleteplainor = () => {
         state.loading = true;
         // ajax request after empty completing
         setTimeout(() => {
@@ -133,25 +123,23 @@
         }, 1000);
     };
 
-    const onSelectChange = (selectedRowKeys: Contractor[]) => {
+    const onSelectChange = (selectedRowKeys: Plans[]) => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
         state.selectedRowKeys = selectedRowKeys;
     };
 
     const onDelete = async (key: number) => {
         console.log(key);
-        await deleteContractors(key);
+        await deletePlans(key);
         data.value = data.value.filter((item) => item.id !== key);
     };
 
-    const handleContractor = (record?: any) => {
+    const handlePlans = (record?: any) => {
         showModal.value = true;
-        contract.id = record.id;
-        contract.client = record.client;
-        contract.email = record.email;
-        contract.telf = record.telf;
-        contract.poliza = record.poliza;
-        contract.addres = record.addres;
+        plain.id = record.id;
+        plain.name = record.name;
+        plain.price = record.price;
+        plain.daily = record.daily;
     };
     const handleFinishModal = async (visible: boolean) => {
         showModal.value = visible;
@@ -161,7 +149,7 @@
     const refresh = async () => {
         state.loading = true;
         try {
-            data.value = (await getContractors()).data;
+            data.value = (await getPlans()).data;
         } catch (error) {}
         state.loading = false;
     };
