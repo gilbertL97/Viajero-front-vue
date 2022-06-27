@@ -1,7 +1,7 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import API from '@/service/api';
-import { User } from '@/modules/user/types/modeltypes';
+import { User } from '@/modules/user/types/user.types';
 
 interface LoginAPIResponse {
     access_token: string;

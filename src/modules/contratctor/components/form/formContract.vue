@@ -23,7 +23,7 @@
 <script setup lang="ts">
     import { PropType, reactive, ref } from 'vue';
     import { editContractors, addContractors } from '../../services/contractor.service';
-    import { Contractor } from '../../types/modeltypes';
+    import { Contractor } from '../../types/contractor.types';
     const props = defineProps({
         contractor: {
             type: Object as PropType<Contractor>,

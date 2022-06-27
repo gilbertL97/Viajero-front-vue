@@ -56,7 +56,7 @@
     } from '@ant-design/icons-vue';
     import { RouterLink } from 'vue-router';
     import { useAuthStore } from '@/modules/auth/store/auth.store';
-    import { rolRankingValue } from '@/modules/user/types/modelTypes';
+    import { rolRankingValue } from '@/modules/user/types/user.types';
     const store = useAuthStore();
     const rankinPermisions: number = rolRankingValue[store.getUserInfo!.role];
 </script>

@@ -36,10 +36,10 @@
 </template>
 
 <script setup lang="ts">
-    import { User } from '@/modules/user/types/modelTypes';
+    import { User } from '@/modules/user/types/user.types';
     import { PropType, reactive, ref } from 'vue';
     import { editUsers, addUsers } from '../../services/user.service';
-    import { UserRole, UserRoleEquivalen } from '@/modules/user/types/modelTypes';
+    import { UserRole, UserRoleEquivalen } from '@/modules/user/types/user.types';
     import dropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
 
     import generator from 'generate-password-ts';

@@ -1,5 +1,5 @@
 import { defineStore, createPinia } from 'pinia';
-import { User } from '@/modules/user/types/modeltypes';
+import { User } from '@/modules/user/types/user.types';
 
 const store = createPinia();
 

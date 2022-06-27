@@ -59,7 +59,7 @@
     import { computed, ref, onMounted, reactive } from 'vue';
     import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
     import { getContractors, deleteContractors } from '../../services/contractor.service';
-    import { Contractor } from '../../types/modelTypes';
+    import { Contractor } from '../../types/contractor.types';
     import ContractorForm from '../form/formContract.vue';
     // import { useAuthStore } from '@/components/auth/store/auth.store';
 

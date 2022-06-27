@@ -1,4 +1,4 @@
-import { User } from '@/modules/user/types/modelTypes';
+import { User } from '@/modules/user/types/user.types';
 
 export type UserLogged = { access_token: string; id: string; role: string };
 export interface UserLogin {

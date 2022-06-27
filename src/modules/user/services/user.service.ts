@@ -1,6 +1,6 @@
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
 import API from '@/service/api';
-import { EditUser, User } from '@/modules/user/types/modeltypes';
+import { EditUser, User } from '@/modules/user/types/user.types';
 import { addAuthHeader } from '@/modules/auth/services/auth.service';
 import { useAuthStore } from '@/modules/auth/store/auth.store';
 const store = useAuthStore();

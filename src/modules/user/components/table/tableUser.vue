@@ -64,7 +64,7 @@
     import { computed, ref, onMounted, reactive } from 'vue';
     import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
     import { getUsers, deleteUsers } from '../../services/user.service';
-    import { User, UserRole, rolKeyvalue } from '@/modules/user/types/modelTypes';
+    import { User, UserRole, rolKeyvalue } from '@/modules/user/types/user.types';
     import UserForm from '@/modules/user/components/form/formUser.vue';
     import { useAuthStore } from '@/modules/auth/store/auth.store';
     const store = useAuthStore();

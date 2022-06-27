@@ -1,6 +1,6 @@
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
 import API from '@/service/api';
-import { Contractor } from '../types/modeltypes';
+import { Contractor } from '../types/contractor.types';
 
 export async function getContractors(): Promise<AxiosResponse<Contractor[]>> {
     const config: AxiosRequestConfig = {

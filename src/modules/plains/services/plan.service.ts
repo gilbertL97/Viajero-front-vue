@@ -1,6 +1,6 @@
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
 import API from '@/service/api';
-import { Plans } from '../types/typePlains';
+import { Plans } from '../types/plains.types';
 
 export async function getPlans(): Promise<AxiosResponse<Plans[]>> {
     const config: AxiosRequestConfig = {
