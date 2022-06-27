@@ -23,13 +23,19 @@ const TravelersRouter: RouteRecordRaw[] = [
                 path: '/clients',
                 name: 'clients',
                 component: () =>
-                    import('@/modules/contratctor/table/components/tableContractor.vue'),
+                    import('@/modules/contratctor/components/table/tableContractor.vue'),
             },
             {
                 path: '/plains',
                 name: 'plains',
                 component: () =>
                     import('@/modules/plains/components/table/tablePlans.vue'),
+            },
+            {
+                path: '/travelers',
+                name: 'travelers',
+                component: () =>
+                    import('@/modules/travelers/components/table/tableTraveler.vue'),
             },
             {
                 path: '',

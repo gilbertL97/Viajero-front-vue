@@ -63,7 +63,7 @@
     import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
     import { getPlans, deletePlans } from '../../services/plan.service';
     import { Plans } from '../../types/plains.types';
-    import PlansForm from '../../form/formPlans.vue';
+    import PlansForm from '../form/formPlans.vue';
 
     const selectedRowKeys = ref<Plans['id'][]>([]);
 

@@ -42,7 +42,11 @@
                     <UsergroupAddOutlined />
                 </template>
                 <template #title>Tomadores de Seguros</template>
-                <a-menu-item key="gestTrav">Gestion de Viajeros</a-menu-item>
+                <a-menu-item>
+                    <router-link :to="{ name: 'travelers' }"
+                        >Gestion de Viajeros</router-link
+                    >
+                </a-menu-item>
             </a-sub-menu>
         </a-menu>
     </a-layout-sider>

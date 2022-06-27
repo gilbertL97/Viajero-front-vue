@@ -2,9 +2,10 @@ import { Contractor } from '@/modules/contratctor/types/contractor.types';
 import { Plans } from '@/modules/plains/types/plains.types';
 
 export interface Traveler {
+    id: number;
     name: string;
     sex?: string;
-    born_date: Date;
+    born_date?: Date;
     email?: string;
     passport: string;
     sale_date?: Date;
@@ -15,6 +16,13 @@ export interface Traveler {
     origin_country?: Country;
     nationality?: Country;
     coverage: Plans;
+    number_days: number;
+    amount_days_high_risk: number;
+    amount_days_covered: number;
+    total_amount: number;
+    state: boolean;
+    createdAt: Date;
+    deleteAt: Date;
 }
 
 export interface Country {
