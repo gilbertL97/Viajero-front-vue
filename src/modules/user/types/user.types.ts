@@ -5,6 +5,7 @@ export interface User {
     email: string;
     role: string;
     password?: string;
+    client?: number;
 }
 export interface NewUser {
     name: string;

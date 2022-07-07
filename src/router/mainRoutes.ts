@@ -1,5 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import { useAuthStore } from '@/modules/auth/store/auth.store';
+import travelersRoutes from '@/modules/travelers/routes/travelerRoutes';
 const store = useAuthStore();
 const beforeEnter = (_to: any, _from: any, next: any) => {
     const isAutenticade = store.getToken;
@@ -7,7 +8,7 @@ const beforeEnter = (_to: any, _from: any, next: any) => {
         next();
     } else next({ name: 'login' });
 };
-const TravelersRouter: RouteRecordRaw[] = [
+const mainRoutes: RouteRecordRaw[] = [
     {
         path: '/',
         name: 'home',
@@ -46,8 +47,9 @@ const TravelersRouter: RouteRecordRaw[] = [
                 name: 'home',
                 component: () => import('@/views/default/backTemp.vue'),
             },
+            ...travelersRoutes,
         ],
     },
 ];
 
-export default TravelersRouter;
+export default mainRoutes;

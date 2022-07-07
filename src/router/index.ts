@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 
 import GuestRouter from './guestRoutes';
-import TravelersRouter from './travelersRoutes';
+import mainRoutes from './mainRoutes';
 
-const routes: RouteRecordRaw[] = [...TravelersRouter, ...GuestRouter];
+const routes: RouteRecordRaw[] = [...mainRoutes, ...GuestRouter];
 const router = createRouter({
     history: createWebHistory(),
     routes,

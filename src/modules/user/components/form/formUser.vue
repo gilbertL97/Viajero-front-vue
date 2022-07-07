@@ -23,7 +23,10 @@
                     UserRoleEquivalen.CLIENT
                 }}</a-select-option>
             </a-select>
-            <dropdownContrac v-if="user.role == UserRole.CLIENT" />
+            <dropdownContrac
+                v-if="user.role == UserRole.CLIENT"
+                @selected="asignClient"
+            />
         </div>
         <div class="btns">
             <a-button type="primary" :loading="loading" @click="handleOk"
@@ -68,6 +71,7 @@
         email: props.user.email,
         role: props.user.role,
         active: false,
+        client: undefined,
     });
 
     const emit = defineEmits<{
@@ -88,6 +92,7 @@
         console.log(props.user);
         try {
             await editUsers(user);
+            console.log(user);
         } catch (error) {}
     };
     const addUser = async () => {
@@ -96,8 +101,10 @@
             await addUsers(user);
         } catch (error) {}
     };
-    //generar una contraseña aleatoria
 
+    const asignClient = (idContractor: number | undefined) => {
+        user.client = idContractor;
+    }; //generar una contraseña aleatoria
     const genPass = () => {
         const password = generator.generate({
             length: 10,

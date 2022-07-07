@@ -14,6 +14,6 @@
         },
         "lib": ["esnext", "dom"]
     },
-    "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/components/shared/form/validation/validationsTexts.js"],
+    "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/components/shared/validation/validationsTexts.js"],
     "references": [{ "path": "./tsconfig.node.json" }]
 }

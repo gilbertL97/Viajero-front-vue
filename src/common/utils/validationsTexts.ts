@@ -1,8 +1,8 @@
-export const EMAIL_VALID = 'Entre una direecion de correo valida';
-export const EMAIL_REQUIRED = 'Email is required';
+export const EMAIL_VALID = 'Entre una direccion de correo valida';
+export const EMAIL_REQUIRED = 'Email es obligatorio';
 export const EMAIL_EXISTS = 'That email has been taken';
 
-export const USERNAME_REQUIRED = 'The username is rquired';
+export const USERNAME_REQUIRED = 'The n es obligatorio';
 export const USERNAME_EXISTS = 'The username has been taken';
 
 export const PASSWORD_LENGTH = (maxLength: number) =>

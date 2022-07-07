@@ -53,7 +53,7 @@
         :destroy-on-close="true"
     >
         <UserForm
-            :new-user="true"
+            :new-user="isNewUser"
             :edit-admin="true"
             :user="user"
             @finish="handleFinishModal"
@@ -71,13 +71,15 @@
     const selectedRowKeys = ref<User['id'][]>([]);
 
     let data = ref<User[]>([]);
-    let showModal = ref(false);
+    const showModal = ref(false);
+    const isNewUser = ref(false);
     const user = reactive<User>({
-        id: 0,
+        id: -1,
         name: '',
         email: '',
         role: UserRole.CONSULT,
         active: false,
+        client: undefined,
     });
     // let editable: User = reactive({
     //     name: '',
@@ -145,12 +147,15 @@
         }
     };
     const handleUser = (record?: any) => {
+        isNewUser.value = true;
+        if (record) isNewUser.value = false;
         showModal.value = true;
         user.id = record.id;
         user.name = record.name;
         user.email = record.email;
         user.role = record.role;
         user.active = record.active;
+        user.client = record.client;
     };
     const handleFinishModal = async (visible: boolean) => {
         showModal.value = visible;

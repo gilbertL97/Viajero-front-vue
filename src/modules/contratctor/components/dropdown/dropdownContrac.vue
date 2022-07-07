@@ -1,10 +1,13 @@
 <template>
     <a-select
-        v-model:value="value"
+        v-model:value="contractor"
         show-search
         placeholder="Seleccione al cliente"
         style="width: 200px"
         :options="options"
+        :filter-option="filterOption"
+        firstActiveValue
+        @change="handleChange"
     />
 </template>
 <script lang="ts" setup>
@@ -23,7 +26,7 @@
             value: client.id,
         }));
     });
-    const value = ref<string | undefined>(undefined);
+    const contractor = ref<number | undefined>();
     const loading = ref(false);
 
     const refresh = async () => {
@@ -33,6 +36,16 @@
         } catch (error) {}
         loading.value = false;
     };
+    const filterOption = (input: string, options: any) => {
+        return options.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+    };
+    const handleChange: SelectProps['onChange'] = (value) => {
+        emit('selected', contractor.value);
+        console.log(contractor.value, value);
+    };
+    const emit = defineEmits<{
+        (e: 'selected', contractor: number | undefined): void;
+    }>();
 </script>
 <style scoped>
     .ant-select {

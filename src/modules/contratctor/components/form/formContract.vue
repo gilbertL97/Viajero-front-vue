@@ -51,6 +51,7 @@
     const editContractor = async () => {
         try {
             await editContractors(contract);
+            console.log(contract);
         } catch (error) {}
     };
     const addContractor = async () => {

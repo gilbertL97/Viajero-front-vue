@@ -20,17 +20,19 @@
                             <template #icon><DeleteOutlined /></template>
                         </a-button>
                     </a-popconfirm>
-                    <a-button type="primary" @click="handleTraveler(record)"
-                        ><template #icon><EditOutlined /></template>
+                    <a-button type="primary" @click="handleTraveler(record)">
+                        <template #icon>
+                            <EditOutlined />
+                        </template>
                     </a-button>
-                    <a-button id="button" @click="handleTraveler(record)"
+                    <a-button id="button" @click="handleTravelerCreate(record)"
                         ><template #icon><EyeOutlined /></template>
                     </a-button>
                 </template>
                 <template v-if="column.dataIndex === 'state'">
                     <span>
                         <a-tag :color="record.state == false ? 'red' : 'green'">
-                            {{ record.state == false ? 'terminada' : 'vigente' }}
+                            {{ record.state == false ? 'vencida' : 'vigente' }}
                         </a-tag>
                     </span>
                 </template>
@@ -63,12 +65,14 @@
 <script lang="ts" setup>
     import { computed, ref, onMounted, reactive } from 'vue';
     import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons-vue';
-    import { Traveler } from '../../types/type.traveler';
+    import { TravelerResponse } from '../../types/type.traveler';
     import { getTravelers } from '../../services/traveler.service';
+    import { useRouter } from 'vue-router';
 
-    const selectedRowKeys = ref<Traveler['id'][]>([]);
+    const router = useRouter();
+    const selectedRowKeys = ref<TravelerResponse['id'][]>([]);
 
-    let data = ref<Traveler[]>([]);
+    let data = ref<TravelerResponse[]>([]);
     //const traveler = reactive<Traveler>({});
     // let editable: Traveler = reactive({
     //     name: '',
@@ -77,7 +81,7 @@
     // });
 
     const state = reactive<{
-        selectedRowKeys: Traveler[];
+        selectedRowKeys: TravelerResponse[];
         loading: boolean;
     }>({
         selectedRowKeys: [], // Aqui configurar a columna por default
@@ -127,7 +131,7 @@
         }, 1000);
     };
 
-    const onSelectChange = (selectedRowKeys: Traveler[]) => {
+    const onSelectChange = (selectedRowKeys: TravelerResponse[]) => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
         state.selectedRowKeys = selectedRowKeys;
     };
@@ -139,8 +143,12 @@
     };
     const handleTraveler = (record?: any) => {
         console.log(record);
+        router.push('/travelers/edit-travelers/' + record.id);
     };
-
+    const handleTravelerCreate = (record?: any) => {
+        console.log(record);
+        router.push('/travelers/create-travelers');
+    };
     const refresh = async () => {
         state.loading = true;
         try {
@@ -151,7 +159,7 @@
 </script>
 <style lscoped>
     #button {
-        background-color: #2dc13dcf ;
+        background-color: #2dc13dcf;
         color: whites !important;
     }
 </style>
