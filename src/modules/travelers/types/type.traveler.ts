@@ -1,4 +1,5 @@
 import { Contractor } from '@/modules/contratctor/types/contractor.types';
+import { Country } from '@/modules/country/types/country.type';
 import { Plans } from '@/modules/plains/types/plains.types';
 
 export interface Traveler {
@@ -20,7 +21,7 @@ export interface Traveler {
 
     number_high_risk_days?: number;
 
-    contractor: number;
+    contractor?: number;
 
     origin_country?: number;
 
@@ -29,13 +30,6 @@ export interface Traveler {
     coverage: number;
 }
 
-export interface Country {
-    iso2: string;
-    iso: string;
-    nombre_largo?: string;
-    nombre_corto?: string;
-    nombre_comun: string;
-}
 export interface TravelerResponse {
     id: number;
     name: string;

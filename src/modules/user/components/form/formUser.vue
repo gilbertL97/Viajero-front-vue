@@ -25,7 +25,8 @@
             </a-select>
             <dropdownContrac
                 v-if="user.role == UserRole.CLIENT"
-                @selected="asignClient"
+                :contractorId="user.contractor"
+                v-model="user.contractor"
             />
         </div>
         <div class="btns">
@@ -39,8 +40,8 @@
 </template>
 
 <script setup lang="ts">
-    import { User } from '@/modules/user/types/user.types';
-    import { PropType, reactive, ref } from 'vue';
+    import { UserReq, UserResponse } from '@/modules/user/types/user.types';
+    import { onMounted, PropType, reactive, ref } from 'vue';
     import { editUsers, addUsers } from '../../services/user.service';
     import { UserRole, UserRoleEquivalen } from '@/modules/user/types/user.types';
     import dropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
@@ -49,7 +50,7 @@
 
     const props = defineProps({
         user: {
-            type: Object as PropType<User>,
+            type: Object as PropType<UserResponse>,
             required: true,
         },
         editAdmin: {
@@ -65,13 +66,13 @@
     });
     const client = ref(true);
     const loading = ref(false);
-    const user: User = reactive({
+    const user: UserReq = reactive({
         id: props.user.id,
         name: props.user.name,
         email: props.user.email,
         role: props.user.role,
         active: false,
-        client: undefined,
+        contractor: props.user.contractors?.[0]?.id,
     });
 
     const emit = defineEmits<{
@@ -85,6 +86,10 @@
         loading.value = false;
         emit('finish', false);
     };
+    onMounted(() => {
+        console.log(user);
+        console.log(props.user);
+    });
     const handleCancel = () => {
         emit('finish', false);
     };
@@ -102,9 +107,7 @@
         } catch (error) {}
     };
 
-    const asignClient = (idContractor: number | undefined) => {
-        user.client = idContractor;
-    }; //generar una contraseña aleatoria
+    //generar una contraseña aleatoria
     const genPass = () => {
         const password = generator.generate({
             length: 10,

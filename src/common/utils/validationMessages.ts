@@ -2,9 +2,9 @@ const typeTemplate = "'${name}' no es un ${type}";
 
 export const defaultValidateMessages = {
     default: "Validation error on field '${name}'",
-    required: "'${name}' is required",
+    required: "'${name}' es un campo obligatorio",
     enum: "'${name}' must be one of [${enum}]",
-    whitespace: "'${name}' cannot be empty",
+    whitespace: "'${name}' no puede estar vacia",
     date: {
         format: "'${name}' is invalid for format date",
         parse: "'${name}' could not be parsed as date",
@@ -45,5 +45,16 @@ export const defaultValidateMessages = {
     },
     pattern: {
         mismatch: "'${name}' does not match pattern ${pattern}",
+    },
+};
+export const validateMessages = {
+    required: '${label} es un campo obligatorio',
+    types: {
+        email: '${label} no es un correo valido !',
+        number: '${label} no es un valido number!',
+        date: 'Por favor seleccione la fecha!',
+    },
+    number: {
+        range: '${label} must be between ${min} and ${max}',
     },
 };

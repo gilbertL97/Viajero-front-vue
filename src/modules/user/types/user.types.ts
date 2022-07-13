@@ -1,3 +1,5 @@
+import { Contractor } from '@/modules/contratctor/types/contractor.types';
+
 export interface User {
     id: number;
     name: string;
@@ -5,8 +7,15 @@ export interface User {
     email: string;
     role: string;
     password?: string;
-    client?: number;
 }
+
+export interface UserResponse extends User {
+    contractors?: Contractor[];
+}
+export interface UserReq extends User {
+    contractor?: number;
+}
+
 export interface NewUser {
     name: string;
     active: boolean;

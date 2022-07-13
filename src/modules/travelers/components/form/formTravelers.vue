@@ -26,14 +26,14 @@
                 <a-radio value="F">Masculino</a-radio>
                 <a-radio value="M">Femenino</a-radio>
             </a-radio-group>
-            <a-form-item
-                has-feedback
-                :name="['traveler', 'passport']"
-                label="Pasaporte"
-                :rules="[{ required: true }]"
-            >
-                <a-input v-model:value="formState.traveler.passport" />
-            </a-form-item>
+        </a-form-item>
+        <a-form-item
+            has-feedback
+            :name="['traveler', 'passport']"
+            label="Pasaporte"
+            :rules="[{ required: true }]"
+        >
+            <a-input v-model:value="formState.traveler.passport" />
         </a-form-item>
         <a-form-item name="date-pickerSales" label="Fecha de Venta">
             <a-date-picker
@@ -41,24 +41,45 @@
                 value-format="YYYY-MM-DD"
             />
         </a-form-item>
-        <a-form-item name="dropdownClient" label="Agencia">
-            <dropdownContrac @selected="asignClient" />
+        <a-form-item name="dropdownClient" label="Agencia" :rules="[{ required: true }]">
+            <DropdownContrac v-model:value="formState.traveler.contractor" />
         </a-form-item>
 
-        <a-form-item name="date-pickerBecome" label="Fecha de Inicio de Viaje">
+        <a-form-item
+            name="date-pickerBecome"
+            label="Fecha de Inicio de Viaje"
+            :rules="[{ required: true }]"
+        >
             <a-date-picker
                 v-model:value="formState.traveler.start_date"
+                value-format="YYYY-MM-DD"
+            />
+        </a-form-item>
+        <a-form-item
+            name="date-pickerEnd"
+            label="Fecha de Fin de Poliza"
+            :rules="[{ required: true }]"
+        >
+            <a-date-picker
+                v-model:value="formState.traveler.end_date_policy"
                 value-format="YYYY-MM-DD"
                 :rules="[{ required: true }]"
             />
         </a-form-item>
-        <a-form-item name="date-pickerEnd" label="Fecha de Fin de Poliza">
-            <a-date-picker
-                v-model:value="formState.traveler.start_date"
-                value-format="YYYY-MM-DD"
-                :rules="[{ required: true }]"
-            />
+        <a-form-item
+            name="dropdownCoverage"
+            label="Tipo de Cobertura"
+            :rules="[{ required: true }]"
+        >
+            <DropdownPlans />
         </a-form-item>
+        <a-form-item name="dropdownNationality" label="Nacionalidad">
+            <DropCountries />
+        </a-form-item>
+        <a-form-item name="dropdownOriginCountry" label="Pais Origen">
+            <DropCountries />
+        </a-form-item>
+
         <a-form-item :wrapper-col="{ ...layout.wrapperCol, offset: 8 }">
             <a-button type="primary" html-type="submit">Submit</a-button>
         </a-form-item>
@@ -67,13 +88,16 @@
 <script lang="ts" setup>
     import { onMounted, reactive } from 'vue';
     import { Traveler } from '../../types/type.traveler';
-    import dropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
+    import DropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
+    import DropCountries from '@/modules/country/components/dropdown/dropCountries.vue';
+    import DropdownPlans from '@/modules/plains/components/dropdowns/dropdownPlans.vue';
+    import { validateMessages } from '@/common/utils/validationMessages';
+
     const props = defineProps<{
         id?: string;
-        traveler: Traveler;
     }>();
     const formState = reactive({
-        traveler: props.traveler,
+        traveler: Traveler,
     });
     const layout = {
         labelCol: { span: 4 },
@@ -84,23 +108,9 @@
             await refresh();
         }
     });
-    const validateMessages = {
-        required: '${label} is required!',
-        types: {
-            email: '${label} is not a valid email!',
-            number: '${label} is not a valid number!',
-            date: 'Please select time!',
-        },
-        number: {
-            range: '${label} must be between ${min} and ${max}',
-        },
-    };
 
     const onFinish = (values: any) => {
         console.log('Success:', values);
-    };
-    const asignClient = (idContractor: number | undefined) => {
-        formState.traveler.contractor = idContractor!;
     };
 
     async function refresh() {

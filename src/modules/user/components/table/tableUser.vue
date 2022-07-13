@@ -64,22 +64,22 @@
     import { computed, ref, onMounted, reactive } from 'vue';
     import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
     import { getUsers, deleteUsers } from '../../services/user.service';
-    import { User, UserRole, rolKeyvalue } from '@/modules/user/types/user.types';
+    import { UserRole, rolKeyvalue, UserResponse } from '@/modules/user/types/user.types';
     import UserForm from '@/modules/user/components/form/formUser.vue';
     import { useAuthStore } from '@/modules/auth/store/auth.store';
     const store = useAuthStore();
-    const selectedRowKeys = ref<User['id'][]>([]);
+    const selectedRowKeys = ref<UserResponse['id'][]>([]);
 
-    let data = ref<User[]>([]);
+    let data = ref<UserResponse[]>([]);
     const showModal = ref(false);
     const isNewUser = ref(false);
-    const user = reactive<User>({
+    const user = reactive<UserResponse>({
         id: -1,
         name: '',
         email: '',
         role: UserRole.CONSULT,
         active: false,
-        client: undefined,
+        contractors: undefined,
     });
     // let editable: User = reactive({
     //     name: '',
@@ -88,7 +88,7 @@
     // });
 
     const state = reactive<{
-        selectedRowKeys: User[];
+        selectedRowKeys: UserResponse[];
         loading: boolean;
     }>({
         selectedRowKeys: [], // Aqui configurar a columna por default
@@ -128,7 +128,7 @@
         }, 1000);
     };
 
-    const onSelectChange = (selectedRowKeys: User[]) => {
+    const onSelectChange = (selectedRowKeys: UserResponse[]) => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
         state.selectedRowKeys = selectedRowKeys;
     };
@@ -155,7 +155,7 @@
         user.email = record.email;
         user.role = record.role;
         user.active = record.active;
-        user.client = record.client;
+        user.contractors = record.contractors;
     };
     const handleFinishModal = async (visible: boolean) => {
         showModal.value = visible;

@@ -18,6 +18,9 @@
 
     let data = ref<Contractor[]>([]);
     const options = ref<SelectProps['options']>([]);
+    const props = defineProps<{
+        contractorId?: number;
+    }>();
     onMounted(async () => {
         await refresh();
 
@@ -25,27 +28,34 @@
             label: client.client,
             value: client.id,
         }));
+        contractor.value = props.contractorId;
+        console.log(contractor.value);
     });
     const contractor = ref<number | undefined>();
-    const loading = ref(false);
+    const isloading = ref(false);
 
     const refresh = async () => {
-        loading.value = true;
+        isloading.value = true;
         try {
             data.value = (await getContractors()).data;
         } catch (error) {}
-        loading.value = false;
+        isloading.value = false;
     };
     const filterOption = (input: string, options: any) => {
         return options.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
     };
     const handleChange: SelectProps['onChange'] = (value) => {
-        emit('selected', contractor.value);
+        emit('update:contractor', value);
+    };
+
+    const emit = defineEmits(['update:contractor']);
+
+    /*     emit('selected', contractor.value);
         console.log(contractor.value, value);
     };
     const emit = defineEmits<{
         (e: 'selected', contractor: number | undefined): void;
-    }>();
+    }>();*/
 </script>
 <style scoped>
     .ant-select {
