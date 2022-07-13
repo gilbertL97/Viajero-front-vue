@@ -23,7 +23,7 @@
                     UserRoleEquivalen.CLIENT
                 }}</a-select-option>
             </a-select>
-            <dropdownContrac
+            <DropdownContrac
                 v-if="user.role == UserRole.CLIENT"
                 :contractorId="user.contractor"
                 v-model="user.contractor"
@@ -44,7 +44,7 @@
     import { onMounted, PropType, reactive, ref } from 'vue';
     import { editUsers, addUsers } from '../../services/user.service';
     import { UserRole, UserRoleEquivalen } from '@/modules/user/types/user.types';
-    import dropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
+    import DropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
 
     import generator from 'generate-password-ts';
 

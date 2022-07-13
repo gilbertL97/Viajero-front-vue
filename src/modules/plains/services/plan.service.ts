@@ -9,6 +9,13 @@ export async function getPlans(): Promise<AxiosResponse<Plans[]>> {
     };
     return await API.request<Plans[]>(config);
 }
+export async function getPlansActive(): Promise<AxiosResponse<Plans[]>> {
+    const config: AxiosRequestConfig = {
+        method: 'GET',
+        url: '/coverage/active',
+    };
+    return await API.request<Plans[]>(config);
+}
 export async function getPlain(id: number): Promise<AxiosResponse<Plans>> {
     const config: AxiosRequestConfig = {
         method: 'GET',

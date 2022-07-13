@@ -46,6 +46,7 @@
     };
     const handleChange: SelectProps['onChange'] = (value) => {
         emit('update:contractor', value);
+        console.log(value);
     };
 
     const emit = defineEmits(['update:contractor']);

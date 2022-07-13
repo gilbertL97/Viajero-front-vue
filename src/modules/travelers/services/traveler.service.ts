@@ -13,7 +13,7 @@ export async function getTravelers(): Promise<AxiosResponse<TravelerResponse[]>>
 export async function getTraveler(id: string): Promise<AxiosResponse<TravelerResponse>> {
     const config: AxiosRequestConfig = {
         method: 'GET',
-        url: '/traveler' + id,
+        url: '/traveler/' + id,
     };
     return await API.request<TravelerResponse>(config);
 }

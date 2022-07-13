@@ -3,4 +3,5 @@ export interface Plans {
     name: string;
     price: string;
     daily: boolean;
+    isActive: boolean;
 }

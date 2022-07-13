@@ -8,31 +8,50 @@
 <script setup lang="ts">
     import { onMounted, reactive, ref } from 'vue';
     import formTravelers from '../components/form/formTravelers.vue';
-    import { Traveler } from '../types/type.traveler';
+    import { getTraveler } from '../services/traveler.service';
+    import { Traveler, TravelerResponse } from '../types/type.traveler';
 
     const loading = ref(true);
     const props = defineProps<{ id?: string }>();
-    const traveler: Traveler = reactive({
-        name: null,
+    let traveler: Traveler = reactive({
+        name: '',
         sex: undefined,
         born_date: undefined,
         email: undefined,
-        passport: null,
+        passport: '',
         sale_date: undefined,
         start_date: null,
         end_date_policy: null,
         number_high_risk_days: undefined,
-        contractor: null,
+        contractor: undefined,
         origin_country: undefined,
         nationality: undefined,
-        coverage: null,
+        coverage: -1,
     });
 
     onMounted(async () => {
         if (props.id) {
             loading.value = true;
+            const travelerR: TravelerResponse = (await getTraveler(props.id)).data;
+            intializateTraveler(travelerR);
+            console.log(travelerR);
         }
     });
+    const intializateTraveler = (travelerR: TravelerResponse) => {
+        traveler.name = travelerR.name;
+        traveler.sex = travelerR.sex;
+        traveler.born_date = travelerR.born_date;
+        traveler.email = travelerR.email;
+        traveler.passport = travelerR.passport;
+        traveler.sale_date = travelerR.sale_date;
+        traveler.start_date = travelerR.start_date;
+        traveler.end_date_policy = travelerR.end_date_policy;
+        traveler.number_high_risk_days = travelerR.number_high_risk_days;
+        traveler.contractor = travelerR.contractors?.id;
+        traveler.origin_country = travelerR.id;
+        traveler.nationality = travelerR.id;
+        traveler.coverage = travelerR.id;
+    };
 </script>
 
 <style scoped></style>

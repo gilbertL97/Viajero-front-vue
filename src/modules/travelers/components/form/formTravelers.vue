@@ -5,6 +5,7 @@
         name="nest-messages"
         :validate-messages="validateMessages"
         @finish="onFinish"
+        @finishFailed="onFinishFailed"
     >
         <a-form-item
             has-feedback
@@ -42,7 +43,10 @@
             />
         </a-form-item>
         <a-form-item name="dropdownClient" label="Agencia" :rules="[{ required: true }]">
-            <DropdownContrac v-model:value="formState.traveler.contractor" />
+            <DropdownContrac
+                :contractorId="formState.traveler.contractor"
+                v-model="formState.traveler.contractor"
+            />
         </a-form-item>
 
         <a-form-item
@@ -71,7 +75,10 @@
             label="Tipo de Cobertura"
             :rules="[{ required: true }]"
         >
-            <DropdownPlans />
+            <DropdownPlans
+                :plainId="formState.traveler.coverage"
+                v-model="formState.traveler.coverage"
+            />
         </a-form-item>
         <a-form-item name="dropdownNationality" label="Nacionalidad">
             <DropCountries />
@@ -95,9 +102,10 @@
 
     const props = defineProps<{
         id?: string;
+        traveler: Traveler;
     }>();
     const formState = reactive({
-        traveler: Traveler,
+        traveler: props.traveler,
     });
     const layout = {
         labelCol: { span: 4 },
@@ -111,6 +119,9 @@
 
     const onFinish = (values: any) => {
         console.log('Success:', values);
+    };
+    const onFinishFailed = (values: any) => {
+        console.log('tiht', formState.traveler.contractor, values);
     };
 
     async function refresh() {

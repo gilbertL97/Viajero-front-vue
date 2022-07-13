@@ -12,6 +12,8 @@
         />
         <h5>Diario</h5>
         <a-checkbox v-model:checked="plain.daily" />
+        <h5>Activo</h5>
+        <a-checkbox v-model:checked="plain.isActive" />
         <div class="btns">
             <a-button type="primary" :loading="loading" @click="handleOk"
                 >Aceptar</a-button
@@ -40,6 +42,7 @@
         name: props.plain.name,
         price: props.plain.price,
         daily: props.plain.daily,
+        isActive: props.plain.isActive,
     });
 
     const emit = defineEmits<{

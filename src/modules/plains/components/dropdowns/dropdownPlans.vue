@@ -13,10 +13,13 @@
     import { onMounted, ref } from 'vue';
     import type { SelectProps } from 'ant-design-vue';
     import { Plans } from '../../types/plains.types';
-    import { getPlans } from '../../services/plan.service';
+    import { getPlansActive } from '../../services/plan.service';
 
     let data = ref<Plans[]>([]);
     const options = ref<SelectProps['options']>([]);
+    const props = defineProps<{
+        plainId?: number;
+    }>();
     onMounted(async () => {
         await refresh();
 
@@ -25,13 +28,14 @@
             value: plain.id,
         }));
     });
-    const country = ref<string | undefined>();
+    const country = ref<number | undefined>();
     const loading = ref(false);
 
     const refresh = async () => {
         loading.value = true;
         try {
-            data.value = (await getPlans()).data;
+            data.value = (await getPlansActive()).data;
+            country.value = props.plainId;
         } catch (error) {}
         loading.value = false;
     };
@@ -39,9 +43,11 @@
         return options.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
     };
     const handleChange: SelectProps['onChange'] = (value) => {
-        // emit('selected', country.value);
-        console.log(country.value, value);
+        emit('update:plain', value);
+        console.log(value);
     };
+
+    const emit = defineEmits(['update:plain']);
     /*  const emit = defineEmits<{
         (e: 'selected', contractor: string | undefined): void;
     }>();*/

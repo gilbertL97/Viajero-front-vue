@@ -30,6 +30,13 @@
                     <h4 v-if="record.daily">Si</h4>
                     <h4 v-else>No</h4>
                 </template>
+                <template v-if="column.dataIndex === 'state'">
+                    <span>
+                        <a-tag :color="record.isActive == false ? 'red' : 'green'">
+                            {{ record.isActive == false ? 'Inactivo' : 'Activo' }}
+                        </a-tag>
+                    </span>
+                </template>
             </template>
         </a-table>
     </div>
@@ -74,6 +81,7 @@
         name: '',
         price: '',
         daily: false,
+        isActive: false,
     });
     // let editable: Plans= reactive({
     //     name: '',
@@ -106,6 +114,10 @@
             title: 'diario',
             dataIndex: 'daily',
         },
+        {
+            title: 'Estado',
+            dataIndex: 'state',
+        },
 
         { title: 'Operaciones', dataIndex: 'action' },
     ];
@@ -136,10 +148,14 @@
 
     const handlePlans = (record?: any) => {
         showModal.value = true;
-        plain.id = record.id;
-        plain.name = record.name;
-        plain.price = record.price;
-        plain.daily = record.daily;
+        if (record.id) {
+            console.log(record);
+            plain.id = record.id;
+            plain.name = record.name;
+            plain.price = record.price;
+            plain.daily = record.daily;
+            plain.isActive = record.isActive;
+        }
     };
     const handleFinishModal = async (visible: boolean) => {
         showModal.value = visible;

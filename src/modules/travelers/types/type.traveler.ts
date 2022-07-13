@@ -7,17 +7,17 @@ export interface Traveler {
 
     sex?: string;
 
-    born_date?: Date;
+    born_date?: Date | null;
 
     email?: string;
 
     passport: string;
 
-    sale_date?: Date;
+    sale_date?: Date | null;
 
-    start_date: Date;
+    start_date: Date | null;
 
-    end_date_policy: Date;
+    end_date_policy: Date | null;
 
     number_high_risk_days?: number;
 
@@ -41,7 +41,7 @@ export interface TravelerResponse {
     start_date: Date;
     end_date_policy: Date;
     number_high_risk_days?: number;
-    contractor: Contractor;
+    contractors: Contractor;
     origin_country?: Country;
     nationality?: Country;
     coverage: Plans;
