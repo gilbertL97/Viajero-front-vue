@@ -26,6 +26,13 @@
                         </template>
                     </a-button>
                 </template>
+                <template v-if="column.dataIndex === 'state'">
+                    <span>
+                        <a-tag :color="record.isActive == false ? 'red' : 'green'">
+                            {{ record.isActive == false ? 'Inactivo' : 'Activo' }}
+                        </a-tag>
+                    </span>
+                </template>
             </template>
         </a-table>
     </div>
@@ -117,6 +124,10 @@
             title: 'Poliza',
             dataIndex: 'poliza',
         },
+        {
+            title: 'Estado',
+            dataIndex: 'state',
+        },
         { title: 'Operaciones', dataIndex: 'action' },
     ];
 
@@ -141,7 +152,7 @@
     const onDelete = async (key: number) => {
         console.log(key);
         await deleteContractors(key);
-        data.value = data.value.filter((item) => item.id !== key);
+        await refresh();
     };
 
     const handleContractor = (record?: any) => {

@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <a-layout :loading="loading">
         <h1>{{ props.id ? 'Editar Viajero' : 'Agregar Viajero' }}</h1>
         <form-travelers :traveler="traveler"
-    /></div>
+    /></a-layout>
 </template>
 
 <script setup lang="ts">
@@ -34,10 +34,11 @@
             loading.value = true;
             const travelerR: TravelerResponse = (await getTraveler(props.id)).data;
             intializateTraveler(travelerR);
-            console.log(travelerR);
+            loading.value = false;
         }
     });
     const intializateTraveler = (travelerR: TravelerResponse) => {
+        console.log('tipo de cbertura ' + travelerR.coverage.id);
         traveler.name = travelerR.name;
         traveler.sex = travelerR.sex;
         traveler.born_date = travelerR.born_date;
@@ -47,10 +48,10 @@
         traveler.start_date = travelerR.start_date;
         traveler.end_date_policy = travelerR.end_date_policy;
         traveler.number_high_risk_days = travelerR.number_high_risk_days;
-        traveler.contractor = travelerR.contractors?.id;
-        traveler.origin_country = travelerR.id;
-        traveler.nationality = travelerR.id;
-        traveler.coverage = travelerR.id;
+        traveler.contractor = travelerR.contractor.id;
+        traveler.origin_country = travelerR.origin_country?.iso;
+        traveler.nationality = travelerR.nationality?.iso;
+        traveler.coverage = travelerR.coverage.id;
     };
 </script>
 

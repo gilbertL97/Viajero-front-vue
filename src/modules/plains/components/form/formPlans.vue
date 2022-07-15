@@ -12,8 +12,8 @@
         />
         <h5>Diario</h5>
         <a-checkbox v-model:checked="plain.daily" />
-        <h5>Activo</h5>
-        <a-checkbox v-model:checked="plain.isActive" />
+        <h5 v-if="props.plain.id != -1">Activo</h5>
+        <a-checkbox v-if="props.plain.id != -1" v-model:checked="plain.isActive" />
         <div class="btns">
             <a-button type="primary" :loading="loading" @click="handleOk"
                 >Aceptar</a-button

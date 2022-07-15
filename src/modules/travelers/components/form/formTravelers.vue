@@ -81,10 +81,16 @@
             />
         </a-form-item>
         <a-form-item name="dropdownNationality" label="Nacionalidad">
-            <DropCountries />
+            <DropCountries
+                :iso="formState.traveler.nationality"
+                v-model="formState.traveler.nationality"
+            />
         </a-form-item>
         <a-form-item name="dropdownOriginCountry" label="Pais Origen">
-            <DropCountries />
+            <DropCountries
+                :iso="formState.traveler.origin_country"
+                v-model="formState.traveler.origin_country"
+            />
         </a-form-item>
 
         <a-form-item :wrapper-col="{ ...layout.wrapperCol, offset: 8 }">
@@ -104,6 +110,7 @@
         id?: string;
         traveler: Traveler;
     }>();
+
     const formState = reactive({
         traveler: props.traveler,
     });
@@ -113,18 +120,13 @@
     };
     onMounted(async () => {
         if (props.id) {
-            await refresh();
         }
     });
 
     const onFinish = (values: any) => {
-        console.log('Success:', values);
+        console.log('Succes', values);
     };
     const onFinishFailed = (values: any) => {
         console.log('tiht', formState.traveler.contractor, values);
     };
-
-    async function refresh() {
-        throw new Error('Function not implemented.');
-    }
 </script>

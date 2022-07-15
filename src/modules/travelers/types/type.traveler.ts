@@ -23,9 +23,9 @@ export interface Traveler {
 
     contractor?: number;
 
-    origin_country?: number;
+    origin_country?: string;
 
-    nationality?: number;
+    nationality?: string;
 
     coverage: number;
 }
@@ -41,7 +41,7 @@ export interface TravelerResponse {
     start_date: Date;
     end_date_policy: Date;
     number_high_risk_days?: number;
-    contractors: Contractor;
+    contractor: Contractor;
     origin_country?: Country;
     nationality?: Country;
     coverage: Plans;

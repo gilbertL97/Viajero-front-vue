@@ -10,32 +10,34 @@
     />
 </template>
 <script lang="ts" setup>
-    import { onMounted, ref } from 'vue';
+    import { onMounted, reactive, ref } from 'vue';
     import type { SelectProps } from 'ant-design-vue';
     import { getCountries } from '../../services/country.services';
     import { Country } from '../../types/country.type';
 
-    let data = ref<Country[]>([]);
+    let data = reactive<Country[]>([]);
     const options = ref<SelectProps['options']>([]);
-    const props = defineProps({
-        iso: { type: String, require: true },
-    });
+    const country = ref<string | undefined>();
+    const props = defineProps<{
+        iso?: string;
+    }>();
     onMounted(async () => {
         await refresh();
 
-        options.value = data.value.map((country: Country) => ({
+        options.value = data.map((country: Country) => ({
             label: country.comun_name,
             value: country.iso,
         }));
+        country.value = props.iso;
+        console.log(country.value);
     });
-    const country = ref<string | undefined>();
 
     const loading = ref(false);
 
     const refresh = async () => {
         loading.value = true;
         try {
-            data.value = (await getCountries()).data;
+            data = (await getCountries()).data;
         } catch (error) {}
         loading.value = false;
     };
@@ -43,12 +45,11 @@
         return options.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
     };
     const handleChange: SelectProps['onChange'] = (value) => {
-        // emit('selected', country.value);
-        console.log(country.value, value);
+        emit('update:country', value);
+        console.log(value);
     };
-    /*  const emit = defineEmits<{
-        (e: 'selected', contractor: string | undefined): void;
-    }>();*/
+
+    const emit = defineEmits(['update:country']);
 </script>
 <style scoped>
     .ant-select {

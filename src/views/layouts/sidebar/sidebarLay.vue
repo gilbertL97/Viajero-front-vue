@@ -1,7 +1,7 @@
 <template>
     <a-layout-sider>
         <a-menu mode="vertical">
-            <a-sub-menu v-if="rankinPermisions == 5" key="sub1">
+            <a-sub-menu key="sub1">
                 <template #icon>
                     <SettingOutlined />
                 </template>
@@ -13,7 +13,7 @@
                     </router-link></a-menu-item
                 >
             </a-sub-menu>
-            <a-sub-menu v-if="rankinPermisions > 3" key="sub2">
+            <a-sub-menu key="sub2">
                 <template #icon>
                     <NotificationOutlined />
                 </template>
@@ -29,7 +29,7 @@
                     </router-link></a-menu-item
                 >
             </a-sub-menu>
-            <a-sub-menu v-if="rankinPermisions > 2" key="sub3">
+            <a-sub-menu key="sub3">
                 <template #icon>
                     <LineChartOutlined />
                 </template>
@@ -37,7 +37,7 @@
                 <a-menu-item key="consultCl">Clientes</a-menu-item>
                 <a-menu-item key="consultUs">Usuarios</a-menu-item>
             </a-sub-menu>
-            <a-sub-menu v-if="rankinPermisions >= 1" key="sub4">
+            <a-sub-menu key="sub4">
                 <template #icon>
                     <UsergroupAddOutlined />
                 </template>
@@ -59,10 +59,10 @@
         UsergroupAddOutlined,
     } from '@ant-design/icons-vue';
     import { RouterLink } from 'vue-router';
-    import { useAuthStore } from '@/modules/auth/store/auth.store';
-    import { rolRankingValue } from '@/modules/user/types/user.types';
-    const store = useAuthStore();
-    const rankinPermisions: number = rolRankingValue[store.getUserInfo!.role];
+    //import { useAuthStore } from '@/modules/auth/store/auth.store';
+    // import { rolRankingValue } from '@/modules/user/types/user.types';
+    //const store = useAuthStore();
+    //const rankinPermisions: number = rolRankingValue[store.getUserInfo!.role];
 </script>
 <style scoped>
     .ant-layout-sider {

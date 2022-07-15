@@ -11,33 +11,33 @@
     />
 </template>
 <script lang="ts" setup>
-    import { onMounted, ref } from 'vue';
+    import { onMounted, reactive, ref } from 'vue';
     import { getContractors } from '../../services/contractor.service';
     import { Contractor } from '../../types/contractor.types';
     import type { SelectProps } from 'ant-design-vue';
 
-    let data = ref<Contractor[]>([]);
+    let data = reactive<Contractor[]>([]);
     const options = ref<SelectProps['options']>([]);
     const props = defineProps<{
         contractorId?: number;
     }>();
+    const contractor = ref<number | undefined>();
     onMounted(async () => {
         await refresh();
 
-        options.value = data.value.map((client: Contractor) => ({
+        options.value = data.map((client: Contractor) => ({
             label: client.client,
             value: client.id,
         }));
         contractor.value = props.contractorId;
         console.log(contractor.value);
     });
-    const contractor = ref<number | undefined>();
     const isloading = ref(false);
 
     const refresh = async () => {
         isloading.value = true;
         try {
-            data.value = (await getContractors()).data;
+            data = (await getContractors()).data;
         } catch (error) {}
         isloading.value = false;
     };
@@ -50,13 +50,6 @@
     };
 
     const emit = defineEmits(['update:contractor']);
-
-    /*     emit('selected', contractor.value);
-        console.log(contractor.value, value);
-    };
-    const emit = defineEmits<{
-        (e: 'selected', contractor: number | undefined): void;
-    }>();*/
 </script>
 <style scoped>
     .ant-select {
