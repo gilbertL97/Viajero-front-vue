@@ -58,3 +58,12 @@ export const validateMessages = {
         range: '${label} must be between ${min} and ${max}',
     },
 };
+export function deleteMessage(entity: string, other?: string): string {
+    return (
+        'El ' +
+        entity +
+        ' no puede ser borrado ya que esta siendo usado por al menos un ' +
+        other! +
+        '. Por lo tanto sera puesto en estado inactivo'
+    );
+}

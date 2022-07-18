@@ -65,9 +65,11 @@
 <script lang="ts" setup>
     import { computed, ref, onMounted, reactive } from 'vue';
     import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
+    import Swal from 'sweetalert2';
     import { getContractors, deleteContractors } from '../../services/contractor.service';
     import { Contractor } from '../../types/contractor.types';
     import ContractorForm from '../form/formContract.vue';
+    import { deleteMessage } from '@/common/utils/validationMessages';
     // import { useAuthStore } from '@/components/auth/store/auth.store';
 
     //const store = useAuthStore();
@@ -84,6 +86,7 @@
         addres: '',
         file: '',
         poliza: '',
+        isActive: true,
     });
     // let editable: Contractor = reactive({
     //     name: '',
@@ -151,18 +154,28 @@
 
     const onDelete = async (key: number) => {
         console.log(key);
-        await deleteContractors(key);
+        try {
+            await deleteContractors(key);
+        } catch (error) {
+            Swal.fire({
+                title: 'Inactivo',
+                text: deleteMessage('Cliente', 'Viajero'),
+                timer: 10000,
+            });
+        }
         await refresh();
     };
 
     const handleContractor = (record?: any) => {
         showModal.value = true;
-        contract.id = record.id;
-        contract.client = record.client;
-        contract.email = record.email;
-        contract.telf = record.telf;
-        contract.poliza = record.poliza;
-        contract.addres = record.addres;
+        if (record.id) {
+            contract.id = record.id;
+            contract.client = record.client;
+            contract.email = record.email;
+            contract.telf = record.telf;
+            contract.poliza = record.poliza;
+            contract.addres = record.addres;
+        }
     };
     const handleFinishModal = async (visible: boolean) => {
         showModal.value = visible;

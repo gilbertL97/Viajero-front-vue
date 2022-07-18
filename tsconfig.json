@@ -15,5 +15,8 @@
         "lib": ["esnext", "dom"]
     },
     "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/components/shared/validation/validationsTexts.js"],
-    "references": [{ "path": "./tsconfig.node.json" }]
+    "references": [{ "path": "./tsconfig.node.json" }],
+    "types": [
+        "vue-sweetalert2"
+      ]
 }

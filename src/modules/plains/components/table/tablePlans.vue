@@ -69,8 +69,10 @@
     import { computed, ref, onMounted, reactive } from 'vue';
     import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
     import { getPlans, deletePlans } from '../../services/plan.service';
+    import Swal from 'sweetalert2';
     import { Plans } from '../../types/plains.types';
     import PlansForm from '../form/formPlans.vue';
+    import { deleteMessage } from '@/common/utils/validationMessages';
 
     const selectedRowKeys = ref<Plans['id'][]>([]);
 
@@ -142,8 +144,17 @@
 
     const onDelete = async (key: number) => {
         console.log(key);
-        await deletePlans(key);
-        data.value = data.value.filter((item) => item.id !== key);
+        try {
+            await deletePlans(key);
+            data.value = data.value.filter((item) => item.id !== key);
+        } catch (error) {
+            await refresh();
+            Swal.fire({
+                title: 'Inactivo',
+                text: deleteMessage('Plan', 'Viajero'),
+                timer: 10000,
+            });
+        }
     };
 
     const handlePlans = (record?: any) => {

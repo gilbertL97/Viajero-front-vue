@@ -6,4 +6,5 @@ export type Contractor = {
     addres: string;
     file: string;
     poliza: string;
+    isActive: boolean;
 };

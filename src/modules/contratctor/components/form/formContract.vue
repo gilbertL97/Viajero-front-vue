@@ -10,6 +10,11 @@
         <a-input placeholder="Telefono" v-model:value="contract.telf" />
         <h5>Poliza</h5>
         <a-input placeholder="Poliza" v-model:value="contract.poliza" />
+        <h5 v-if="props.contractor.id != -1">Activo</h5>
+        <a-checkbox
+            v-if="props.contractor.id != -1"
+            v-model:checked="contract.isActive"
+        />
         <div class="btns">
             <a-button type="primary" :loading="loading" @click="handleOk"
                 >Aceptar</a-button
@@ -51,7 +56,6 @@
     const editContractor = async () => {
         try {
             await editContractors(contract);
-            console.log(contract);
         } catch (error) {}
     };
     const addContractor = async () => {

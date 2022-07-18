@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from 'axios';
-import { addAuthHeader } from '@/modules/auth/services/auth.service';
 import { useAuthStore } from '@/modules/auth/store/auth.store';
 
 const url = import.meta.env.VITE_BASE_URL as string;
@@ -14,9 +13,10 @@ export default API;
 
 API.interceptors.request.use((config) => {
     const store = useAuthStore();
-    console.log(store.getToken);
-    if (store.getToken != null) {
-        addAuthHeader(store.getToken as string);
+
+    if (store.getToken) {
+        config.headers!.Authorization = `Bearer ${store.token}`;
+        console.log(store.getToken);
     }
     return config;
 });
