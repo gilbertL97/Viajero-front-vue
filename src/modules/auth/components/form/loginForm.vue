@@ -13,16 +13,23 @@
             </a-input>
         </a-form-item>
         <a-form-item>
-            <a-input
+            <a-input-password
                 v-model:value="form.password"
-                type="password"
+                :visibilityToggle="true"
                 placeholder="Contraseña"
             >
                 <template #prefix
                     ><LockOutlined style="color: rgba(0, 0, 0, 0.25)"
                 /></template>
-            </a-input>
+            </a-input-password>
         </a-form-item>
+        <a-alert
+            message="Error"
+            description="This is an error message about copywriting."
+            type="error"
+            show-icon
+        />
+        <br />
         <a-form-item>
             <a-button
                 type="primary"

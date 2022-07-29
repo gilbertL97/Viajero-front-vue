@@ -10,7 +10,7 @@
     />
 </template>
 <script lang="ts" setup>
-    import { onMounted, reactive, ref } from 'vue';
+    import { onBeforeMount, reactive, ref } from 'vue';
     import type { SelectProps } from 'ant-design-vue';
     import { getCountries } from '../../services/country.services';
     import { Country } from '../../types/country.type';
@@ -21,7 +21,7 @@
     const props = defineProps<{
         iso?: string;
     }>();
-    onMounted(async () => {
+    onBeforeMount(async () => {
         await refresh();
 
         options.value = data.map((country: Country) => ({
@@ -44,9 +44,8 @@
     const filterOption = (input: string, options: any) => {
         return options.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
     };
-    const handleChange: SelectProps['onChange'] = (value) => {
-        emit('update:country', value);
-        console.log(value);
+    const handleChange: SelectProps['onChange'] = () => {
+        emit('update:country', country.value);
     };
 
     const emit = defineEmits(['update:country']);

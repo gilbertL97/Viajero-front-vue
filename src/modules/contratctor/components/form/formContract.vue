@@ -2,6 +2,12 @@
     <div>
         <h5>Nombre</h5>
         <a-input placeholder="Nombre " v-model:value="contract.client" />
+        <h5>Alias</h5>
+        <a-input
+            placeholder="Nombre "
+            v-model:value="contract.file"
+            :whitespaces="true"
+        />
         <h5>Correo</h5>
         <a-input placeholder="Email" v-model:value="contract.email" />
         <h5>Direccion</h5>

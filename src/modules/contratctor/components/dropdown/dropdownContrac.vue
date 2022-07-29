@@ -8,10 +8,12 @@
         :filter-option="filterOption"
         firstActiveValue
         @change="handleChange"
+        :loading="isloading"
+        :disable="isloading"
     />
 </template>
 <script lang="ts" setup>
-    import { onMounted, reactive, ref } from 'vue';
+    import { onBeforeMount, reactive, ref } from 'vue';
     import { getContractors } from '../../services/contractor.service';
     import { Contractor } from '../../types/contractor.types';
     import type { SelectProps } from 'ant-design-vue';
@@ -22,7 +24,9 @@
         contractorId?: number;
     }>();
     const contractor = ref<number | undefined>();
-    onMounted(async () => {
+    const isloading = ref(false);
+    onBeforeMount(async () => {
+        isloading.value = true;
         await refresh();
 
         options.value = data.map((client: Contractor) => ({
@@ -30,26 +34,24 @@
             value: client.id,
         }));
         contractor.value = props.contractorId;
+        isloading.value = false;
         console.log(contractor.value);
     });
-    const isloading = ref(false);
 
     const refresh = async () => {
-        isloading.value = true;
         try {
             data = (await getContractors()).data;
         } catch (error) {}
-        isloading.value = false;
     };
     const filterOption = (input: string, options: any) => {
         return options.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
     };
-    const handleChange: SelectProps['onChange'] = (value) => {
-        emit('update:contractor', value);
-        console.log(value);
+    const handleChange: SelectProps['onChange'] = () => {
+        emit('selected', contractor.value);
     };
-
-    const emit = defineEmits(['update:contractor']);
+    const emit = defineEmits<{
+        (e: 'selected', contractor: number | undefined): void;
+    }>();
 </script>
 <style scoped>
     .ant-select {

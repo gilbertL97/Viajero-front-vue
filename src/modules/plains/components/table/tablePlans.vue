@@ -81,7 +81,8 @@
     const plain = reactive<Plans>({
         id: -1,
         name: '',
-        price: '',
+        price: 0,
+        high_risk: 0,
         daily: false,
         isActive: false,
     });
@@ -163,6 +164,7 @@
             console.log(record);
             plain.id = record.id;
             plain.name = record.name;
+            plain.high_risk = record.high_risk;
             plain.price = record.price;
             plain.daily = record.daily;
             plain.isActive = record.isActive;
@@ -179,6 +181,11 @@
             data.value = (await getPlans()).data;
         } catch (error) {}
         state.loading = false;
+        plain.id = -1;
+        plain.name = '';
+        plain.high_risk = 2;
+        plain.daily = false;
+        plain.isActive = false;
     };
 </script>
 

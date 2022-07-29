@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-    import { onMounted, reactive, ref } from 'vue';
+    import { onBeforeMount, reactive, ref } from 'vue';
     import formTravelers from '../components/form/formTravelers.vue';
     import { getTraveler } from '../services/traveler.service';
     import { Traveler, TravelerResponse } from '../types/type.traveler';
@@ -29,11 +29,11 @@
         coverage: -1,
     });
 
-    onMounted(async () => {
+    onBeforeMount(async () => {
         if (props.id) {
+            console.log(props.id);
             loading.value = true;
-            const travelerR: TravelerResponse = (await getTraveler(props.id)).data;
-            intializateTraveler(travelerR);
+            await charge();
             loading.value = false;
         }
     });
@@ -52,6 +52,12 @@
         traveler.origin_country = travelerR.origin_country?.iso;
         traveler.nationality = travelerR.nationality?.iso;
         traveler.coverage = travelerR.coverage.id;
+    };
+    const charge = async () => {
+        if (props.id) {
+            const travelerR: TravelerResponse = (await getTraveler(props.id)).data;
+            intializateTraveler(travelerR);
+        }
     };
 </script>
 

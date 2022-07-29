@@ -175,6 +175,7 @@
             contract.telf = record.telf;
             contract.poliza = record.poliza;
             contract.addres = record.addres;
+            contract.file = record.file;
         }
     };
     const handleFinishModal = async (visible: boolean) => {
@@ -188,6 +189,13 @@
             data.value = (await getContractors()).data;
         } catch (error) {}
         state.loading = false;
+        contract.id = -1;
+        contract.client = '';
+        contract.email = '';
+        contract.telf = '';
+        contract.poliza = '';
+        contract.addres = '';
+        contract.file = '';
     };
 </script>
 
