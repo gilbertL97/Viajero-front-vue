@@ -1,10 +1,19 @@
 <template>
     <div class="form">
+        
         <h5>Nombre</h5>
         <a-input placeholder="Nombre " v-model:value="plain.name" />
         <h5>Precio</h5>
         <a-input-number
             v-model:value="plain.price"
+            :max="100"
+            :min="0.1"
+            :step="0.1"
+            string-mode
+        />
+        <h5>Tarifa Alto Riesgo</h5>
+        <a-input-number
+            v-model:value="plain.high_risk"
             :max="100"
             :min="0.1"
             :step="0.1"
@@ -41,6 +50,7 @@
         id: props.plain.id,
         name: props.plain.name,
         price: props.plain.price,
+        high_risk: props.plain.high_risk,
         daily: props.plain.daily,
         isActive: props.plain.isActive,
     });

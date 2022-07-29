@@ -2,7 +2,6 @@
     <a-form
         :model="formState"
         v-bind="layout"
-        name="nest-messages"
         :validate-messages="validateMessages"
         @finish="onFinish"
         @finishFailed="onFinishFailed"
@@ -36,21 +35,26 @@
         >
             <a-input v-model:value="formState.traveler.passport" />
         </a-form-item>
-        <a-form-item name="date-pickerSales" label="Fecha de Venta">
+        <a-form-item :name="['traveler', 'sale_date']" label="Fecha de Venta">
             <a-date-picker
                 v-model:value="formState.traveler.sale_date"
                 value-format="YYYY-MM-DD"
             />
         </a-form-item>
-        <a-form-item name="dropdownClient" label="Agencia" :rules="[{ required: true }]">
+        <a-form-item
+            :name="['traveler', 'contractor']"
+            label="Agencia"
+            :rules="[{ required: true }]"
+        >
             <DropdownContrac
                 :contractorId="formState.traveler.contractor"
                 v-model="formState.traveler.contractor"
+                @selected="asignContract"
             />
         </a-form-item>
 
         <a-form-item
-            name="date-pickerBecome"
+            :name="['traveler', 'start_date']"
             label="Fecha de Inicio de Viaje"
             :rules="[{ required: true }]"
         >
@@ -60,7 +64,7 @@
             />
         </a-form-item>
         <a-form-item
-            name="date-pickerEnd"
+            :name="['traveler', 'end_date_policy']"
             label="Fecha de Fin de Poliza"
             :rules="[{ required: true }]"
         >
@@ -71,7 +75,7 @@
             />
         </a-form-item>
         <a-form-item
-            name="dropdownCoverage"
+            :name="['traveler', 'coverage']"
             label="Tipo de Cobertura"
             :rules="[{ required: true }]"
         >
@@ -80,13 +84,13 @@
                 v-model="formState.traveler.coverage"
             />
         </a-form-item>
-        <a-form-item name="dropdownNationality" label="Nacionalidad">
+        <a-form-item :name="['traveler', 'nationality']" label="Nacionalidad">
             <DropCountries
                 :iso="formState.traveler.nationality"
                 v-model="formState.traveler.nationality"
             />
         </a-form-item>
-        <a-form-item name="dropdownOriginCountry" label="Pais Origen">
+        <a-form-item :name="['traveler', 'origin_country']" label="Pais Origen">
             <DropCountries
                 :iso="formState.traveler.origin_country"
                 v-model="formState.traveler.origin_country"
@@ -99,7 +103,7 @@
     </a-form>
 </template>
 <script lang="ts" setup>
-    import { onMounted, reactive } from 'vue';
+    import { onBeforeMount, reactive } from 'vue';
     import { Traveler } from '../../types/type.traveler';
     import DropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
     import DropCountries from '@/modules/country/components/dropdown/dropCountries.vue';
@@ -114,11 +118,12 @@
     const formState = reactive({
         traveler: props.traveler,
     });
+
     const layout = {
         labelCol: { span: 4 },
         wrapperCol: { span: 10 },
     };
-    onMounted(async () => {
+    onBeforeMount(async () => {
         if (props.id) {
         }
     });
@@ -128,5 +133,12 @@
     };
     const onFinishFailed = (values: any) => {
         console.log('tiht', formState.traveler.contractor, values);
+    };
+    const asignContract = (value: any) => {
+        formState.traveler.contractor = value;
+        console.log(
+            'este es el value :' + value,
+            'este es el user.contractor:' + formState.traveler.contractor,
+        );
     };
 </script>

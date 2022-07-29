@@ -1,16 +1,17 @@
 <template>
     <a-select
-        v-model:value="country"
+        v-model:value="plain"
         show-search
         placeholder="Seleccione el Plan"
         style="width: 200px"
         :options="options"
         :filter-option="filterOption"
         @change="handleChange"
+        :loading="isLoading"
     />
 </template>
 <script lang="ts" setup>
-    import { onMounted, reactive, ref } from 'vue';
+    import { onBeforeMount, reactive, ref } from 'vue';
     import type { SelectProps } from 'ant-design-vue';
     import { Plans } from '../../types/plains.types';
     import { getPlansActive } from '../../services/plan.service';
@@ -20,23 +21,24 @@
     const props = defineProps<{
         plainId?: number;
     }>();
-    const country = ref<number | undefined>();
-    const loading = ref(false);
-    onMounted(async () => {
+    const plain = ref<number | undefined>();
+    const isLoading = ref(false);
+    onBeforeMount(async () => {
+        isLoading.value = true;
         await refresh();
         options.value = data.map((plain: Plans) => ({
             label: plain.name,
             value: plain.id,
         }));
+        plain.value = props.plainId;
+        isLoading.value = false;
     });
 
     const refresh = async () => {
-        loading.value = true;
+        isLoading.value = true;
         try {
             data = (await getPlansActive()).data;
-            country.value = props.plainId;
         } catch (error) {}
-        loading.value = false;
     };
     const filterOption = (input: string, options: any) => {
         return options.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
@@ -45,7 +47,6 @@
         emit('update:plain', value);
         console.log(value);
     };
-
     const emit = defineEmits(['update:plain']);
 </script>
 <style scoped>
