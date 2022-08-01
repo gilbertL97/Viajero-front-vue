@@ -1,33 +1,70 @@
 <template>
     <div>
-        <h5>Nombre</h5>
-        <a-input placeholder="Nombre " v-model:value="contract.client" />
-        <h5>Alias</h5>
-        <a-input
-            placeholder="Nombre "
-            v-model:value="contract.file"
-            :whitespaces="true"
-        />
-        <h5>Correo</h5>
-        <a-input placeholder="Email" v-model:value="contract.email" />
-        <h5>Direccion</h5>
-        <a-textarea placeholder="Direccion" v-model:value="contract.addres" auto-size />
-        <h5>Telefono</h5>
-        <a-input placeholder="Telefono" v-model:value="contract.telf" />
-        <h5>Poliza</h5>
-        <a-input placeholder="Poliza" v-model:value="contract.poliza" />
-        <h5 v-if="props.contractor.id != -1">Activo</h5>
-        <a-checkbox
-            v-if="props.contractor.id != -1"
-            v-model:checked="contract.isActive"
-        />
-        <div class="btns">
-            <a-button type="primary" :loading="loading" @click="handleOk"
-                >Aceptar</a-button
+        <a-form
+            :model="contract"
+            :validate-messages="validateMessages"
+            @finish="handleOk"
+            @finishFailed="onFinishFailed"
+        >
+            <a-form-item
+                has-feedback
+                :name="['client']"
+                label="Nombre"
+                :rules="[{ required: true }]"
             >
-            <a-divider type="vertical" />
-            <a-button @click="handleCancel"> Cancelar </a-button>
-        </div></div
+                <a-input placeholder="Nombre " v-model:value="contract.client" />
+            </a-form-item>
+
+            <a-form-item
+                has-feedback
+                :name="['file']"
+                label="Alias"
+                :rules="[{ required: true }]"
+            >
+                <a-input placeholder="Nombre " v-model.trim:value="contract.file" />
+            </a-form-item>
+            <a-form-item
+                has-feedback
+                :name="['email']"
+                label="Correo"
+                :rules="[{ type: 'email', required: true }]"
+            >
+                <a-input placeholder="Correo" v-model:value="contract.email" />
+            </a-form-item>
+            <a-form-item
+                has-feedback
+                :name="['addres']"
+                label="Direccion"
+                :rules="[{ required: true }]"
+            >
+                <a-textarea
+                    placeholder="Direccion"
+                    v-model:value="contract.addres"
+                    auto-size
+                />
+            </a-form-item>
+            <a-form-item
+                has-feedback
+                :name="['telf']"
+                label="Telefono"
+                :rules="[{ required: true, type: 'number' }]"
+            >
+                <a-input placeholder="Telefono" v-model:value="contract.telf" />
+            </a-form-item>
+            <a-form-item :name="['poliza']" label="Poliza" :rules="[{ required: true }]">
+                <a-input placeholder="Poliza" v-model:value="contract.poliza" />
+            </a-form-item>
+            <a-form-item :name="['isActive']" label="Activo">
+                <a-checkbox v-model:checked="contract.isActive" />
+            </a-form-item>
+            <div class="btns">
+                <a-form-item :wrapper-col="{ wraper: 2, offset: 20 }">
+                    <a-button type="primary" html-type="submit">Aceptar</a-button>
+                    <a-divider type="vertical" />
+                    <a-button @click="handleCancel"> Cancelar </a-button>
+                </a-form-item>
+            </div>
+        </a-form></div
     >
 </template>
 
@@ -35,6 +72,7 @@
     import { PropType, reactive, ref } from 'vue';
     import { editContractors, addContractors } from '../../services/contractor.service';
     import { Contractor } from '../../types/contractor.types';
+    import { validateMessages } from '@/common/utils/validationMessages';
     const props = defineProps({
         contractor: {
             type: Object as PropType<Contractor>,
@@ -57,7 +95,7 @@
     };
     const handleCancel = () => {
         emit('finish', false);
-        console.log('test');
+        console.log(contract);
     };
     const editContractor = async () => {
         try {
@@ -68,6 +106,9 @@
         try {
             await addContractors(contract);
         } catch (error) {}
+    };
+    const onFinishFailed = (values: any) => {
+        console.log('tiht', values);
     };
 </script>
 

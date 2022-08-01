@@ -4,7 +4,7 @@ export const defaultValidateMessages = {
     default: "Validation error on field '${name}'",
     required: "'${name}' es un campo obligatorio",
     enum: "'${name}' must be one of [${enum}]",
-    whitespace: "'${name}' no puede estar vacia",
+    whitespace: "'${name}' no debe poseer espacios ",
     date: {
         format: "'${name}' is invalid for format date",
         parse: "'${name}' could not be parsed as date",
@@ -51,7 +51,7 @@ export const validateMessages = {
     required: '${label} es un campo obligatorio',
     types: {
         email: '${label} no es un correo valido !',
-        number: '${label} no es un valido number!',
+        number: '${label} no es un numero valido !',
         date: 'Por favor seleccione la fecha!',
     },
     number: {

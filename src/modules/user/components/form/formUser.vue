@@ -8,25 +8,22 @@
         >
             <a-form-item
                 has-feedback
-                :name="['user', 'name']"
+                :name="['name']"
                 label="Nombre"
                 :rules="[{ required: true }]"
             >
                 <a-input placeholder="Nombre " v-model:value="user.name" />
             </a-form-item>
             <a-form-item
-                :name="['user', 'email']"
+                has-feedback
+                :name="['email']"
                 label="Correo"
                 :rules="[{ type: 'email', required: true }]"
             >
                 <a-input placeholder="Correo" v-model:value="user.email" />
             </a-form-item>
             <div v-if="props.editAdmin">
-                <a-form-item
-                    :name="['user', 'role']"
-                    label="Rol"
-                    :rules="[{ required: true }]"
-                >
+                <a-form-item :name="['role']" label="Rol" :rules="[{ required: true }]">
                     <a-select v-model:value="user.role" placeholder="Seleccione el rol">
                         <a-select-option
                             @select="client = false"
@@ -47,24 +44,25 @@
                         }}</a-select-option>
                     </a-select>
                 </a-form-item>
-                <a-form-item
-                    :name="['user', 'contractor']"
-                    label="Agencia"
-                    :rules="[{ required: true }]"
-                >
-                    <DropdownContrac
-                        v-if="user.role == UserRole.CLIENT"
-                        :contractorId="user.contractor"
-                        @selected="asignContract"
-                    />
-                </a-form-item>
+                <div v-if="user.role == UserRole.CLIENT">
+                    <a-form-item
+                        :name="['contractor']"
+                        label="Agencia"
+                        :rules="[{ required: true }]"
+                    >
+                        <DropdownContrac
+                            :contractorId="user.contractor"
+                            @selected="asignContract"
+                        />
+                    </a-form-item>
+                </div>
             </div>
             <div class="btns">
-                <a-button type="primary" :loading="loading" html-type="submit"
-                    >Aceptar</a-button
-                >
-                <a-divider type="vertical" />
-                <a-button @click="handleCancel"> Cancelar </a-button>
+                <a-form-item :wrapper-col="{ wraper: 2, offset: 20 }">
+                    <a-button type="primary" html-type="submit">Aceptar</a-button>
+                    <a-divider type="vertical" />
+                    <a-button @click="handleCancel"> Cancelar </a-button>
+                </a-form-item>
             </div>
         </a-form>
     </div>
@@ -97,7 +95,7 @@
     });
     const client = ref(true);
     const loading = ref(false);
-    
+
     //     const formState = reactive({
     //     traveler: props.traveler,
     // });
@@ -122,8 +120,8 @@
         emit('finish', false);
     };
     onMounted(() => {
-        console.log(user);
-        console.log(props.user);
+        // console.log(user);
+        console.log(props.user.contractors);
     });
     const handleCancel = () => {
         emit('finish', false);

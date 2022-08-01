@@ -1,35 +1,63 @@
 <template>
     <div class="form">
-        
-        <h5>Nombre</h5>
-        <a-input placeholder="Nombre " v-model:value="plain.name" />
-        <h5>Precio</h5>
-        <a-input-number
-            v-model:value="plain.price"
-            :max="100"
-            :min="0.1"
-            :step="0.1"
-            string-mode
-        />
-        <h5>Tarifa Alto Riesgo</h5>
-        <a-input-number
-            v-model:value="plain.high_risk"
-            :max="100"
-            :min="0.1"
-            :step="0.1"
-            string-mode
-        />
-        <h5>Diario</h5>
-        <a-checkbox v-model:checked="plain.daily" />
-        <h5 v-if="props.plain.id != -1">Activo</h5>
-        <a-checkbox v-if="props.plain.id != -1" v-model:checked="plain.isActive" />
-        <div class="btns">
-            <a-button type="primary" :loading="loading" @click="handleOk"
-                >Aceptar</a-button
+        <a-form
+            :model="plain"
+            :validate-messages="validateMessages"
+            @finish="handleOk"
+            @finishFailed="onFinishFailed"
+        >
+            <a-form-item
+                has-feedback
+                :name="['name']"
+                label="Nombre"
+                :rules="[{ required: true }]"
             >
-            <a-divider type="vertical" />
-            <a-button @click="handleCancel"> Cancelar </a-button>
-        </div>
+                <a-input placeholder="Nombre " v-model:value="plain.name" />
+            </a-form-item>
+            <a-form-item
+                has-feedback
+                :name="['price']"
+                label="Precio"
+                :rules="[{ required: true }]"
+            >
+                <a-input-number
+                    v-model:value="plain.price"
+                    :max="100"
+                    :min="0.1"
+                    :step="0.1"
+                    string-mode
+                />
+            </a-form-item>
+            <a-form-item
+                has-feedback
+                :name="['price']"
+                label="Tarifa alto Riesgo"
+                :rules="[{ required: true }]"
+            >
+                <a-input-number
+                    v-model:value="plain.high_risk"
+                    :max="100"
+                    :min="0.1"
+                    :step="0.1"
+                    string-mode
+                />
+            </a-form-item>
+            <a-form-item :name="['daily']" label="Diario" :rules="[{ required: true }]">
+                <a-checkbox v-model:checked="plain.daily" />
+            </a-form-item>
+
+            <a-form-item :name="['isActive']" label="Activo" v-if="props.plain.id != -1">
+                <a-checkbox v-model:checked="plain.isActive" />
+            </a-form-item>
+
+            <div class="btns">
+                <a-form-item :wrapper-col="{ wraper: 2, offset: 13 }">
+                    <a-button type="primary" html-type="submit">Aceptar</a-button>
+                    <a-divider type="vertical" />
+                    <a-button @click="handleCancel"> Cancelar </a-button>
+                </a-form-item>
+            </div>
+        </a-form>
     </div>
 </template>
 
@@ -37,7 +65,7 @@
     import { Plans } from '../../types/plains.types';
     import { PropType, reactive, ref } from 'vue';
     import { editPlans, addPlans } from '../../services/plan.service';
-
+    import { validateMessages } from '@/common/utils/validationMessages';
     const props = defineProps({
         plain: {
             type: Object as PropType<Plans>,
@@ -80,6 +108,9 @@
         try {
             await addPlans(plain);
         } catch (error) {}
+    };
+    const onFinishFailed = (values: any) => {
+        console.log('tiht', values);
     };
 </script>
 

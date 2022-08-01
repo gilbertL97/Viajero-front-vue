@@ -17,7 +17,6 @@
     import { getContractors } from '../../services/contractor.service';
     import { Contractor } from '../../types/contractor.types';
     import type { SelectProps } from 'ant-design-vue';
-
     let data = reactive<Contractor[]>([]);
     const options = ref<SelectProps['options']>([]);
     const props = defineProps<{
@@ -28,7 +27,6 @@
     onBeforeMount(async () => {
         isloading.value = true;
         await refresh();
-
         options.value = data.map((client: Contractor) => ({
             label: client.client,
             value: client.id,
@@ -37,7 +35,6 @@
         isloading.value = false;
         console.log(contractor.value);
     });
-
     const refresh = async () => {
         try {
             data = (await getContractors()).data;
