@@ -20,12 +20,12 @@
                             <template #icon><DeleteOutlined /></template>
                         </a-button>
                     </a-popconfirm>
-                    <a-button type="primary" @click="handleTraveler(record)">
+                    <a-button type="primary" @click="editTraveler(record)">
                         <template #icon>
                             <EditOutlined />
                         </template>
                     </a-button>
-                    <a-button id="button" @click="handleTravelerCreate(record)"
+                    <a-button id="button" @click="viewTraveler(record)"
                         ><template #icon><EyeOutlined /></template>
                     </a-button>
                 </template>
@@ -60,7 +60,7 @@
             </template>
         </span>
     </div>
-    <a-button @click="handleTraveler">Añadir</a-button>
+    <a-button @click="createTraveler">Añadir</a-button>
 </template>
 <script lang="ts" setup>
     import { computed, ref, onMounted, reactive } from 'vue';
@@ -141,13 +141,18 @@
         //  await deleteTravelers(key);
         data.value = data.value.filter((item) => item.id !== key);
     };
-    const handleTraveler = (record?: any) => {
+
+    const editTraveler = (record?: any) => {
         console.log(record);
         router.push('/travelers/edit-travelers/' + record.id);
     };
-    const handleTravelerCreate = (record?: any) => {
+    const createTraveler = (record?: any) => {
         console.log(record);
         router.push('/travelers/create-travelers');
+    };
+    const viewTraveler = (record?: any) => {
+        console.log(record);
+        router.push('/travelers/view-travelers/' + record.id);
     };
     const refresh = async () => {
         state.loading = true;

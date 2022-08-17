@@ -16,6 +16,7 @@
         "ant-design-vue": "^3.1.1",
         "axios": "^0.26.1",
         "bootstrap": "^5.1.3",
+        "dayjs": "^1.11.5",
         "generate-password-ts": "^1.6.3",
         "pinia": "^2.0.12",
         "sass": "^1.50.0",

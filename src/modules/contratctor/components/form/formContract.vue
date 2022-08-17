@@ -21,7 +21,11 @@
                 label="Alias"
                 :rules="[{ required: true }]"
             >
-                <a-input placeholder="Nombre " v-model.trim:value="contract.file" />
+                <a-input
+                    placeholder="Alias "
+                    v-model:value="contract.file"
+                    @keydown.space.prevent
+                />
             </a-form-item>
             <a-form-item
                 has-feedback
@@ -47,7 +51,7 @@
                 has-feedback
                 :name="['telf']"
                 label="Telefono"
-                :rules="[{ required: true, type: 'number' }]"
+                :rules="[{ required: true }]"
             >
                 <a-input placeholder="Telefono" v-model:value="contract.telf" />
             </a-form-item>
@@ -64,8 +68,8 @@
                     <a-button @click="handleCancel"> Cancelar </a-button>
                 </a-form-item>
             </div>
-        </a-form></div
-    >
+        </a-form>
+    </div>
 </template>
 
 <script setup lang="ts">

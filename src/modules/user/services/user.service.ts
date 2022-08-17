@@ -1,13 +1,13 @@
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
 import API from '@/service/api';
-import { EditUser, User } from '@/modules/user/types/user.types';
-export async function getUsers(): Promise<AxiosResponse<User[]>> {
+import { EditUser, User, UserResponse } from '@/modules/user/types/user.types';
+export async function getUsers(): Promise<AxiosResponse<UserResponse[]>> {
     //addAuthHeader(store.getToken as string);
     const config: AxiosRequestConfig = {
         method: 'GET',
         url: '/user',
     };
-    return await API.request<User[]>(config);
+    return await API.request<UserResponse[]>(config);
 }
 export async function getUser(id: number): Promise<AxiosResponse<User>> {
     //addAuthHeader(store.getToken as string);

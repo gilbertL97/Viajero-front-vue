@@ -12,7 +12,28 @@
                 label="Nombre"
                 :rules="[{ required: true }]"
             >
-                <a-input placeholder="Nombre " v-model:value="user.name" />
+                <a-input
+                    placeholder="Nombre "
+                    v-model:value="user.name"
+                    @keydown.space.prevent
+                />
+            </a-form-item>
+            <a-form-item
+                v-if="props.newUser"
+                has-feedback
+                :name="['password']"
+                label="Contraseña"
+                :rules="[{ required: true }]"
+            >
+                <a-input-password
+                    v-model:value="user.password"
+                    :visibilityToggle="true"
+                    placeholder="Contraseña"
+                >
+                    <template #prefix
+                        ><LockOutlined style="color: rgba(0, 0, 0, 0.25)"
+                    /></template>
+                </a-input-password>
             </a-form-item>
             <a-form-item
                 has-feedback
@@ -51,14 +72,14 @@
                         :rules="[{ required: true }]"
                     >
                         <DropdownContrac
-                            :contractorId="user.contractor"
+                            :contractor="props.user.contractors?.[0]"
                             @selected="asignContract"
                         />
                     </a-form-item>
                 </div>
             </div>
             <div class="btns">
-                <a-form-item :wrapper-col="{ wraper: 2, offset: 20 }">
+                <a-form-item :wrapper-col="{ wraper: 2, offset: 13 }">
                     <a-button type="primary" html-type="submit">Aceptar</a-button>
                     <a-divider type="vertical" />
                     <a-button @click="handleCancel"> Cancelar </a-button>
@@ -73,10 +94,9 @@
     import { onMounted, PropType, reactive, ref } from 'vue';
     import { editUsers, addUsers } from '../../services/user.service';
     import { UserRole, UserRoleEquivalen } from '@/modules/user/types/user.types';
-    import DropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
+    import DropdownContrac from '@/modules/contratctor/components/dropdown/selectContract.vue';
     import { validateMessages } from '@/common/utils/validationMessages';
-    import generator from 'generate-password-ts';
-
+    import { LockOutlined } from '@ant-design/icons-vue';
     const props = defineProps({
         user: {
             type: Object as PropType<UserResponse>,
@@ -106,8 +126,9 @@
         role: props.user.role,
         active: false,
         contractor: props.user.contractors?.[0]?.id,
+        password: props.user.password,
     });
-
+    //const contractor=props.user.contractors[0].id;
     const emit = defineEmits<{
         (e: 'finish', visible: boolean): void;
     }>();
@@ -121,7 +142,7 @@
     };
     onMounted(() => {
         // console.log(user);
-        console.log(props.user.contractors);
+        console.log(props.user);
     });
     const handleCancel = () => {
         emit('finish', false);
@@ -135,12 +156,11 @@
         } catch (error) {}
     };
     const addUser = async () => {
-        genPass();
         try {
             await addUsers(user);
         } catch (error) {}
     };
-    const asignContract = (value: any) => {
+    const asignContract = (value: number | undefined) => {
         user.contractor = value;
         console.log(
             'este es el value :' + value,
@@ -149,14 +169,14 @@
     };
 
     //generar una contraseña aleatoria
-    const genPass = () => {
+    /* const genPass = () => {
         const password = generator.generate({
             length: 10,
             numbers: true,
         });
         user.password = password;
         window.alert('la contraseña momentania sera esta ' + password);
-    };
+    };*/
     const onFinishFailed = (values: any) => {
         console.log('tiht', values);
     };

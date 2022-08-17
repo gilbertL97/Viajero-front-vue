@@ -18,5 +18,11 @@ const travelersRoutes: RouteRecordRaw[] = [
         component: () => import('@/modules/travelers/view/createOrEditTravelers.vue'),
         props: true,
     },
+    {
+        path: '/travelers/view-travelers/:id',
+        name: 'view-travelers',
+        component: () => import('@/modules/travelers/view/viewTravelerInfo.vue'),
+        props: true,
+    },
 ];
 export default travelersRoutes;

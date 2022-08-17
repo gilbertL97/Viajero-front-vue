@@ -1,19 +1,20 @@
 <template>
-    <a-layout :loading="loading">
-        <h1>{{ props.id ? 'Editar Viajero' : 'Agregar Viajero' }}</h1>
-        <form-travelers :traveler="traveler"
-    /></a-layout>
+    <h1>{{ props.id ? 'Editar Viajero' : 'Agregar Viajero' }}</h1>
+    <form-travelers :id="props.id" />
 </template>
 
 <script setup lang="ts">
-    import { onBeforeMount, reactive, ref } from 'vue';
     import formTravelers from '../components/form/formTravelers.vue';
+
+    const props = defineProps<{ id?: string }>();
+
+    /*import { onBeforeMount, reactive, ref } from 'vue';
     import { getTraveler } from '../services/traveler.service';
     import { Traveler, TravelerResponse } from '../types/type.traveler';
 
-    const loading = ref(true);
-    const props = defineProps<{ id?: string }>();
-    let traveler: Traveler = reactive({
+
+  
+   let traveler: Traveler = reactive({
         name: '',
         sex: undefined,
         born_date: undefined,
@@ -38,7 +39,6 @@
         }
     });
     const intializateTraveler = (travelerR: TravelerResponse) => {
-        console.log('tipo de cbertura ' + travelerR.coverage.id);
         traveler.name = travelerR.name;
         traveler.sex = travelerR.sex;
         traveler.born_date = travelerR.born_date;
@@ -56,9 +56,10 @@
     const charge = async () => {
         if (props.id) {
             const travelerR: TravelerResponse = (await getTraveler(props.id)).data;
+            console.log(travelerR);
             intializateTraveler(travelerR);
         }
-    };
+    };*/
 </script>
 
 <style scoped></style>

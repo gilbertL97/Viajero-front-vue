@@ -169,6 +169,7 @@
     const handleContractor = (record?: any) => {
         showModal.value = true;
         if (record.id) {
+            console.log(record);
             contract.id = record.id;
             contract.client = record.client;
             contract.email = record.email;
@@ -189,13 +190,13 @@
             data.value = (await getContractors()).data;
         } catch (error) {}
         state.loading = false;
-        contract.id = -1;
-        contract.client = '';
-        contract.email = '';
-        contract.telf = '';
-        contract.poliza = '';
-        contract.addres = '';
-        contract.file = '';
+        // contract.id = -1;
+        // contract.client = '';
+        // contract.email = '';
+        // contract.telf = '';
+        // contract.poliza = '';
+        // contract.addres = '';
+        // contract.file = '';
     };
 </script>
 

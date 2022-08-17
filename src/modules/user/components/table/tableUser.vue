@@ -45,7 +45,7 @@
             </template>
         </span>
     </div>
-    <a-button @click="handleUser">Añadir</a-button>
+    <a-button @click="addUser">Añadir</a-button>
     <a-modal
         v-model:visible="showModal"
         title="User"
@@ -79,7 +79,7 @@
         email: '',
         role: UserRole.CONSULT,
         active: false,
-        contractors: undefined,
+        contractors: [],
     });
     // let editable: User = reactive({
     //     name: '',
@@ -139,17 +139,34 @@
         data.value = data.value.filter((item) => item.id !== key);
     };
     const onDeleteAdmin = async () => {
-        const user = store.getUserInfo;
+        const user1 = store.getUserInfo;
         // para q funcione en los navegadores viejos
-        if (user != null) {
-            if (user.role == UserRole.ADMIN)
-                data.value = data.value.filter((item) => item.id !== user.id);
+        if (user1 != null) {
+            if (user1.role == UserRole.ADMIN)
+                data.value = data.value.filter((item) => item.id !== user1.id);
         }
     };
-    const handleUser = (record?: any) => {
-        isNewUser.value = true;
-        if (record) isNewUser.value = false;
+    const handleUser = (record: any) => {
         showModal.value = true;
+        passData(record);
+        showModal.value = true;
+    };
+    const addUser = () => {
+        initialize();
+        isNewUser.value = true;
+        showModal.value = true;
+    };
+    const initialize = () => {
+        (user.id = -1),
+            (user.name = ''),
+            (user.email = ''),
+            (user.role = ''),
+            (user.active = false),
+            (user.contractors = []),
+            (user.password = '');
+    };
+
+    const passData = (record: any) => {
         user.id = record.id;
         user.name = record.name;
         user.email = record.email;
@@ -160,6 +177,7 @@
     const handleFinishModal = async (visible: boolean) => {
         showModal.value = visible;
         await refresh();
+        isNewUser.value = false;
     };
 
     const refresh = async () => {
