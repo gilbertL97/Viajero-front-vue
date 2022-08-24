@@ -4,15 +4,17 @@
         show-search
         placeholder="Seleccione al cliente"
         style="width: 200px"
-        :options="options"
         :filter-option="filterOption"
-        firstActiveValue
         @change="handleChange"
         :loading="isloading"
-    />
+    >
+        <a-select-option v-for="con in data" :key="con.id">{{
+            con.client
+        }}</a-select-option>
+    </a-select>
 </template>
 <script lang="ts" setup>
-    import { onBeforeMount, reactive, ref } from 'vue';
+    import { onBeforeMount, onMounted, reactive, ref } from 'vue';
     import { getContractors } from '../../services/contractor.service';
     import { Contractor } from '../../types/contractor.types';
     import type { SelectProps } from 'ant-design-vue';
@@ -24,7 +26,7 @@
     let select = ref(props.contractor?.client);
 
     const isloading = ref(false);
-    onBeforeMount(async () => {
+    onMounted(async () => {
         isloading.value = true;
         await refresh();
         options.value = data.map((client: Contractor) => ({

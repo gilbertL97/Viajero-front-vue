@@ -1,6 +1,7 @@
 import { RouteRecordRaw } from 'vue-router';
 import { useAuthStore } from '@/modules/auth/store/auth.store';
 import travelersRoutes from '@/modules/travelers/routes/travelerRoutes';
+import userRoutes from '@/modules/user/routes/userRoutes';
 const store = useAuthStore();
 const beforeEnter = (_to: any, _from: any, next: any) => {
     const isAutenticade = store.getToken;
@@ -48,6 +49,7 @@ const mainRoutes: RouteRecordRaw[] = [
                 component: () => import('@/views/default/backTemp.vue'),
             },
             ...travelersRoutes,
+            ...userRoutes,
         ],
     },
 ];

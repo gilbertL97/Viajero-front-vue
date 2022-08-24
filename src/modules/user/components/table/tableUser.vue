@@ -20,7 +20,7 @@
                             <template #icon><DeleteOutlined /></template>
                         </a-button>
                     </a-popconfirm>
-                    <a-button type="primary" @click="handleUser(record)"
+                    <a-button type="primary" @click="handleUser(record.id)"
                         ><template #icon><EditOutlined /></template>
                     </a-button>
                 </template>
@@ -45,42 +45,23 @@
             </template>
         </span>
     </div>
-    <a-button @click="addUser">Añadir</a-button>
-    <a-modal
-        v-model:visible="showModal"
-        title="User"
-        :footer="null"
-        :destroy-on-close="true"
-    >
-        <UserForm
-            :new-user="isNewUser"
-            :edit-admin="true"
-            :user="user"
-            @finish="handleFinishModal"
-        />
-    </a-modal>
+    <a-button @click="createUser">Añadir</a-button>
 </template>
 <script lang="ts" setup>
     import { computed, ref, onMounted, reactive } from 'vue';
     import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
     import { getUsers, deleteUsers } from '../../services/user.service';
     import { UserRole, rolKeyvalue, UserResponse } from '@/modules/user/types/user.types';
-    import UserForm from '@/modules/user/components/form/formUser.vue';
     import { useAuthStore } from '@/modules/auth/store/auth.store';
+    import { useRouter } from 'vue-router';
     const store = useAuthStore();
     const selectedRowKeys = ref<UserResponse['id'][]>([]);
 
+    const router = useRouter();
     let data = ref<UserResponse[]>([]);
     const showModal = ref(false);
     const isNewUser = ref(false);
-    const user = reactive<UserResponse>({
-        id: -1,
-        name: '',
-        email: '',
-        role: UserRole.CONSULT,
-        active: false,
-        contractors: [],
-    });
+
     // let editable: User = reactive({
     //     name: '',
     //     email: '',
@@ -146,34 +127,30 @@
                 data.value = data.value.filter((item) => item.id !== user1.id);
         }
     };
-    const handleUser = (record: any) => {
-        showModal.value = true;
-        passData(record);
-        showModal.value = true;
+    const createUser = () => {
+        router.push({ name: 'create-user' });
     };
-    const addUser = () => {
-        initialize();
-        isNewUser.value = true;
-        showModal.value = true;
+    const handleUser = (record: number) => {
+        router.push('/user/edit-user/' + record);
     };
-    const initialize = () => {
-        (user.id = -1),
-            (user.name = ''),
-            (user.email = ''),
-            (user.role = ''),
-            (user.active = false),
-            (user.contractors = []),
-            (user.password = '');
-    };
+    // const initialize = () => {
+    //     (user.id = -1),
+    //         (user.name = ' '),
+    //         (user.email = ' '),
+    //         (user.role = ' '),
+    //         (user.active = false),
+    //         (user.contractors = []),
+    //         (user.password = ' ');
+    // };
 
-    const passData = (record: any) => {
-        user.id = record.id;
-        user.name = record.name;
-        user.email = record.email;
-        user.role = record.role;
-        user.active = record.active;
-        user.contractors = record.contractors;
-    };
+    // const passData = (record: any) => {
+    //     user.id = record.id;
+    //     user.name = record.name;
+    //     user.email = record.email;
+    //     user.role = record.role;
+    //     user.active = record.active;
+    //     user.contractors = record.contractors;
+    // };
     const handleFinishModal = async (visible: boolean) => {
         showModal.value = visible;
         await refresh();

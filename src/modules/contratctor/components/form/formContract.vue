@@ -2,7 +2,7 @@
     <div>
         <a-form
             :model="contract"
-            :validate-messages="validateMessages"
+            :validate-messages="defaultValidateMessages"
             @finish="handleOk"
             @finishFailed="onFinishFailed"
         >
@@ -10,7 +10,7 @@
                 has-feedback
                 :name="['client']"
                 label="Nombre"
-                :rules="[{ required: true }]"
+                :rules="[{ required: true, min: 4 }]"
             >
                 <a-input placeholder="Nombre " v-model:value="contract.client" />
             </a-form-item>
@@ -19,7 +19,7 @@
                 has-feedback
                 :name="['file']"
                 label="Alias"
-                :rules="[{ required: true }]"
+                :rules="[{ required: true, min: 4 }]"
             >
                 <a-input
                     placeholder="Alias "
@@ -39,7 +39,7 @@
                 has-feedback
                 :name="['addres']"
                 label="Direccion"
-                :rules="[{ required: true }]"
+                :rules="[{ required: true, min: 8 }]"
             >
                 <a-textarea
                     placeholder="Direccion"
@@ -51,11 +51,15 @@
                 has-feedback
                 :name="['telf']"
                 label="Telefono"
-                :rules="[{ required: true }]"
+                :rules="[{ required: true, min: 8 }]"
             >
                 <a-input placeholder="Telefono" v-model:value="contract.telf" />
             </a-form-item>
-            <a-form-item :name="['poliza']" label="Poliza" :rules="[{ required: true }]">
+            <a-form-item
+                :name="['poliza']"
+                label="Poliza"
+                :rules="[{ required: true, min: 6 }]"
+            >
                 <a-input placeholder="Poliza" v-model:value="contract.poliza" />
             </a-form-item>
             <a-form-item :name="['isActive']" label="Activo">
@@ -76,7 +80,7 @@
     import { PropType, reactive, ref } from 'vue';
     import { editContractors, addContractors } from '../../services/contractor.service';
     import { Contractor } from '../../types/contractor.types';
-    import { validateMessages } from '@/common/utils/validationMessages';
+    import { defaultValidateMessages } from '@/common/utils/validationMessages';
     const props = defineProps({
         contractor: {
             type: Object as PropType<Contractor>,

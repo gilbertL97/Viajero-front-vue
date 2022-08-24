@@ -2,7 +2,7 @@
     <a-form
         :model="traveler"
         v-bind="layout"
-        :validate-messages="validateMessages"
+        :validate-messages="defaultValidateMessages"
         @finish="onFinish"
         @finishFailed="onFinishFailed"
         :loading="loading"
@@ -124,6 +124,21 @@
             <a-button type="primary" html-type="submit">Submit</a-button>
         </a-form-item>
     </a-form>
+    <a-form v-bind="layout2">
+        <a-col :span="12">
+            <a-statistic
+                title="Active Users"
+                :value="112893"
+                style="margin-right: 50px"
+            />
+        </a-col>
+        <a-col :span="12">
+            <a-statistic
+                title="Account Balance (CNY)"
+                :precision="2"
+                :value="112893"
+            /> </a-col
+    ></a-form>
 </template>
 <script lang="ts" setup>
     import { onMounted, reactive, ref } from 'vue';
@@ -131,7 +146,7 @@
     import DropdownContrac from '@/modules/contratctor/components/dropdown/selectContract.vue';
     import DropCountries from '@/modules/country/components/dropdown/dropCountries.vue';
     import DropdownPlans from '@/modules/plains/components/dropdowns/dropdownPlans.vue';
-    import { validateMessages } from '@/common/utils/validationMessages';
+    import { defaultValidateMessages } from '@/common/utils/validationMessages';
     import { getTraveler } from '../../services/traveler.service';
 
     const props = defineProps<{
@@ -158,6 +173,10 @@
     const layout = {
         labelCol: { span: 5 },
         wrapperCol: { span: 6 },
+    };
+    const layout2 = {
+        labelCol: { span: 9 },
+        wrapperCol: { span: 12 },
     };
     const loading = ref(false);
     onMounted(async () => {

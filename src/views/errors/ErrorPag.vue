@@ -1,5 +1,3 @@
 <template>
-    <div>
-        <h1>Ups Ha ocurrido un error</h1>
-    </div>
+    <a-result status="404" title="404" sub-title="Ups La pagina no existe." />
 </template>

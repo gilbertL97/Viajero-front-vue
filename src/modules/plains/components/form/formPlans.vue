@@ -2,7 +2,7 @@
     <div class="form">
         <a-form
             :model="plain"
-            :validate-messages="validateMessages"
+            :validate-messages="defaultValidateMessages"
             @finish="handleOk"
             @finishFailed="onFinishFailed"
         >
@@ -10,7 +10,7 @@
                 has-feedback
                 :name="['name']"
                 label="Nombre"
-                :rules="[{ required: true }]"
+                :rules="[{ required: true, min: 4 }]"
             >
                 <a-input placeholder="Nombre " v-model:value="plain.name" />
             </a-form-item>
@@ -65,7 +65,7 @@
     import { Plans } from '../../types/plains.types';
     import { PropType, reactive, ref } from 'vue';
     import { editPlans, addPlans } from '../../services/plan.service';
-    import { validateMessages } from '@/common/utils/validationMessages';
+    import { defaultValidateMessages } from '@/common/utils/validationMessages';
     const props = defineProps({
         plain: {
             type: Object as PropType<Plans>,

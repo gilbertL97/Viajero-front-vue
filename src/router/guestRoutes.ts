@@ -12,9 +12,9 @@ const GuestRouter: RouteRecordRaw[] = [
         name: 'error-404',
         component: () => import('@/views/errors/ErrorPag.vue'),
     },
-    {
+  {
         path: '/:pathMatch(.*)*',
-        redirect: '/login',
+        redirect: '/404',
     },
     {
         path: '/',

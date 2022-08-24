@@ -2,7 +2,8 @@
     <div class="form">
         <a-form
             :model="user"
-            :validate-messages="validateMessages"
+            :validate-messages="defaultValidateMessages"
+            v-bind="layout"
             @finish="handleOk"
             @finishFailed="onFinishFailed"
         >
@@ -10,7 +11,7 @@
                 has-feedback
                 :name="['name']"
                 label="Nombre"
-                :rules="[{ required: true }]"
+                :rules="[{ required: true, min: 4 }]"
             >
                 <a-input
                     placeholder="Nombre "
@@ -19,11 +20,10 @@
                 />
             </a-form-item>
             <a-form-item
-                v-if="props.newUser"
                 has-feedback
                 :name="['password']"
                 label="Contraseña"
-                :rules="[{ required: true }]"
+                :rules="[{ required: true, min: 6 }]"
             >
                 <a-input-password
                     v-model:value="user.password"
@@ -72,7 +72,7 @@
                         :rules="[{ required: true }]"
                     >
                         <DropdownContrac
-                            :contractor="props.user.contractors?.[0]"
+                            :contractor="user.contractor"
                             @selected="asignContract"
                         />
                     </a-form-item>
@@ -91,65 +91,55 @@
 
 <script setup lang="ts">
     import { UserReq, UserResponse } from '@/modules/user/types/user.types';
-    import { onMounted, PropType, reactive, ref } from 'vue';
-    import { editUsers, addUsers } from '../../services/user.service';
+    import { onMounted, reactive, ref } from 'vue';
+    import { editUsers, addUsers, getUser } from '../../services/user.service';
     import { UserRole, UserRoleEquivalen } from '@/modules/user/types/user.types';
     import DropdownContrac from '@/modules/contratctor/components/dropdown/selectContract.vue';
-    import { validateMessages } from '@/common/utils/validationMessages';
+    import { defaultValidateMessages } from '@/common/utils/validationMessages';
     import { LockOutlined } from '@ant-design/icons-vue';
-    const props = defineProps({
-        user: {
-            type: Object as PropType<UserResponse>,
-            required: true,
-        },
-        editAdmin: {
-            //para saber si un solo user se esta editando el perfil
-            type: Boolean,
-            required: true,
-        },
-        newUser: {
-            //para saber si es un nuevo user
-            type: Boolean,
-            required: true,
-        },
-    });
+    import { useRouter } from 'vue-router';
+
+    const router = useRouter();
+    const props = defineProps<{ id?: string; editAdmin: boolean }>();
+    const id = ref(0);
     const client = ref(true);
     const loading = ref(false);
 
     //     const formState = reactive({
     //     traveler: props.traveler,
     // });
+    const layout = {
+        labelCol: { span: 8 },
+        wrapperCol: { span: 12 },
+    };
     const user: UserReq = reactive({
-        id: props.user.id,
-        name: props.user.name,
-        email: props.user.email,
-        role: props.user.role,
+        id: -1,
+        name: '',
+        email: '',
+        role: UserRole.CONSULT,
         active: false,
-        contractor: props.user.contractors?.[0]?.id,
-        password: props.user.password,
+        contractor: undefined,
     });
     //const contractor=props.user.contractors[0].id;
-    const emit = defineEmits<{
-        (e: 'finish', visible: boolean): void;
-    }>();
 
     const handleOk = async () => {
         loading.value = true;
-        if (props.newUser == true) await addUser();
-        else await editUser();
+        if (props.id) await editUser();
+        else await addUser();
+        router.push({ name: 'users' });
         loading.value = false;
-        emit('finish', false);
     };
-    onMounted(() => {
-        // console.log(user);
-        console.log(props.user);
-    });
     const handleCancel = () => {
-        emit('finish', false);
+        router.push({ name: 'users' });
         console.log(user.contractor);
     };
+    onMounted(async () => {
+        if (props.id) id.value = +props.id;
+        console.log(user);
+        await charge();
+    });
+
     const editUser = async () => {
-        console.log(props.user);
         try {
             await editUsers(user);
             console.log(user);
@@ -179,6 +169,20 @@
     };*/
     const onFinishFailed = (values: any) => {
         console.log('tiht', values);
+    };
+    const charge = async () => {
+        if (props.id) {
+            const userR: UserResponse = (await getUser(id.value)).data;
+            initializateUser(userR);
+        }
+    };
+    const initializateUser = (userR: UserResponse) => {
+        (user.id = userR.id),
+            (user.name = userR.name),
+            (user.email = userR.email),
+            (user.role = userR.role),
+            (user.active = false),
+            (user.contractor = userR.contractors?.[0]?.id);
     };
 </script>
 

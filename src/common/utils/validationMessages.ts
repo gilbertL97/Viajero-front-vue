@@ -1,14 +1,14 @@
-const typeTemplate = "'${name}' no es un ${type}";
+const typeTemplate = '${label}  no es un ${type}';
 
 export const defaultValidateMessages = {
-    default: "Validation error on field '${name}'",
-    required: "'${name}' es un campo obligatorio",
-    enum: "'${name}' must be one of [${enum}]",
-    whitespace: "'${name}' no debe poseer espacios ",
+    default: 'Validation error on field ${label} ',
+    required: '${label}  es un campo obligatorio',
+    enum: '${label}  must be one of [${enum}]',
+    whitespace: '${label}  no debe poseer espacios ',
     date: {
-        format: "'${name}' is invalid for format date",
-        parse: "'${name}' could not be parsed as date",
-        invalid: "'${name}' is invalid date",
+        format: '${label}  is invalid for format date',
+        parse: '${label}  could not be parsed as date',
+        invalid: '${label}  is invalid date',
     },
     types: {
         string: typeTemplate,
@@ -26,25 +26,25 @@ export const defaultValidateMessages = {
         hex: typeTemplate,
     },
     string: {
-        len: "'${name}' must be exactly ${len} characters",
-        min: "'${name}' must be at least ${min} characters",
-        max: "'${name}' cannot be longer than ${max} characters",
-        range: "'${name}' must be between ${min} and ${max} characters",
+        len: '${label}  debe ser igual a ${len} caracteres',
+        min: '${label} no puede tener menos de ${min} caracteres',
+        max: '${label}  no puede tener mas de ${max} caracteres',
+        range: '${label}  debe estar ${min} y ${max} caracteres',
     },
     number: {
-        len: "'${name}' must equal ${len}",
-        min: "'${name}' cannot be less than ${min}",
-        max: "'${name}' cannot be greater than ${max}",
-        range: "'${name}' must be between ${min} and ${max}",
+        len: '${label}  debe ser igual a ${len} caracteres',
+        min: '${label} no puede tener menos de ${min} caracteres',
+        max: '${label}  no puede tener mas de ${max} caracteres',
+        range: '${label}  debe estar ${min} y ${max} caracteres',
     },
     array: {
-        len: "'${name}' must be exactly ${len} in length",
-        min: "'${name}' cannot be less than ${min} in length",
-        max: "'${name}' cannot be greater than ${max} in length",
-        range: "'${name}' must be between ${min} and ${max} in length",
+        len: '${label}  must be exactly ${len} in length',
+        min: '${label}  cannot be less than ${min} in length',
+        max: '${label}  cannot be greater than ${max} in length',
+        range: '${label}  must be between ${min} and ${max} in length',
     },
     pattern: {
-        mismatch: "'${name}' does not match pattern ${pattern}",
+        mismatch: '${label}  does not match pattern ${pattern}',
     },
 };
 export const validateMessages = {
