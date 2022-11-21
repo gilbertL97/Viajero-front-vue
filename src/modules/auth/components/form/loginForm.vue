@@ -24,8 +24,9 @@
             </a-input-password>
         </a-form-item>
         <a-alert
-            message="Error"
-            description="This is an error message about copywriting."
+            v-if="errors"
+            :message="message"
+            :description="description"
             type="error"
             show-icon
         />
@@ -53,6 +54,9 @@
     import { UserLogin } from '../../types/authTypes';
     const store = useAuthStore();
     const router = useRouter();
+    const errors = ref(false);
+    const message = ref('');
+    const description = ref('');
 
     const form: UnwrapRef<UserLogin> = reactive({
         username: '',
@@ -73,8 +77,20 @@
                 store.setLogged();
                 router.push('/');
             }
-        } catch (error) {
-            console.log(error);
+            loading.value = false;
+        } catch (error: any) {
+            errors.value = true;
+            if (error.response.status == 401) {
+                message.value = 'ERROR USUARIO NO AUTORIZADO';
+                description.value =
+                    'Ha introducido incorrectamente el usuario y/o la contraseña';
+            } else {
+                message.value = 'HAY un problema con la API';
+                description.value = 'No se encuentra disponible la API';
+            }
+            setTimeout(() => {
+                errors.value = false;
+            }, 5000);
         }
         loading.value = false;
     };

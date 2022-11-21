@@ -1,10 +1,7 @@
 <template>
     <div>
+        <a-button @click="createPlans">Añadir</a-button>
         <a-table
-            :row-selection="{
-                selectedRowKeys: selectedRowKeys,
-                onChange: onSelectChange,
-            }"
             :columns="columns"
             :data-source="data"
             size="small"
@@ -20,7 +17,7 @@
                             ><template #icon> <DeleteOutlined /></template
                         ></a-button>
                     </a-popconfirm>
-                    <a-button type="primary" @click="handlePlans(record)">
+                    <a-button type="primary" @click="editPlans(record.id)">
                         <template #icon>
                             <EditOutlined />
                         </template>
@@ -41,43 +38,34 @@
         </a-table>
     </div>
     <div style="margin-bottom: 16px">
-        <a-button
+        <!-- <a-button
             type="danger"
             :disabled="!hasSelected"
             :loading="state.loading"
             @click="deleteplainor"
         >
             Eliminar
-        </a-button>
+        </a-button> -->
         <span style="margin-left: 8px">
             <template v-if="hasSelected">
                 {{ `Selected ${state.selectedRowKeys.length} items` }}
             </template>
         </span>
     </div>
-    <a-button @click="handlePlans">Añadir</a-button>
-    <a-modal
-        v-model:visible="showModal"
-        title="Plans"
-        :footer="null"
-        :destroy-on-close="true"
-    >
-        <PlansForm :plain="plain" @finish="handleFinishModal" />
-    </a-modal>
 </template>
 <script lang="ts" setup>
     import { computed, ref, onMounted, reactive } from 'vue';
     import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
     import { getPlans, deletePlans } from '../../services/plan.service';
-    import Swal from 'sweetalert2';
     import { Plans } from '../../types/plains.types';
-    import PlansForm from '../form/formPlans.vue';
-    import { deleteMessage } from '@/common/utils/validationMessages';
+    import { useRouter } from 'vue-router';
+    import manageError from '@/common/composable/manageError';
+    const { alertUndelete, alertForbidden } = manageError();
+    const router = useRouter();
 
-    const selectedRowKeys = ref<Plans['id'][]>([]);
+    //const selectedRowKeys = ref<Plans['id'][]>([]);
 
     let data = ref<Plans[]>([]);
-    let showModal = ref(false);
     const plain = reactive<Plans>({
         id: -1,
         name: '',
@@ -129,56 +117,52 @@
 
     const hasSelected = computed(() => state.selectedRowKeys.length > 0);
 
-    const deleteplainor = () => {
-        state.loading = true;
-        // ajax request after empty completing
-        setTimeout(() => {
-            state.loading = false;
-            state.selectedRowKeys = [];
-        }, 1000);
-    };
+    // const deleteplainor = () => {
+    //     state.loading = true;
+    //     // ajax request after empty completing
+    //     setTimeout(() => {
+    //         state.loading = false;
+    //         state.selectedRowKeys = [];
+    //     }, 1000);
+    // };
 
-    const onSelectChange = (selectedRowKeys: Plans[]) => {
-        console.log('selectedRowKeys changed: ', selectedRowKeys);
-        state.selectedRowKeys = selectedRowKeys;
-    };
+    // const onSelectChange = (selectedRowKeys: Plans[]) => {
+    //     console.log('selectedRowKeys changed: ', selectedRowKeys);
+    //     state.selectedRowKeys = selectedRowKeys;
+    // };
 
     const onDelete = async (key: number) => {
         console.log(key);
         try {
             await deletePlans(key);
-            data.value = data.value.filter((item) => item.id !== key);
-        } catch (error) {
-            await refresh();
-            Swal.fire({
-                title: 'Inactivo',
-                text: deleteMessage('Plan', 'Viajero'),
-                timer: 10000,
-            });
+            //data.value = data.value.filter((item) => item.id !== key);
+        } catch (error: any) {
+            if (error.response.status == 403) {
+                alertForbidden();
+                router.push({ path: '/' });
+            } else alertUndelete('Plan', 'Viajero');
         }
-    };
 
-    const handlePlans = (record?: any) => {
-        showModal.value = true;
-        if (record.id) {
-            console.log(record);
-            plain.id = record.id;
-            plain.name = record.name;
-            plain.high_risk = record.high_risk;
-            plain.price = record.price;
-            plain.daily = record.daily;
-            plain.isActive = record.isActive;
-        }
-    };
-    const handleFinishModal = async (visible: boolean) => {
-        showModal.value = visible;
         await refresh();
+    };
+    const createPlans = () => {
+        router.push({ name: 'create-plains' });
+    };
+    const editPlans = (record: number) => {
+        router.push('/plains/edit-plains/' + record);
     };
 
     const refresh = async () => {
         state.loading = true;
         try {
             data.value = (await getPlans()).data;
+            data.value.sort((a, b) =>
+                a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()
+                    ? -1
+                    : a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase()
+                    ? 1
+                    : 0,
+            );
         } catch (error) {}
         state.loading = false;
         plain.id = -1;

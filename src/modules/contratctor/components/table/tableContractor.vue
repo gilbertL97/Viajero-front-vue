@@ -1,10 +1,7 @@
 <template>
     <div>
+        <a-button @click="createContractor">Añadir</a-button>
         <a-table
-            :row-selection="{
-                selectedRowKeys: selectedRowKeys,
-                onChange: onSelectChange,
-            }"
             :columns="columns"
             :data-source="data"
             size="small"
@@ -20,7 +17,7 @@
                             ><template #icon> <DeleteOutlined /></template
                         ></a-button>
                     </a-popconfirm>
-                    <a-button type="primary" @click="handleContractor(record)">
+                    <a-button type="primary" @click="editContractor(record.id)">
                         <template #icon>
                             <EditOutlined />
                         </template>
@@ -37,57 +34,34 @@
         </a-table>
     </div>
     <div style="margin-bottom: 16px">
-        <a-button
+        <!-- <a-button
             type="danger"
             :disabled="!hasSelected"
             :loading="state.loading"
             @click="deletecontractor"
         >
             Eliminar
-        </a-button>
+        </a-button> -->
         <span style="margin-left: 8px">
             <template v-if="hasSelected">
                 {{ `Selected ${state.selectedRowKeys.length} items` }}
             </template>
         </span>
     </div>
-    <a-button @click="handleContractor">Añadir</a-button>
-    <a-modal
-        v-model:visible="showModal"
-        title="Contractor"
-        :footer="null"
-        :destroy-on-close="true"
-        width="100%"
-    >
-        <ContractorForm :contractor="contract" @finish="handleFinishModal" />
-    </a-modal>
 </template>
 <script lang="ts" setup>
     import { computed, ref, onMounted, reactive } from 'vue';
     import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
-    import Swal from 'sweetalert2';
     import { getContractors, deleteContractors } from '../../services/contractor.service';
     import { Contractor } from '../../types/contractor.types';
-    import ContractorForm from '../form/formContract.vue';
-    import { deleteMessage } from '@/common/utils/validationMessages';
-    // import { useAuthStore } from '@/components/auth/store/auth.store';
-
-    //const store = useAuthStore();
-
-    const selectedRowKeys = ref<Contractor['id'][]>([]);
+    import { useRouter } from 'vue-router';
+    import manageError from '@/common/composable/manageError';
+    const router = useRouter();
+    const { alertUndelete, alertForbidden } = manageError();
+    // const selectedRowKeys = ref<Contractor['id'][]>([]);
 
     let data = ref<Contractor[]>([]);
-    let showModal = ref(false);
-    const contract = reactive<Contractor>({
-        id: -1,
-        email: '',
-        client: '',
-        telf: '',
-        addres: '',
-        file: '',
-        poliza: '',
-        isActive: true,
-    });
+
     // let editable: Contractor = reactive({
     //     name: '',
     //     email: '',
@@ -112,14 +86,6 @@
             dataIndex: 'client',
         },
         {
-            title: 'Telefono',
-            dataIndex: 'telf',
-        },
-        {
-            title: 'Direccion',
-            dataIndex: 'addres',
-        },
-        {
             title: 'Correo',
             dataIndex: 'email',
         },
@@ -138,56 +104,52 @@
 
     const hasSelected = computed(() => state.selectedRowKeys.length > 0);
 
-    const deletecontractor = () => {
-        state.loading = true;
-        // ajax request after empty completing
-        setTimeout(() => {
-            state.loading = false;
-            state.selectedRowKeys = [];
-        }, 1000);
-    };
+    // const deletecontractor = () => {
+    //     state.loading = true;
+    //     // ajax request after empty completing
+    //     setTimeout(() => {
+    //         state.loading = false;
+    //         state.selectedRowKeys = [];
+    //     }, 1000);
+    // };
 
-    const onSelectChange = (selectedRowKeys: Contractor[]) => {
-        console.log('selectedRowKeys changed: ', selectedRowKeys);
-        state.selectedRowKeys = selectedRowKeys;
-    };
+    // const onSelectChange = (selectedRowKeys: Contractor[]) => {
+    //     console.log('selectedRowKeys changed: ', selectedRowKeys);
+    //     state.selectedRowKeys = selectedRowKeys;
+    // };
 
     const onDelete = async (key: number) => {
         console.log(key);
         try {
             await deleteContractors(key);
-        } catch (error) {
-            Swal.fire({
-                title: 'Inactivo',
-                text: deleteMessage('Cliente', 'Viajero'),
-                timer: 10000,
-            });
+        } catch (error: any) {
+            if (error.response.status == 403) {
+                alertForbidden();
+                router.push({ path: '/' });
+            } else alertUndelete('Cliente', 'Viajero');
         }
         await refresh();
     };
 
-    const handleContractor = (record?: any) => {
-        showModal.value = true;
-        if (record.id) {
-            console.log(record);
-            contract.id = record.id;
-            contract.client = record.client;
-            contract.email = record.email;
-            contract.telf = record.telf;
-            contract.poliza = record.poliza;
-            contract.addres = record.addres;
-            contract.file = record.file;
-        }
+    const editContractor = (id: number) => {
+        router.push('/clients/edit-clients/' + id);
     };
-    const handleFinishModal = async (visible: boolean) => {
-        showModal.value = visible;
-        await refresh();
+    const createContractor = () => {
+        router.push({ name: 'create-clients' });
     };
 
     const refresh = async () => {
         state.loading = true;
         try {
             data.value = (await getContractors()).data;
+
+            data.value.sort((a, b) =>
+                a.client.toLocaleLowerCase() < b.client.toLocaleLowerCase()
+                    ? -1
+                    : a.client.toLocaleLowerCase() > b.client.toLocaleLowerCase()
+                    ? 1
+                    : 0,
+            );
         } catch (error) {}
         state.loading = false;
         // contract.id = -1;

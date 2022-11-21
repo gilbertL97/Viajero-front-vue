@@ -22,16 +22,32 @@
                 </a>
                 <template #overlay>
                     <a-menu>
-                        <a-menu-item key="1">Editar perfil</a-menu-item>
-                        <a-menu-item key="2">Cambiar contraseña</a-menu-item>
+                        <a-menu-item @click="visible = true"
+                            >Cambiar contraseña</a-menu-item
+                        >
                     </a-menu>
                 </template>
             </a-dropdown>
         </div>
     </a-layout-header>
+    <a-modal
+        v-model:visible="visible"
+        title="Cambio de Contraseña"
+        :destroyOnClose="true"
+        :footer="null"
+    >
+        <FormChangePass @visible="setVisible"
+    /></a-modal>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+    import FormChangePass from '@/modules/user/components/form/formChangePass.vue';
+    import { ref } from 'vue';
+    const visible = ref(false);
+    const setVisible = (set: boolean) => {
+        visible.value = set;
+    };
+</script>
 
 <style scoped>
     .ant-layout-header {

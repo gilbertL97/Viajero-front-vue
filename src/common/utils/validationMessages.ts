@@ -1,5 +1,5 @@
 const typeTemplate = '${label}  no es un ${type}';
-
+const typeTemplateN = '${label}  no es un numero ';
 export const defaultValidateMessages = {
     default: 'Validation error on field ${label} ',
     required: '${label}  es un campo obligatorio',
@@ -15,7 +15,7 @@ export const defaultValidateMessages = {
         method: typeTemplate,
         array: typeTemplate,
         object: typeTemplate,
-        number: typeTemplate,
+        number: typeTemplateN,
         date: typeTemplate,
         boolean: typeTemplate,
         integer: typeTemplate,
@@ -66,4 +66,7 @@ export function deleteMessage(entity: string, other?: string): string {
         other! +
         '. Por lo tanto sera puesto en estado inactivo'
     );
+}
+export function repeatMessage(entity: string, other?: string): string {
+    return 'Se esta intentando agregar ' + entity + other + ' que ya existen';
 }

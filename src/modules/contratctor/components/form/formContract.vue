@@ -2,6 +2,7 @@
     <div>
         <a-form
             :model="contract"
+            v-bind="layout"
             :validate-messages="defaultValidateMessages"
             @finish="handleOk"
             @finishFailed="onFinishFailed"
@@ -10,7 +11,7 @@
                 has-feedback
                 :name="['client']"
                 label="Nombre"
-                :rules="[{ required: true, min: 4 }]"
+                :rules="[{ required: true, min: 5 }]"
             >
                 <a-input placeholder="Nombre " v-model:value="contract.client" />
             </a-form-item>
@@ -39,7 +40,7 @@
                 has-feedback
                 :name="['addres']"
                 label="Direccion"
-                :rules="[{ required: true, min: 8 }]"
+                :rules="[{ min: 8 }]"
             >
                 <a-textarea
                     placeholder="Direccion"
@@ -51,7 +52,7 @@
                 has-feedback
                 :name="['telf']"
                 label="Telefono"
-                :rules="[{ required: true, min: 8 }]"
+                :rules="[{ min: 8 }]"
             >
                 <a-input placeholder="Telefono" v-model:value="contract.telf" />
             </a-form-item>
@@ -66,7 +67,10 @@
                 <a-checkbox v-model:checked="contract.isActive" />
             </a-form-item>
             <div class="btns">
-                <a-form-item :wrapper-col="{ wraper: 2, offset: 20 }">
+                <a-form-item
+                    class="display flex"
+                    :wrapper-col="{ wraper: 2, offset: 12 }"
+                >
                     <a-button type="primary" html-type="submit">Aceptar</a-button>
                     <a-divider type="vertical" />
                     <a-button @click="handleCancel"> Cancelar </a-button>
@@ -77,46 +81,94 @@
 </template>
 
 <script setup lang="ts">
-    import { PropType, reactive, ref } from 'vue';
-    import { editContractors, addContractors } from '../../services/contractor.service';
+    import { reactive, ref, onMounted } from 'vue';
+    import {
+        editContractors,
+        addContractors,
+        getContractor,
+    } from '../../services/contractor.service';
     import { Contractor } from '../../types/contractor.types';
     import { defaultValidateMessages } from '@/common/utils/validationMessages';
-    const props = defineProps({
-        contractor: {
-            type: Object as PropType<Contractor>,
-            required: true,
-        },
+    import { useRouter } from 'vue-router';
+    import manageError from '@/common/composable/manageError';
+    const router = useRouter();
+    const { alertInactive, alertForbidden } = manageError();
+
+    const props = defineProps<{ id?: string }>();
+    const id = ref(0);
+    const layout = {
+        labelCol: { span: 8 },
+        wrapperCol: { span: 12 },
+    };
+    const contract = reactive<Contractor>({
+        email: '',
+        client: '',
+        telf: undefined,
+        addres: undefined,
+        file: '',
+        poliza: '',
+        isActive: true,
     });
-    const contract = reactive<Contractor>(props.contractor);
     const loading = ref(false);
 
-    const emit = defineEmits<{
-        (e: 'finish', visible: boolean): void;
-    }>();
-
+    onMounted(async () => {
+        if (props.id) {
+            id.value = +props.id;
+            await getContract();
+        }
+    });
     const handleOk = async () => {
         loading.value = true;
-        if (props.contractor.id != -1) await editContractor();
+        if (props.id) await editContractor();
         else await addContractor();
         loading.value = false;
-        emit('finish', false);
+        router.push({ name: 'clients' });
     };
     const handleCancel = () => {
-        emit('finish', false);
         console.log(contract);
+        router.push({ name: 'clients' });
+    };
+    const getContract = async () => {
+        try {
+            const contractR = (await getContractor(id.value)).data;
+            setContract(contractR);
+        } catch (error: any) {
+            handleError(error);
+        }
     };
     const editContractor = async () => {
         try {
             await editContractors(contract);
-        } catch (error) {}
+            router.push({ name: 'clients' });
+        } catch (error: any) {
+            handleError(error);
+        }
     };
     const addContractor = async () => {
         try {
             await addContractors(contract);
-        } catch (error) {}
+        } catch (error: any) {
+            handleError(error);
+        }
     };
     const onFinishFailed = (values: any) => {
         console.log('tiht', values);
+    };
+    const setContract = (contractR: Contractor) => {
+        contract.id = contractR.id;
+        contract.client = contractR.client;
+        contract.email = contractR.email;
+        contract.telf = contractR.telf;
+        contract.poliza = contractR.poliza;
+        contract.addres = contractR.addres;
+        contract.file = contractR.file;
+        contract.isActive = contractR.isActive;
+    };
+    const handleError = (error: any) => {
+        if (error.response.status == 403) {
+            alertForbidden();
+            router.push({ path: '/' });
+        } else alertInactive('nombre de cliente', 'o alias');
     };
 </script>
 

@@ -24,7 +24,13 @@ export async function deleteContractors(id: number): Promise<AxiosResponse<void>
     };
     return await API.request<void>(config);
 }
-
+export async function getContractorsActive(): Promise<AxiosResponse<Contractor[]>> {
+    const config: AxiosRequestConfig = {
+        method: 'GET',
+        url: '/contractor/active',
+    };
+    return await API.request<Contractor[]>(config);
+}
 export async function editContractors(
     Contractor: Contractor,
 ): Promise<AxiosResponse<void>> {

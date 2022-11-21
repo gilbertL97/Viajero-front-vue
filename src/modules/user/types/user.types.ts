@@ -13,7 +13,7 @@ export interface UserResponse extends User {
     contractors?: Contractor[];
 }
 export interface UserReq extends User {
-    contractor?: number;
+    contractor?: number | null;
 }
 
 export interface NewUser {
@@ -28,11 +28,12 @@ export interface EditUser {
     name?: string;
     email?: string;
     role?: string;
-    changePas?: changePass;
+    password?: string;
 }
-export interface changePass {
-    password1: string;
-    password2: string;
+export interface ChangePass {
+    passwordBefore: string;
+    passwordNew1: string;
+    passwordNew2: string;
 }
 
 export enum UserRole {

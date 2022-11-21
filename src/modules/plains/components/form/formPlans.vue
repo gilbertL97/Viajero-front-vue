@@ -2,6 +2,7 @@
     <div class="form">
         <a-form
             :model="plain"
+            v-bind="layout"
             :validate-messages="defaultValidateMessages"
             @finish="handleOk"
             @finishFailed="onFinishFailed"
@@ -30,14 +31,14 @@
             </a-form-item>
             <a-form-item
                 has-feedback
-                :name="['price']"
+                :name="['high_risk']"
                 label="Tarifa alto Riesgo"
                 :rules="[{ required: true }]"
             >
                 <a-input-number
                     v-model:value="plain.high_risk"
                     :max="100"
-                    :min="0.1"
+                    :min="0"
                     :step="0.1"
                     string-mode
                 />
@@ -45,8 +46,30 @@
             <a-form-item :name="['daily']" label="Diario" :rules="[{ required: true }]">
                 <a-checkbox v-model:checked="plain.daily" />
             </a-form-item>
+            <a-form-item
+                has-feedback
+                :name="['number_of_days']"
+                label="Cantidad de Dias"
+                :rules="[{ required: true }]"
+                v-if="!plain.daily"
+            >
+                <a-input-number
+                    v-model:value="plain.number_of_days"
+                    :max="100"
+                    :min="1"
+                    :step="1"
+                />
+            </a-form-item>
+            <a-form-item has-feedback :name="['benefitTable']" label="Tabla de Beneficio">
+                <a-input v-model:value="plain.benefitTable" :disabled="true" />
 
-            <a-form-item :name="['isActive']" label="Activo" v-if="props.plain.id != -1">
+                <a-button>
+                    <upload-outlined />
+                    Upload
+                </a-button>
+            </a-form-item>
+
+            <a-form-item :name="['isActive']" label="Activo" v-if="props.id">
                 <a-checkbox v-model:checked="plain.isActive" />
             </a-form-item>
 
@@ -63,54 +86,91 @@
 
 <script setup lang="ts">
     import { Plans } from '../../types/plains.types';
-    import { PropType, reactive, ref } from 'vue';
-    import { editPlans, addPlans } from '../../services/plan.service';
+    import { UploadOutlined } from '@ant-design/icons-vue';
+    import { reactive, ref, onBeforeMount } from 'vue';
+    import { editPlans, addPlans, getPlain } from '../../services/plan.service';
     import { defaultValidateMessages } from '@/common/utils/validationMessages';
-    const props = defineProps({
-        plain: {
-            type: Object as PropType<Plans>,
-            required: true,
-        },
-    });
-
-    const loading = ref(false);
-    const plain: Plans = reactive({
-        id: props.plain.id,
-        name: props.plain.name,
-        price: props.plain.price,
-        high_risk: props.plain.high_risk,
-        daily: props.plain.daily,
-        isActive: props.plain.isActive,
-    });
-
-    const emit = defineEmits<{
-        (e: 'finish', visible: boolean): void;
+    import { useRouter } from 'vue-router';
+    import manageError from '@/common/composable/manageError';
+    const { alertForbidden, alertInactive } = manageError();
+    const router = useRouter();
+    const props = defineProps<{
+        id?: string;
     }>();
+    const id = ref(0);
+    const loading = ref(false);
+    const layout = {
+        labelCol: { span: 8 },
+        wrapperCol: { span: 12 },
+    };
+    const plain: Plans = reactive({
+        name: '',
+        price: 0,
+        high_risk: 2,
+        daily: true,
+        number_of_days: 1,
+        isActive: true,
+        benefitTable: '',
+    });
+    onBeforeMount(async () => {
+        if (props.id) {
+            id.value = +props.id;
+            await getPlan();
+        }
+    });
 
     const handleOk = async () => {
         loading.value = true;
-        if (props.plain.id != -1) await editPlain();
+        if (props.id) await editPlain();
         else await addPlain();
         loading.value = false;
-        emit('finish', false);
+        router.push('/plains');
     };
     const handleCancel = () => {
-        emit('finish', false);
-        console.log(props.plain.daily);
+        console.log(props.id);
+        router.push('/plains');
+    };
+    const getPlan = async () => {
+        try {
+            console.log(props.id);
+            const plainR = (await getPlain(id.value)).data;
+            setPlain(plainR);
+        } catch (error: any) {
+            handleError(error);
+        }
     };
     const editPlain = async () => {
-        console.log(props.plain);
         try {
             await editPlans(plain);
-        } catch (error) {}
+        } catch (error: any) {
+            handleError(error);
+        }
     };
     const addPlain = async () => {
         try {
             await addPlans(plain);
-        } catch (error) {}
+        } catch (error: any) {
+            handleError(error);
+        }
     };
     const onFinishFailed = (values: any) => {
         console.log('tiht', values);
+    };
+    const handleError = (error: any) => {
+        if (error.response.status == 403) {
+            alertForbidden();
+            router.push({ path: '/' });
+        } else alertInactive('nombre de plan');
+    };
+    const setPlain = (plainR: Plans) => {
+        plain.id = plainR.id;
+        plain.name = plainR.name;
+        plain.high_risk = plainR.high_risk;
+        plain.isActive = plainR.isActive;
+        plain.price = plainR.price;
+        plain.daily = plainR.daily;
+        plain.number_of_days = plainR.number_of_days;
+        plain.benefitTable = plainR.benefitTable;
     };
 </script>
 

@@ -2,16 +2,16 @@
     <div class="form">
         <a-form
             :model="user"
-            :validate-messages="validateMessages"
-            @finish="handleOk"
+            :validate-messages="defaultValidateMessages"
             v-bind="layout"
+            @finish="handleOk"
             @finishFailed="onFinishFailed"
         >
             <a-form-item
                 has-feedback
                 :name="['name']"
                 label="Nombre"
-                :rules="[{ required: true }]"
+                :rules="[{ required: true, min: 5 }]"
             >
                 <a-input
                     placeholder="Nombre "
@@ -21,13 +21,28 @@
             </a-form-item>
             <a-form-item
                 has-feedback
+                :name="['password']"
+                label="Contraseña"
+                :rules="[{ required: !props.id, min: 6 }]"
+            >
+                <a-input-password
+                    v-model:value="user.password"
+                    :visibilityToggle="true"
+                    placeholder="Contraseña"
+                >
+                    <template #prefix
+                        ><LockOutlined style="color: rgba(255, 255, 255)"
+                    /></template>
+                </a-input-password>
+            </a-form-item>
+            <a-form-item
+                has-feedback
                 :name="['email']"
                 label="Correo"
                 :rules="[{ type: 'email', required: true }]"
             >
                 <a-input placeholder="Correo" v-model:value="user.email" />
             </a-form-item>
-            <div v-if="props.editAdmin">
                 <a-form-item :name="['role']" label="Rol" :rules="[{ required: true }]">
                     <a-select v-model:value="user.role" placeholder="Seleccione el rol">
                         <a-select-option
@@ -56,12 +71,13 @@
                         :rules="[{ required: true }]"
                     >
                         <DropdownContrac
-                            :contractor="user.contractor"
+                            :contractor="contractor.client"
+                            :contractor-id="contractor.id"
                             @selected="asignContract"
+                            :active-select="false"
                         />
                     </a-form-item>
                 </div>
-            </div>
             <div class="btns">
                 <a-form-item :wrapper-col="{ wraper: 2, offset: 13 }">
                     <a-button type="primary" html-type="submit">Aceptar</a-button>
@@ -74,40 +90,43 @@
 </template>
 
 <script setup lang="ts">
-    import { UserReq, UserResponse } from '@/modules/user/types/user.types';
     import { onMounted, reactive, ref } from 'vue';
-    import { editUsers, addUsers, getUser } from '../../services/user.service';
-    import { UserRole, UserRoleEquivalen } from '@/modules/user/types/user.types';
+    import { LockOutlined } from '@ant-design/icons-vue';
     import DropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
-    import { validateMessages } from '@/common/utils/validationMessages';
-    //import generator from 'generate-password-ts';
+    import { UserRole, UserRoleEquivalen } from '@/modules/user/types/user.types';
+    import { Contractor } from '@/modules/contratctor/types/contractor.types';
     import { useRouter } from 'vue-router';
+    import { editUsers, addUsers, getUser } from '../../services/user.service';
+    import { UserResponse, UserReq } from '@/modules/user/types/user.types';
+    import {
+        defaultValidateMessages,
+        repeatMessage,
+    } from '@/common/utils/validationMessages';
+    import Swal from 'sweetalert2';
 
     const router = useRouter();
-    const props = defineProps<{ id?: number; editAdmin: boolean }>();
-    //     {
-    //     user: {
-    //         type: Object as PropType<UserResponse>,
-    //         required: true,
-    //     },
-    //     editAdmin: {
-    //         //para saber si un solo user se esta editando el perfil
-    //         type: Boolean,
-    //         required: true,
-    //     },
-    //     newUser: {
-    //         //para saber si es un nuevo user
-    //         type: Boolean,
-    //         required: true,
-    //     },
-    // }
+    const props = defineProps<{ id?: string; }>();
+    const id = ref(0);
     const client = ref(true);
     const loading = ref(false);
+    const contractor: Contractor = reactive<Contractor>({
+        email: '',
+        client: '',
+        telf: '',
+        addres: '',
+        file: '',
+        poliza: '',
+        isActive: true,
+    });
 
     //     const formState = reactive({
     //     traveler: props.traveler,
     // });
-    const user: UserReq = reactive({
+    const layout = {
+        labelCol: { span: 8 },
+        wrapperCol: { span: 12 },
+    };
+    let user: UserReq = reactive({
         id: -1,
         name: '',
         email: '',
@@ -116,73 +135,92 @@
         contractor: undefined,
     });
     //const contractor=props.user.contractors[0].id;
-    // const emit = defineEmits<{
-    //     (e: 'finish', visible: boolean): void;
-    // }>();
-    const layout = {
-        labelCol: { span: 8 },
-        wrapperCol: { span: 12 },
-    };
+
     const handleOk = async () => {
         loading.value = true;
         if (props.id) await editUser();
         else await addUser();
-        router.push({ name: 'users' });
         loading.value = false;
     };
+    const handleCancel = () => {
+        router.push({ name: 'users' });
+    };
     onMounted(async () => {
+        if (props.id) id.value = +props.id;
         await charge();
     });
 
-    const handleCancel = () => {
-        router.push({ name: 'users' });
-        console.log(user.contractor);
-    };
     const editUser = async () => {
-        console.log(user);
         try {
             await editUsers(user);
-            console.log(user);
-        } catch (error) {}
+            router.push({ name: 'users' });
+        } catch (error) {
+            alert('un nombre de usuario ', 'un email');
+        }
     };
     const addUser = async () => {
         try {
             await addUsers(user);
-        } catch (error) {}
+            router.push({ name: 'users' });
+        } catch (error) {
+            alert('un nombre de usuario ', 'o un email');
+        }
     };
-    const asignContract = (value: number | undefined) => {
-        user.contractor = value;
+    const asignContract = (value: number | number[] | undefined) => {
+        user.contractor = value as number;
         console.log(
             'este es el value :' + value,
             'este es el user.contractor:' + user.contractor,
         );
     };
 
+    const alert = (message1: string, message2?: string) => {
+        Swal.fire({
+            title: 'Inactivo',
+            text: repeatMessage(message1, message2),
+            timer: 10000,
+        });
+    };
     //generar una contraseña aleatoria
-    // const genPass = () => {
-    //     const password = generator.generate({
-    //         length: 10,
-    //         numbers: true,
-    //     });
-    //     user.password = password;
-    //     window.alert('la contraseña momentania sera esta ' + password);
-    // };
+    /* const genPass = () => {
+        const password = generator.generate({
+            length: 10,
+            numbers: true,
+        });
+        user.password = password;
+        window.alert('la contraseña momentania sera esta ' + password);
+    };*/
     const onFinishFailed = (values: any) => {
         console.log('tiht', values);
     };
     const charge = async () => {
         if (props.id) {
-            const userR: UserResponse = (await getUser(props.id)).data;
+            const userR = (await getUser(id.value)).data;
+            console.log(userR);
             initializateUser(userR);
         }
     };
     const initializateUser = (userR: UserResponse) => {
-        (user.id = userR.id),
-            (user.name = userR.name),
-            (user.email = userR.email),
-            (user.role = userR.role),
-            (user.active = false),
-            (user.contractor = userR.contractors?.[0]?.id);
+        user.id = userR.id;
+        user.name = userR.name;
+        user.email = userR.email;
+        user.role = userR.role;
+        user.active = false;
+        if (userR.contractors?.length != 0) {
+            user.contractor = userR.contractors?.[0].id;
+            setContract(userR.contractors![0]);
+        }
+        console.log(userR.contractors);
+    };
+    const setContract = (contractR: Contractor) => {
+        contractor.id = contractR.id;
+        contractor.client = contractR.client;
+        contractor.email = contractR.email;
+        contractor.telf = contractR.telf;
+        contractor.poliza = contractR.poliza;
+        contractor.addres = contractR.addres;
+        contractor.file = contractR.file;
+        contractor.isActive = contractR.isActive;
     };
 </script>
 

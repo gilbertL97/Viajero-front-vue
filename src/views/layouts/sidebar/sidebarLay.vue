@@ -29,14 +29,6 @@
                     </router-link></a-menu-item
                 >
             </a-sub-menu>
-            <a-sub-menu key="sub3">
-                <template #icon>
-                    <LineChartOutlined />
-                </template>
-                <template #title>Consultas</template>
-                <a-menu-item key="consultCl">Clientes</a-menu-item>
-                <a-menu-item key="consultUs">Usuarios</a-menu-item>
-            </a-sub-menu>
             <a-sub-menu key="sub4">
                 <template #icon>
                     <UsergroupAddOutlined />
@@ -47,6 +39,14 @@
                         >Gestion de Viajeros</router-link
                     >
                 </a-menu-item>
+            </a-sub-menu>
+            <a-sub-menu key="sub3">
+                <template #icon>
+                    <LineChartOutlined />
+                </template>
+                <template #title>Consultas</template>
+                <a-menu-item key="consultCl">Clientes</a-menu-item>
+                <a-menu-item key="consultUs">Usuarios</a-menu-item>
             </a-sub-menu>
         </a-menu>
     </a-layout-sider>

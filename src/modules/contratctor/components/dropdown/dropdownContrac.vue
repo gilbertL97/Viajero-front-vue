@@ -1,43 +1,59 @@
 <template>
     <a-select
-        v-model:value="contractor"
-        show-search
+        v-model:value="contractor.value"
+        v-model:label="contractor.label"
         placeholder="Seleccione al cliente"
         style="width: 200px"
         :options="options"
         :filter-option="filterOption"
-        firstActiveValue
         @change="handleChange"
-        :loading="isloading"
-        :disable="isloading"
+        :mode="props.mode"
     />
 </template>
 <script lang="ts" setup>
-    import { onBeforeMount, reactive, ref } from 'vue';
+    import { onMounted, ref, reactive, watch } from 'vue';
     import { getContractors } from '../../services/contractor.service';
     import { Contractor } from '../../types/contractor.types';
     import type { SelectProps } from 'ant-design-vue';
-    let data = reactive<Contractor[]>([]);
+
+    type select = {
+        label: string | undefined;
+        value: number | number[] | undefined;
+    };
+    const data = ref<Contractor[]>([]);
     const options = ref<SelectProps['options']>([]);
     const props = defineProps<{
         contractorId?: number;
+        contractor?: string;
+        mode?: string;
+        activeSelect: boolean;
     }>();
-    const contractor = ref<number | undefined>();
+
+    const contractor = reactive<select>({
+        label: '', //props.contractor?.client,
+        value: 0, //props.contractor?.id,
+    });
+
     const isloading = ref(false);
-    onBeforeMount(async () => {
+    onMounted(async () => {
         isloading.value = true;
         await refresh();
-        options.value = data.map((client: Contractor) => ({
+        options.value = data.value.map((client: Contractor) => ({
             label: client.client,
             value: client.id,
+            disabled: !client.isActive,
         }));
-        contractor.value = props.contractorId;
+        props.activeSelect
+            ? (options.value = options.value.filter((cl) => delete cl.disabled))
+            : console.log('');
         isloading.value = false;
-        console.log(contractor.value);
+        contractor.label = props.contractor!;
+        contractor.value = props.contractorId!;
+        if (props.mode) contractor.value = [];
     });
     const refresh = async () => {
         try {
-            data = (await getContractors()).data;
+            data.value = (await getContractors()).data;
         } catch (error) {}
     };
     const filterOption = (input: string, options: any) => {
@@ -45,10 +61,17 @@
     };
     const handleChange: SelectProps['onChange'] = () => {
         emit('selected', contractor.value);
+        console.log(contractor.value);
     };
     const emit = defineEmits<{
-        (e: 'selected', contractor: number | undefined): void;
+        (e: 'selected', contractor: number | number[] | undefined): void;
     }>();
+    watch(props, (newProps) => {
+        contractor.label = newProps.contractor;
+        contractor.value = newProps.contractorId; // terminar y probar  q no hace falta enviar el label solo coon el value
+        // adema s q se actualize  las props ss
+        console.log(newProps.contractor, newProps.contractorId);
+    });
 </script>
 <style scoped>
     .ant-select {

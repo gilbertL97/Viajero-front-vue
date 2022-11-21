@@ -1,6 +1,6 @@
 <template>
     <a-select
-        v-model:value="plain"
+        v-model:value="plain.name"
         show-search
         placeholder="Seleccione el Plan"
         style="width: 200px"
@@ -8,7 +8,11 @@
         :filter-option="filterOption"
         @change="handleChange"
         :loading="isLoading"
-    />
+    >
+        <a-select-option v-for="item in data" :key="item.id">{{
+            item.name
+        }}</a-select-option>
+    </a-select>
 </template>
 <script lang="ts" setup>
     import { onBeforeMount, reactive, ref } from 'vue';
@@ -19,9 +23,9 @@
     let data = reactive<Plans[]>([]);
     const options = ref<SelectProps['options']>([]);
     const props = defineProps<{
-        plainId?: number;
+        plain?: Plans | null;
     }>();
-    const plain = ref<number | undefined>();
+    const plain = ref(props.plain!);
     const isLoading = ref(false);
     onBeforeMount(async () => {
         isLoading.value = true;
@@ -30,7 +34,6 @@
             label: plain.name,
             value: plain.id,
         }));
-        plain.value = props.plainId;
         isLoading.value = false;
     });
 

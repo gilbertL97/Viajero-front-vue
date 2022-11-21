@@ -24,5 +24,11 @@ const travelersRoutes: RouteRecordRaw[] = [
         component: () => import('@/modules/travelers/view/viewTravelerInfo.vue'),
         props: true,
     },
+    {
+        path: '/travelers/create-travelers/upload',
+        name: 'upload',
+        component: () => import('@/modules/travelers/view/uploadFileView.vue'),
+        props: true,
+    },
 ];
 export default travelersRoutes;

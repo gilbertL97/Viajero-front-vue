@@ -1,10 +1,7 @@
 <template>
     <div>
+        <div class="add"> <a-button @click="createUser">Añadir</a-button></div>
         <a-table
-            :row-selection="{
-                selectedRowKeys: selectedRowKeys,
-                onChange: onSelectChange,
-            }"
             :columns="columns"
             :data-source="data"
             size="small"
@@ -31,36 +28,35 @@
         </a-table>
     </div>
     <div style="margin-bottom: 16px">
-        <a-button
+        <!-- <a-button
             type="danger"
             :disabled="!hasSelected"
             :loading="state.loading"
             @click="deleteusers"
         >
             Eliminar
-        </a-button>
+        </a-button> 
         <span style="margin-left: 8px">
             <template v-if="hasSelected">
                 {{ `Selected ${state.selectedRowKeys.length} items` }}
             </template>
-        </span>
+        </span> -->
     </div>
-    <a-button @click="createUser">Añadir</a-button>
 </template>
 <script lang="ts" setup>
-    import { computed, ref, onMounted, reactive } from 'vue';
+    import { ref, onMounted, reactive } from 'vue';
     import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
     import { getUsers, deleteUsers } from '../../services/user.service';
     import { UserRole, rolKeyvalue, UserResponse } from '@/modules/user/types/user.types';
     import { useAuthStore } from '@/modules/auth/store/auth.store';
     import { useRouter } from 'vue-router';
     const store = useAuthStore();
-    const selectedRowKeys = ref<UserResponse['id'][]>([]);
+    //const selectedRowKey = ref<UserResponse['id'][]>([]);
 
     const router = useRouter();
     let data = ref<UserResponse[]>([]);
-    const showModal = ref(false);
-    const isNewUser = ref(false);
+    // const showModal = ref(false);
+    // const isNewUser = ref(false);
 
     // let editable: User = reactive({
     //     name: '',
@@ -69,7 +65,7 @@
     // });
 
     const state = reactive<{
-        selectedRowKeys: UserResponse[];
+        selectedRowKeys: UserResponse['id'][];
         loading: boolean;
     }>({
         selectedRowKeys: [], // Aqui configurar a columna por default
@@ -84,6 +80,7 @@
         {
             title: 'Nombre',
             dataIndex: 'name',
+            sorter: true,
         },
         {
             title: 'Correo',
@@ -98,26 +95,27 @@
 
     //const selectedRowKeys = ref<User['id'][]>([]); // Check here to configure the default column
 
-    const hasSelected = computed(() => state.selectedRowKeys.length > 0);
+    //const hasSelected = computed(() => state.selectedRowKeys.length > 0);
 
-    const deleteusers = () => {
-        state.loading = true;
-        // ajax request after empty completing
-        setTimeout(() => {
-            state.loading = false;
-            state.selectedRowKeys = [];
-        }, 1000);
-    };
+    // const deleteusers = () => {
+    //     state.loading = true;
+    //     // ajax request after empty completing
+    //     setTimeout(() => {
+    //         state.loading = false;
+    //         state.selectedRowKeys = [];
+    //     }, 1000);
+    // };
 
-    const onSelectChange = (selectedRowKeys: UserResponse[]) => {
-        console.log('selectedRowKeys changed: ', selectedRowKeys);
-        state.selectedRowKeys = selectedRowKeys;
-    };
+    // const onSelectChange = (selectedRowKeys: UserResponse['id'][]) => {
+    //     console.log('selectedRowKeys changed: ', selectedRowKeys);
+    //     state.selectedRowKeys = selectedRowKeys;
+    // };
 
     const onDelete = async (key: number) => {
         console.log(key);
         await deleteUsers(key);
-        data.value = data.value.filter((item) => item.id !== key);
+        //data.value = data.value.filter((item) => item.id !== key);
+        refresh();
     };
     const onDeleteAdmin = async () => {
         const user1 = store.getUserInfo;
@@ -151,19 +149,27 @@
     //     user.active = record.active;
     //     user.contractors = record.contractors;
     // };
-    const handleFinishModal = async (visible: boolean) => {
-        showModal.value = visible;
-        await refresh();
-        isNewUser.value = false;
-    };
+    // const handleFinishModal = async (visible: boolean) => {
+    //     showModal.value = visible;
+    //     await refresh();
+    //     isNewUser.value = false;
+    // };
 
     const refresh = async () => {
         state.loading = true;
         try {
             data.value = (await getUsers()).data;
+            console.log(data.value);
+            data.value.sort((a, b) =>
+                a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()
+                    ? -1
+                    : a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase()
+                    ? 1
+                    : 0,
+            );
         } catch (error) {}
         onDeleteAdmin();
         state.loading = false;
     };
 </script>
-<style lscoped></style>
+<style scoped></style>

@@ -3,53 +3,60 @@ import { Country } from '@/modules/country/types/country.type';
 import { Plans } from '@/modules/plains/types/plains.types';
 
 export interface Traveler {
+    id?: number;
     name: string;
-
     sex?: string;
-
     born_date?: Date | null;
-
     email?: string;
-
     passport: string;
-
     sale_date?: Date | null;
-
     start_date: Date | null;
-
     end_date_policy: Date | null;
-
     number_high_risk_days?: number;
-
     contractor?: number;
-
     origin_country?: string;
-
     nationality?: string;
-
-    coverage: number;
+    coverage?: number;
+    number_days: number;
+    amount_days_high_risk: number;
+    amount_days_covered: number;
+    total_amount: number;
 }
 
 export interface TravelerResponse {
-    id: number;
+    id?: number;
     name: string;
     sex?: string;
-    born_date?: Date;
+    born_date?: Date | null;
     email?: string;
     passport: string;
-    sale_date?: Date;
-    start_date: Date;
-    end_date_policy: Date;
+    sale_date?: Date | null;
+    start_date: Date | null;
+    end_date_policy: Date | null;
     number_high_risk_days?: number;
-    contractor: Contractor;
+    contractor?: Contractor;
     origin_country?: Country;
     nationality?: Country;
-    coverage: Plans;
+    coverage?: Plans;
     number_days: number;
     amount_days_high_risk: number;
     amount_days_covered: number;
     total_amount: number;
     state: boolean;
-    createdAt: Date;
-    deleteAt: Date;
+    createdAt?: Date | null;
+    deleteAt?: Date | null;
 }
+
+export type FilterTravelers = {
+    name?: string;
+    passport?: string;
+    start_date_init?: Date;
+    start_date_end?: Date;
+    end_date_policy_init?: Date;
+    end_date_policy_end?: Date;
+    contractor?: number;
+    origin_country?: string;
+    nationality?: string;
+    coverage?: number;
+    state?: boolean;
+};

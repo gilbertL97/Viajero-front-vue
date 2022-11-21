@@ -46,5 +46,6 @@ export async function addPlans(Plans: Plans): Promise<AxiosResponse<Plans>> {
         url: '/coverage',
         data: Plans,
     };
+    console.log(config.headers);
     return await API.request<Plans>(config);
 }

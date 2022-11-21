@@ -1,18 +1,12 @@
 <template>
     <h1>{{ props.id ? 'Editar Usuario' : 'Crear Usuario' }}</h1>
-    <FormUser :id="props.id" :edit-admin="true" />
+    <FormUser :id="props.id" />
 </template>
 
 <script setup lang="ts">
-    import { onMounted } from 'vue';
-    import FormUser from '../components/form/formUser.vue';
+    import FormUser from '../components/form/formUser2.vue';
 
     const props = defineProps<{ id?: string }>();
-
-    onMounted(() => {
-        if (props.id) {
-        }
-    });
 </script>
 
 <style lang="scss" scoped></style>

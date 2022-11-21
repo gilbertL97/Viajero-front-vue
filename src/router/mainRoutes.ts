@@ -2,6 +2,8 @@ import { RouteRecordRaw } from 'vue-router';
 import { useAuthStore } from '@/modules/auth/store/auth.store';
 import travelersRoutes from '@/modules/travelers/routes/travelerRoutes';
 import userRoutes from '@/modules/user/routes/userRoutes';
+import plainsRoutes from '@/modules/plains/routes/plainsRoutes';
+import contractorsRoutes from '@/modules/contratctor/routes/contractorRoutes';
 const store = useAuthStore();
 const beforeEnter = (_to: any, _from: any, next: any) => {
     const isAutenticade = store.getToken;
@@ -33,11 +35,17 @@ const mainRoutes: RouteRecordRaw[] = [
                 component: () =>
                     import('@/modules/plains/components/table/tablePlans.vue'),
             },
-            {
+            /*{
                 path: '/travelers',
                 name: 'travelers',
                 component: () =>
                     import('@/modules/travelers/components/table/tableTraveler.vue'),
+            },*/
+            {
+                path: '/travelers',
+                name: 'travelers',
+                component: () =>
+                    import('@/modules/travelers/view/travelersTableView.vue'),
             },
             {
                 path: '',
@@ -50,6 +58,8 @@ const mainRoutes: RouteRecordRaw[] = [
             },
             ...travelersRoutes,
             ...userRoutes,
+            ...plainsRoutes,
+            ...contractorsRoutes,
         ],
     },
 ];

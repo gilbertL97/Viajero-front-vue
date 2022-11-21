@@ -9,8 +9,7 @@ interface UserState {
     isloggedIn: boolean;
 }
 
-export const authStore = defineStore({
-    id: 'app-user',
+export const authStore = defineStore('app-user', {
     state: (): UserState => ({
         token: '',
         userInfo: null,
