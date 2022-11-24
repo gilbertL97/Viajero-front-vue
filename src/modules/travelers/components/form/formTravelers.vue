@@ -81,6 +81,7 @@
                         :plain="plans.name"
                         :plainId="plans.id"
                         :disabled="props.isOnlyView"
+                        :activeSelect="false"
                         @selected="asignPlans"
                     />
                 </a-form-item>
@@ -346,7 +347,6 @@
     };
     const calculate = () => {
         const plans = store.getPlans.find((e) => e.id == traveler.coverage);
-        console.log(plans);
         const start = dayjs(traveler.start_date);
         const end = dayjs(traveler.end_date_policy);
         traveler.number_days = end.diff(start, 'day') + 1;
@@ -355,12 +355,12 @@
         traveler.amount_days_high_risk =
             traveler.number_high_risk_days != 0
                 ? plans!.daily
-                    ? plans!.high_risk * traveler.number_high_risk_days!
+                    ? plans!.high_risk! * traveler.number_high_risk_days!
                     : 0
                 : 0;
 
         traveler.amount_days_covered = plans?.daily
-            ? traveler.number_days * plans!.price
+            ? traveler.number_days * plans!.price!
             : plans!.price!;
 
         traveler.total_amount =

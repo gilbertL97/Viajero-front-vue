@@ -33,18 +33,40 @@ export async function deletePlans(id: number): Promise<AxiosResponse<void>> {
 }
 
 export async function editPlans(Plans: Plans): Promise<AxiosResponse<void>> {
+    const data = new FormData();
+    data.append('daily', String(Plans.daily));
+    data.append('name', String(Plans.name));
+    data.append('high_risk', String(Plans.high_risk));
+    data.append('isActive', String(Plans.isActive));
+    data.append('price', String(Plans.price));
+    data.append('number_of_days', String(Plans.number_of_days));
+    data.append('tablePdf', Plans.tablePdf!);
     const config: AxiosRequestConfig = {
+        headers: { 'Content-Type': 'multipart/form-data' },
         method: 'PATCH',
         url: '/coverage/' + Plans.id,
-        data: Plans,
+        data: data,
     };
     return await API.request<void>(config);
 }
 export async function addPlans(Plans: Plans): Promise<AxiosResponse<Plans>> {
+    const data = new FormData();
+    /* const keys = Object.keys(Plans);
+    keys.map((key) => {
+        Plans[key];
+    });*/
+    data.append('daily', String(Plans.daily));
+    data.append('name', String(Plans.name));
+    data.append('high_risk', String(Plans.high_risk));
+    data.append('isActive', String(Plans.isActive));
+    data.append('price', String(Plans.price));
+    data.append('number_of_days', String(Plans.number_of_days));
+    data.append('tablePdf', Plans.tablePdf!);
     const config: AxiosRequestConfig = {
+        headers: { 'Content-Type': 'multipart/form-data' },
         method: 'POST',
         url: '/coverage',
-        data: Plans,
+        data: data,
     };
     console.log(config.headers);
     return await API.request<Plans>(config);

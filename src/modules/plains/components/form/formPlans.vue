@@ -61,14 +61,16 @@
                 />
             </a-form-item>
             <a-form-item has-feedback :name="['benefitTable']" label="Tabla de Beneficio">
-                <a-input v-model:value="plain.benefitTable" :disabled="true" />
-
-                <a-button>
-                    <upload-outlined />
-                    Upload
-                </a-button>
+                <!-- <a-input v-model:value="plain.benefitTable" :disabled="true" />
             </a-form-item>
-
+            <a-form-item has-feedback :name="['benefitTabl']"> -->
+                <a-upload :before-upload="beforeUpload" :max-count="1">
+                    <a-button>
+                        <upload-outlined />
+                        Upload
+                    </a-button>
+                </a-upload>
+            </a-form-item>
             <a-form-item :name="['isActive']" label="Activo" v-if="props.id">
                 <a-checkbox v-model:checked="plain.isActive" />
             </a-form-item>
@@ -92,6 +94,10 @@
     import { defaultValidateMessages } from '@/common/utils/validationMessages';
     import { useRouter } from 'vue-router';
     import manageError from '@/common/composable/manageError';
+    import type { UploadProps } from 'ant-design-vue';
+    import { UploadFile, message } from 'ant-design-vue';
+    //const fileList = ref<UploadProps['fileList']>([]);
+    const file = ref<UploadFile>();
     const { alertForbidden, alertInactive } = manageError();
     const router = useRouter();
     const props = defineProps<{
@@ -123,6 +129,8 @@
         loading.value = true;
         if (props.id) await editPlain();
         else await addPlain();
+        console.log(file.value);
+
         loading.value = false;
         router.push('/plains');
     };
@@ -170,7 +178,14 @@
         plain.price = plainR.price;
         plain.daily = plainR.daily;
         plain.number_of_days = plainR.number_of_days;
-        plain.benefitTable = plainR.benefitTable;
+    };
+    const beforeUpload: UploadProps['beforeUpload'] = (file1) => {
+        const isPDF = file1.type === 'application/pdf';
+        if (isPDF) {
+            plain.tablePdf = file1;
+            return false;
+        }
+        message.error(`${file1.name} no es un archivo pdf`);
     };
 </script>
 

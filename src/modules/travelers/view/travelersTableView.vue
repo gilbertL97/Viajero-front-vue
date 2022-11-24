@@ -7,9 +7,9 @@
             :contractorId="filterContractor"
         />
         <a-divider type="vertical" />
-        <h4> Fecha Inicio del Viaje </h4>
+        <h4> Fecha Inicio </h4>
         <a-range-picker
-            :placeholder="['entre', 'y entre']"
+            :placeholder="['entre', 'entre']"
             size="small"
             v-model:value="dateFilter"
             value-format="YYYY-MM-DD"
@@ -140,8 +140,8 @@
     };
 
     watch([dateFilter, filterContractor], () => {
-        if (dateFilter.value.length > 1 || filterContractor.value) {
-            if (dateFilter.value.length > 1) {
+        if (dateFilter.value || filterContractor.value) {
+            if (dateFilter.value) {
                 searchDateandContractor.start_date_init = dateFilter.value[0];
                 searchDateandContractor.start_date_end = dateFilter.value[1];
                 console.log(dateFilter.value[0], dateFilter.value[1]);

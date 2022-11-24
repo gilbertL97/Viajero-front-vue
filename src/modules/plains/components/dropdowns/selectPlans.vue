@@ -41,9 +41,9 @@
             value: plain.id,
             disabled: !plain.isActive,
         }));
-        props.activeSelect
-            ? (options.value = options.value.filter((plain) => delete plain.disabled))
-            : console.log('');
+        props.activeSelect ??
+            (options.value = options.value.filter((plain) => delete plain.disabled));
+
         isLoading.value = false;
         plain.label = props.plain!;
         plain.value = props.plainId!;

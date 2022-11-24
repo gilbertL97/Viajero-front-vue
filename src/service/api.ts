@@ -16,7 +16,6 @@ API.interceptors.request.use((config) => {
 
     if (store.getToken) {
         config.headers!.Authorization = `Bearer ${store.token}`;
-        console.log(store.getToken);
     }
     return config;
 });
