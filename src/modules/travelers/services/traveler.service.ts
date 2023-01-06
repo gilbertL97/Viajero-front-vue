@@ -1,6 +1,11 @@
 import API from '@/service/api';
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
-import { FilterTravelers, Traveler, TravelerResponse } from '../types/type.traveler';
+import {
+    FileErrorsDto,
+    FilterTravelers,
+    Traveler,
+    TravelerResponse,
+} from '../types/type.traveler';
 
 export async function getTravelers(): Promise<AxiosResponse<TravelerResponse[]>> {
     const config: AxiosRequestConfig = {
@@ -69,4 +74,19 @@ export async function deleteTravelers(
         url: '/traveler/' + id,
     };
     return await API.request<TravelerResponse>(config);
+}
+export async function addPlans(
+    contractor: number,
+    file: File,
+): Promise<AxiosResponse<FileErrorsDto | void>> {
+    const data = new FormData();
+    data.append('travelers', file);
+    const config: AxiosRequestConfig = {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        method: 'POST',
+        url: '/traveler/file/' + contractor,
+        data: data,
+    };
+    console.log(config.headers);
+    return await API.request<FileErrorsDto | void>(config);
 }

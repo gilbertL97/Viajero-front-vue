@@ -3,7 +3,6 @@
         v-model:fileList="fileList"
         name="file"
         :multiple="false"
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         @change="handleChange"
         @drop="handleDrop"
     >

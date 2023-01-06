@@ -60,3 +60,12 @@ export type FilterTravelers = {
     coverage?: number;
     state?: boolean;
 };
+
+export type ErrorsDto = {
+    property: string;
+    errors: string;
+};
+export type FileErrorsDto = {
+    row: number;
+    errors: ErrorsDto[];
+};
