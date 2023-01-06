@@ -95,9 +95,9 @@
     import { useRouter } from 'vue-router';
     import manageError from '@/common/composable/manageError';
     import type { UploadProps } from 'ant-design-vue';
-    import { UploadFile, message } from 'ant-design-vue';
+    import { message } from 'ant-design-vue';
     //const fileList = ref<UploadProps['fileList']>([]);
-    const file = ref<UploadFile>();
+    //const file = ref<UploadFile>();
     const { alertForbidden, alertInactive } = manageError();
     const router = useRouter();
     const props = defineProps<{
@@ -129,7 +129,6 @@
         loading.value = true;
         if (props.id) await editPlain();
         else await addPlain();
-        console.log(file.value);
 
         loading.value = false;
         router.push('/plains');

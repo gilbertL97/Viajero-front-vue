@@ -75,7 +75,7 @@ export async function deleteTravelers(
     };
     return await API.request<TravelerResponse>(config);
 }
-export async function addPlans(
+export async function addFiles(
     contractor: number,
     file: File,
 ): Promise<AxiosResponse<FileErrorsDto | void>> {
