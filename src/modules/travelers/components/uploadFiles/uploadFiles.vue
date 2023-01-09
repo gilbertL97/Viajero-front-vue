@@ -1,32 +1,32 @@
 <template>
-    <a-upload-dragger
+    <a-upload
         v-model:fileList="fileList"
         name="file"
         :multiple="false"
-        action =
         @change="handleChange"
-        @drop="handleDrop"
         :max-count="1"
+        :showUploadList="false"
+        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        :disabled="disable"
     >
-        <p class="ant-upload-drag-icon">
-            <inbox-outlined />
-        </p>
-        <p class="ant-upload-text"
-            >Click o arrastre y suelte un archivo a esta area para subir
-        </p>
-    </a-upload-dragger>
+        <a-button>
+            <upload-outlined />
+            Click para subir archivo
+        </a-button>
+    </a-upload>
 </template>
 <script lang="ts" setup>
-    import { InboxOutlined } from '@ant-design/icons-vue';
     import { message } from 'ant-design-vue';
     import { ref } from 'vue';
     import type { UploadChangeParam } from 'ant-design-vue';
     import { FileErrorsDto } from '../../types/type.traveler';
+    import { addFiles } from '../../services/traveler.service';
 
+    const contractor = ref();
     const fileList = ref([]);
-    const handleDrop = (e: DragEvent) => {
-        console.log(e);
-    };
+    const props = defineProps<{
+        disable: boolean;
+    }>();
 
     const handleChange = (info: UploadChangeParam) => {
         const status = info.file.status;
@@ -41,9 +41,10 @@
             );
         }
     };
-        const emit = defineEmits<{
+    const emit = defineEmits<{
         (e: 'fileError', fileErrors: FileErrorsDto[]): void;
         (e: 'isOkResponse', boolean: number | number[] | undefined): void;
     }>();
-    const sendFile = add///cargar la funion del servicio lla,mar a los emit y esperar las resdpuesta
+
+    const sendFile = addFiles(); ///cargar la funion del servicio lla,mar a los emit y esperar las resdpuesta
 </script>
