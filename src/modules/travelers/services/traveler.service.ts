@@ -78,7 +78,7 @@ export async function deleteTravelers(
 export async function addFiles(
     contractor: number,
     file: File,
-): Promise<AxiosResponse<FileErrorsDto | void>> {
+): Promise<AxiosResponse<FileErrorsDto[] | FilterTravelers[] | void>> {
     const data = new FormData();
     data.append('travelers', file);
     const config: AxiosRequestConfig = {
@@ -88,5 +88,5 @@ export async function addFiles(
         data: data,
     };
     console.log(config.headers);
-    return await API.request<FileErrorsDto | void>(config);
+    return await API.request<FileErrorsDto[] | FilterTravelers[] | void>(config);
 }

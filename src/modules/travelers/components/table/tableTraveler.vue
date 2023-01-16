@@ -78,6 +78,7 @@
     const router = useRouter();
     const data = ref<TravelerResponse[]>([]);
     const plains = ref<Plans[]>([]);
+
     const state = reactive<{
         selectedRowKeys: TravelerResponse[];
         loading: boolean;
@@ -86,15 +87,11 @@
         loading: false,
     });
 
-    onMounted(async () => {
-        await refresh();
-    });
-
     const columns = [
         {
             title: 'Nombre',
             dataIndex: 'name',
-            sorter: (a: any, b: any) => {
+            sorter: (a: string, b: string) => {
                 (a.name.toLowerCase() > b.nametoLowerCase()) -
                     (a.nametoLowerCase() < b.nametoLowerCase());
             },
@@ -124,15 +121,26 @@
         {
             title: 'Estado',
             dataIndex: 'state',
+            isRepeat: false,
         },
 
-        { title: 'Operaciones', dataIndex: 'action' },
-    ];
+        { title: 'Operaciones', dataIndex: 'action', isRepeat: false },
+    ]; /*.filter((col) => {
+        if (props.isRepeat) return col.isRepeat != false;
+    });*/
 
     //const selectedRowKeys = ref<Traveler['id'][]>([]); // Check here to configure the default column
 
     const hasSelected = computed(() => state.selectedRowKeys.length > 0);
 
+    onMounted(async () => {
+        if (props.autoloads) await refresh();
+        console.log(columns);
+    });
+    const props = defineProps<{
+        autoloads?: Boolean;
+        isRepeat?: Boolean;
+    }>();
     const onDelete = async (key: string) => {
         console.log(key);
         await deleteTravelers(key).finally(refresh);
@@ -153,12 +161,6 @@
             if (response.status == 200) {
                 const blob = new Blob([response.data], { type: 'application/pdf' });
                 window.open(URL.createObjectURL(blob), '_blank')?.print();
-                /*const url = window.URL.createObjectURL(new Blob([response.data]));
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', record.name + '.pdf');
-                document.body.appendChild(link);
-                link.click();*/
             }
         });
     };

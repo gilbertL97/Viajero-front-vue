@@ -29,7 +29,7 @@
             >Busqueda avanzada <search-outlined
         /></a-button>
     </div>
-    <tableTraveler ref="table" />
+    <tableTraveler ref="table" :autoloads="true" />
     <a-modal
         v-model:visible="visible"
         title="Busqueda Avanzada"
