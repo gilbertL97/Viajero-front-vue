@@ -130,17 +130,17 @@
     });*/
 
     //const selectedRowKeys = ref<Traveler['id'][]>([]); // Check here to configure the default column
-
+    const props = defineProps<{
+        autoloads?: Boolean;
+        //isRepeat?: Boolean;
+    }>();
     const hasSelected = computed(() => state.selectedRowKeys.length > 0);
 
     onMounted(async () => {
         if (props.autoloads) await refresh();
         console.log(columns);
     });
-    const props = defineProps<{
-        autoloads?: Boolean;
-        isRepeat?: Boolean;
-    }>();
+
     const onDelete = async (key: string) => {
         console.log(key);
         await deleteTravelers(key).finally(refresh);

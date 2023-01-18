@@ -26,8 +26,13 @@
     const isDisabled = computed(() => (props.contractor ? false : true));
 
     const emit = defineEmits<{
-        (e: 'response', response: FileErrorsDto[] | FilterTravelers[] | void): void;
-        (e: 'header', header: number): void;
+        (
+            e: 'response',
+            response: {
+                response: FileErrorsDto[] | FilterTravelers[] | void;
+                header: number;
+            },
+        ): void;
         (e: 'isLoading', isLoading: boolean): void;
     }>();
 
@@ -35,13 +40,13 @@
         emit('isLoading', true);
         await addFiles(props.contractor!, file)
             .then((response) => {
-                emit('response', response.data);
-                emit('header', response.status);
-                //  emit('header', response.headers);
+                emit('response', { response: response.data, header: response.status });
             })
             .catch((err) => {
-                emit('response', err.response.data);
-                emit('header', err.response.status);
+                emit('response', {
+                    response: err.response.data,
+                    header: err.response.status,
+                });
             })
             .finally(() => emit('isLoading', false));
     };

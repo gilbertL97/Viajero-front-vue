@@ -22,9 +22,31 @@ export default () => {
             timer: 10000,
         });
     };
+    const warningRepeatTraveler = () => {
+        Swal.fire({
+            position: 'top',
+            icon: 'warning',
+            title: 'Cuidado',
+            text: 'Se encontraron viajeros repetidos',
+            showConfirmButton: false,
+            timer: 3000,
+        });
+    };
+    const errorWrongTraveler = () => {
+        Swal.fire({
+            position: 'top',
+            icon: 'error',
+            title: 'Error',
+            text: 'El fichero importado contenia los siguientes errores',
+            showConfirmButton: false,
+            timer: 3000,
+        });
+    };
     return {
         alertInactive,
         alertForbidden,
         alertUndelete,
+        warningRepeatTraveler,
+        errorWrongTraveler,
     };
 };
