@@ -21,79 +21,57 @@
     import TableGenericErrorsTravelers from '../components/table/tableRepeatTravelers.vue';
     import { FileErrorsDto, FilterTravelers } from '../types/type.traveler';
     import manageError from '@/common/composable/manageError';
+    import { ColumnType } from 'ant-design-vue/lib/table';
     const { warningRepeatTraveler, errorWrongTraveler } = manageError();
     const contractor = ref();
     const showTable = ref(false);
     const test = ref();
     const data = ref<FileErrorsDto[] | FilterTravelers[]>();
-    const columns = ref<TableColumnsType>([]);
+    const columns = ref<TableColumnsType>([
+        {
+            title: 'Nombre',
+            width: 100,
+            dataIndex: 'name',
+            fixed: 'left',
+        },
+        { title: 'Sexo', dataIndex: 'sex' },
+        { title: 'Pasaporte', dataIndex: 'passport' },
+        { title: 'Pais Origen', dataIndex: 'origin_country' },
+        { title: 'Nacionalidad', dataIndex: 'nationality' },
+        { title: 'Cobertura', width: 140, dataIndex: 'coverage' },
+        { title: 'Fecha de fin de Poliza', dataIndex: 'end_date_policy' },
+        { title: 'Cant dias Alto Riesgo', dataIndex: 'number_high_risk_days' },
+        { title: 'Cant dias Cubiertos', dataIndex: 'number_days' },
+        { title: 'Monto de dias Alto Riesgo', dataIndex: 'amount_days_high_risk' },
+        { title: 'Monto de dias Cubiertos', dataIndex: 'amount_days_covered' },
+        { title: 'Monto Total', dataIndex: 'total_amount' },
+    ]);
     const asignContract = (value: any) => {
         contractor.value = value;
         console.log('este es la agencia :' + value);
     };
 
     const error400 = (dataResp: FileErrorsDto[]) => {
-        const row: TableColumnsType = [
-            {
-                title: 'Nombre',
-                width: 100,
-                dataIndex: 'name',
-                fixed: 'left',
-            },
-            { title: 'Sexo', width: 100, dataIndex: ['property', 'sex'] },
-            { title: 'Pasaporte', dataIndex: ['property', 'passport'] },
-            { title: 'Fecha de Venta', dataIndex: ['property', 'sale_date'] },
-            { title: 'Pais Origen', dataIndex: ['property', 'origin_country'] },
-            { title: 'Nacionalidad', dataIndex: ['property', 'nationality'] },
-            { title: 'Covertura', dataIndex: ['property', 'coverage'] },
-            {
-                title: 'Fecha de fin de Poliza',
-                dataIndex: ['property', 'end_date_policy'],
-            },
-            {
-                title: 'Cant dias Alto Riesgo',
-                dataIndex: ['property', 'number_high_risk_days'],
-            },
-            { title: 'Cant dias Cubiertos', dataIndex: ['property', 'number_days'] },
-            {
-                title: 'Monto de dias Alto Riesgo',
-                dataIndex: ['property', 'amount_days_high_risk'],
-            },
-            {
-                title: 'Monto de dias Cubiertos',
-                dataIndex: ['property', 'amount_days_covered'],
-            },
-            { title: 'Monto Total', dataIndex: ['property', 'total_amount'] },
-        ];
+        if (!findRow()) {
+            const row: ColumnType<any> = {
+                title: 'Fila',
+                width: 50,
+                dataIndex: 'row',
+                fixed: 'right',
+                key: 'row',
+            };
+            columns.value.push(row);
+        }
+
         showTable.value = true;
-        columns.value = row;
+
         data.value = dataResp;
         test.value = 'Se encontraron los siguientes errores';
     };
     const conflict409 = (dataResp: FilterTravelers[]) => {
-        const row: TableColumnsType = [
-            {
-                title: 'Nombre',
-                width: 100,
-                dataIndex: 'name',
-                fixed: 'left',
-            },
-            { title: 'Sexo', width: 100, dataIndex: 'sex' },
-            { title: 'Pasaporte', dataIndex: 'passport' },
-            { title: 'Pais Origen', dataIndex: 'origin_country' },
-            { title: 'Nacionalidad', dataIndex: 'nationality' },
-            { title: 'Covertura', dataIndex: 'coverage' },
-            { title: 'Fecha de fin de Poliza', dataIndex: 'end_date_policy' },
-            { title: 'Cant dias Alto Riesgo', dataIndex: 'number_high_risk_days' },
-            { title: 'Cant dias Cubiertos', dataIndex: 'number_days' },
-            { title: 'Monto de dias Alto Riesgo', dataIndex: 'amount_days_high_risk' },
-            { title: 'Monto de dias Cubiertos', dataIndex: 'amount_days_covered' },
-            { title: 'Monto Total', dataIndex: 'total_amount' },
-        ];
         showTable.value = true;
-        columns.value = row;
         data.value = dataResp;
-        test.value = 'Se encontraron los siguientes viajeros repetidos';
+        test.value = 'Se encontraron ' + dataResp.length + ' viajeros repetidos';
     };
     const ProcessResponse = (response: {
         response: void | FilterTravelers[] | FileErrorsDto[];
@@ -111,6 +89,9 @@
             default:
                 break;
         }
+    };
+    const findRow = () => {
+        return columns.value[columns.value.length - 1].key == 'row';
     };
 </script>
 
