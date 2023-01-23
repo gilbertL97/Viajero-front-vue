@@ -30,4 +30,9 @@
         border-right: 1px solid #f0f0f0 !important;
         transition: all 0.2s;
     }
+    .ant-layout-content {
+        min-height: 80vh;
+        flex: auto;
+        padding-inline: 1rem;
+    }
 </style>

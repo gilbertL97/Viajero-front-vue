@@ -101,6 +101,7 @@
         padding-bottom: 2rem;
     }
     .table {
+        max-height: 10vh;
         padding: 1%;
     }
 </style>

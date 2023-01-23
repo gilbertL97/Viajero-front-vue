@@ -3,7 +3,7 @@
         :columns="props.columns"
         size="small"
         :data-source="data"
-        :scroll="{ x: 1300, y: 1000 }"
+        :scroll="{ x: 1300, y: 180 }"
         :pagination="false"
     />
 </template>

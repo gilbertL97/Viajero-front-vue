@@ -1,5 +1,11 @@
 <template>
-    <a-table :columns="columns" :data-source="data" size="small" :loading="state.loading">
+    <a-table
+        :columns="columns"
+        :data-source="data"
+        size="small"
+        :loading="state.loading"
+        :scroll="{ y: 300 }"
+    >
         <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'action'">
                 <a-popconfirm
@@ -121,10 +127,9 @@
         {
             title: 'Estado',
             dataIndex: 'state',
-            isRepeat: false,
         },
 
-        { title: 'Operaciones', dataIndex: 'action', isRepeat: false },
+        { title: 'Operaciones', dataIndex: 'action', width: 150 },
     ]; /*.filter((col) => {
         if (props.isRepeat) return col.isRepeat != false;
     });*/
