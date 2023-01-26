@@ -44,14 +44,6 @@
         </template>
     </a-table>
     <div style="margin-bottom: 16px">
-        <!-- <a-button
-            type="danger"
-            :disabled="!hasSelected"
-            :loading="state.loading"
-            @click="deleteusers"
-        >
-            Eliminar
-        </a-button> -->
         <span style="margin-left: 8px">
             <template v-if="hasSelected">
                 {{ `Selected ${state.selectedRowKeys.length} items` }}
@@ -135,15 +127,11 @@
     });*/
 
     //const selectedRowKeys = ref<Traveler['id'][]>([]); // Check here to configure the default column
-    const props = defineProps<{
-        autoloads?: Boolean;
-        //isRepeat?: Boolean;
-    }>();
+
     const hasSelected = computed(() => state.selectedRowKeys.length > 0);
 
     onMounted(async () => {
-        if (props.autoloads) await refresh();
-        console.log(columns);
+        await refresh();
     });
 
     const onDelete = async (key: string) => {

@@ -29,7 +29,7 @@
             >Busqueda avanzada <search-outlined
         /></a-button>
     </div>
-    <tableTraveler ref="table" :autoloads="true" />
+    <tableTraveler ref="table" />
     <a-modal
         v-model:visible="visible"
         title="Busqueda Avanzada"
@@ -49,7 +49,7 @@
     import dropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
     import SearchForm from '../components/form/searchFormTraveler.vue';
     import { useRouter } from 'vue-router';
-    import { reactive, ref, onMounted, watch } from 'vue';
+    import { reactive, ref, watch } from 'vue';
     import tableTraveler from '../components/table/tableTraveler.vue';
     import { FilterTravelers } from '../types/type.traveler';
 
@@ -80,9 +80,6 @@
     //const search = ref(false);
     const dateFilter = ref<Date[]>([]);
     const table = ref(null);
-    onMounted(() => {
-        console.log(table.value);
-    });
     const gotoUpload = () => {
         router.push({ name: 'upload' });
     };
@@ -109,7 +106,7 @@
         searchTravel.nationality = filter.nationality;
         searchTravel.coverage = filter.coverage;
         searchTravel.state = filter.state;
-        console.log(searchTravel);
+        console.log(searchTravel, 'emitidos');
         table.value?.filter(searchTravel);
     };
     const deleteFilter = () => {
@@ -140,14 +137,13 @@
     };
 
     watch([dateFilter, filterContractor], () => {
-        if (dateFilter.value || filterContractor.value) {
-            if (dateFilter.value) {
+        if (dateFilter.value.length > 1 || filterContractor.value) {
+            if (dateFilter.value.length > 1) {
                 searchDateandContractor.start_date_init = dateFilter.value[0];
                 searchDateandContractor.start_date_end = dateFilter.value[1];
-                console.log(dateFilter.value[0], dateFilter.value[1]);
             }
             searchDateandContractor.contractor = filterContractor.value;
-            console.log(searchDateandContractor);
+
             table.value?.filter(searchDateandContractor);
         }
     });
