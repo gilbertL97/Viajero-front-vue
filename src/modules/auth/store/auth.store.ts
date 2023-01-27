@@ -20,12 +20,14 @@ export const authStore = defineStore('app-user', {
             return this.userInfo;
         },
         getToken(): string | null | undefined {
+            this.token = localStorage.getItem('token');
             return this.token;
         },
     },
     actions: {
-        setToken(token1: string | undefined) {
-            this.token = token1;
+        setToken(value: string) {
+            this.token = value;
+            localStorage.setItem('token', value);
             //setToken(token)
         },
         setUserInfo(info: User) {
