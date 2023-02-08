@@ -1,17 +1,18 @@
 import { Contractor } from '@/modules/contratctor/types/contractor.types';
 import { Country } from '@/modules/country/types/country.type';
 import { Plans } from '@/modules/plains/types/plains.types';
+import { Dayjs } from 'dayjs';
 
 export interface Traveler {
     id?: number;
     name: string;
     sex?: string;
-    born_date?: Date | null;
+    born_date?: Date | null | Dayjs;
     email?: string;
     passport: string;
-    sale_date?: Date | null;
-    start_date: Date | null;
-    end_date_policy: Date | null;
+    sale_date?: Date | null | Dayjs;
+    start_date: Date | null | Dayjs;
+    end_date_policy: Date | null | Dayjs;
     number_high_risk_days?: number;
     contractor?: number;
     origin_country?: string;

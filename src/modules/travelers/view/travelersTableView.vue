@@ -8,12 +8,15 @@
         />
         <a-divider type="vertical" />
         <h4> Fecha Inicio </h4>
-        <a-range-picker
-            :placeholder="['entre', 'entre']"
-            size="small"
-            v-model:value="dateFilter"
-            value-format="YYYY-MM-DD"
-        />
+        <a-config-provider :locale="es">
+            <a-range-picker
+                :placeholder="['entre', 'entre']"
+                size="small"
+                v-model:value="dateFilter"
+                value-format="YYYY-MM-DD"
+            />
+        </a-config-provider>
+
         <a-divider type="vertical" />
         <a-button type="primary" @click="deleteFilter"
             >Borrar Filtros <DeleteOutlined
@@ -52,6 +55,7 @@
     import { reactive, ref, watch } from 'vue';
     import tableTraveler from '../components/table/tableTraveler.vue';
     import { FilterTravelers } from '../types/type.traveler';
+    import es from 'ant-design-vue/es/locale/es_ES';
 
     const router = useRouter();
 
@@ -137,8 +141,8 @@
     };
 
     watch([dateFilter, filterContractor], () => {
-        if (dateFilter.value.length > 1 || filterContractor.value) {
-            if (dateFilter.value.length > 1) {
+        if (dateFilter.value?.length > 1 || filterContractor.value) {
+            if (dateFilter.value?.length > 1) {
                 searchDateandContractor.start_date_init = dateFilter.value[0];
                 searchDateandContractor.start_date_end = dateFilter.value[1];
             }

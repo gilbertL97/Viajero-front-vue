@@ -176,7 +176,7 @@
         plain.isActive = plainR.isActive;
         plain.price = plainR.price;
         plain.daily = plainR.daily;
-        plain.number_of_days = plainR.number_of_days;
+        plain.number_of_days = plainR.number_of_days ?? 0;7
     };
     const beforeUpload: UploadProps['beforeUpload'] = (file1) => {
         const isPDF = file1.type === 'application/pdf';

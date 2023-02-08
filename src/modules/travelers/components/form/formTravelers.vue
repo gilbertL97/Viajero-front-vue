@@ -28,7 +28,7 @@
                 </a-form-item>
                 <a-form-item :name="['born_date']" label="Fecha de Nacimiento">
                     <a-date-picker
-                        v-model:value="traveler.sale_date"
+                        v-model:value="traveler.born_date"
                         value-format="YYYY-MM-DD"
                         :disabled="props.isOnlyView"
                     />
@@ -318,12 +318,24 @@
         traveler.name = travelerR.name;
         traveler.sex = travelerR.sex;
         traveler.born_date = travelerR.born_date;
-
         traveler.email = travelerR.email;
         traveler.passport = travelerR.passport;
         traveler.sale_date = travelerR.sale_date;
+        console.log(
+            '🚀 ~ file: formTravelers.vue:324 ~ intializateTraveler ~ traveler.sale_date',
+            traveler.sale_date,
+        );
         traveler.start_date = travelerR.start_date;
+        console.log(
+            '🚀 ~ file: formTravelers.vue:325 ~ intializateTraveler ~ traveler.start_date ',
+            traveler.start_date,
+            typeof traveler.start_date,
+        );
         traveler.end_date_policy = travelerR.end_date_policy;
+        console.log(
+            '🚀 ~ file: formTravelers.vue:327 ~ intializateTraveler ~ traveler.end_date_polic',
+            traveler.end_date_policy,
+        );
 
         traveler.number_high_risk_days = travelerR.number_high_risk_days;
         traveler.contractor = travelerR.contractor?.id;
@@ -391,9 +403,10 @@
         const plans = store.getPlans.find((e) => e.id == traveler.coverage);
         if (!plans?.daily) {
             if (traveler.number_days > plans!.number_of_days!) {
+                console.log('Entro a poner Null', plans);
                 traveler.start_date = null;
                 traveler.end_date_policy = null;
-                console.log('entro al poner en null');
+                console.log(traveler.coverage);
             }
         }
     });

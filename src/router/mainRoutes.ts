@@ -9,11 +9,14 @@ const beforeEnter = (_to: any, _from: any, next: any) => {
     const isAutenticade = store.getToken;
     if (isAutenticade) {
         next();
-    } else next({ name: 'login' });
+    } else {
+        console.log(isAutenticade);
+        next({ name: 'login' });
+    }
 };
 const mainRoutes: RouteRecordRaw[] = [
     {
-        path: '/',
+        path: '/hom',
         name: 'home',
         component: () => import('@/views/home/indexHome.vue'),
         beforeEnter,
