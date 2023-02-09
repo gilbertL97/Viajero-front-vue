@@ -40,6 +40,7 @@ export async function editPlans(Plans: Plans): Promise<AxiosResponse<void>> {
     data.append('isActive', String(Plans.isActive));
     data.append('price', String(Plans.price));
     data.append('number_of_days', String(Plans.number_of_days));
+    data.append('config_string', String(Plans.config_string));
     data.append('tablePdf', Plans.tablePdf!);
     const config: AxiosRequestConfig = {
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -61,6 +62,7 @@ export async function addPlans(Plans: Plans): Promise<AxiosResponse<Plans>> {
     data.append('isActive', String(Plans.isActive));
     data.append('price', String(Plans.price));
     data.append('number_of_days', String(Plans.number_of_days));
+    data.append('config_string', String(Plans.config_string));
     data.append('tablePdf', Plans.tablePdf!);
     const config: AxiosRequestConfig = {
         headers: { 'Content-Type': 'multipart/form-data' },

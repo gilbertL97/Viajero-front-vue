@@ -75,7 +75,7 @@
                 store.setUserInfo(token.data.user);
                 store.setToken(token.data.access_token);
                 store.setLogged();
-                router.push('/');
+                router.push('/hom');
             }
             loading.value = false;
         } catch (error: any) {

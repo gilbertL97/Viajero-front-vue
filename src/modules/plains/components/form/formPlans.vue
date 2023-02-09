@@ -60,6 +60,18 @@
                     :step="1"
                 />
             </a-form-item>
+            <a-form-item
+                has-feedback
+                :name="['config_string']"
+                label="Cadena de Configuracion"
+                :rules="[{ min: 4 }]"
+            >
+                <a-input
+                    placeholder="Cadena de Configuracion "
+                    v-model:value="plain.config_string"
+                    @keydown.space.prevent
+                />
+            </a-form-item>
             <a-form-item has-feedback :name="['benefitTable']" label="Tabla de Beneficio">
                 <!-- <a-input v-model:value="plain.benefitTable" :disabled="true" />
             </a-form-item>
@@ -115,6 +127,7 @@
         high_risk: 2,
         daily: true,
         number_of_days: 1,
+        config_string: '',
         isActive: true,
         benefitTable: '',
     });
@@ -176,7 +189,9 @@
         plain.isActive = plainR.isActive;
         plain.price = plainR.price;
         plain.daily = plainR.daily;
-        plain.number_of_days = plainR.number_of_days ?? 0;7
+        plain.number_of_days = plainR.number_of_days ?? 0;
+        plain.config_string = plainR.config_string;
+        7;
     };
     const beforeUpload: UploadProps['beforeUpload'] = (file1) => {
         const isPDF = file1.type === 'application/pdf';
