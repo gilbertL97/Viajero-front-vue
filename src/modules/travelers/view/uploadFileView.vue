@@ -22,7 +22,9 @@
     import { FileErrorsDto, FilterTravelers } from '../types/type.traveler';
     import manageError from '@/common/composable/manageError';
     import { ColumnType } from 'ant-design-vue/lib/table';
-    const { warningRepeatTraveler, errorWrongTraveler } = manageError();
+    import { useRouter } from 'vue-router';
+    const router = useRouter();
+    const { warningRepeatTraveler, errorWrongTraveler, sucessTraveler } = manageError();
     const contractor = ref();
     const showTable = ref(false);
     const test = ref();
@@ -34,7 +36,8 @@
             dataIndex: 'name',
             fixed: 'left',
         },
-        { title: 'Sexo', dataIndex: 'sex' },
+        { title: 'Sexo', dataIndex: 'sex', width: 50 },
+        { title: 'fecha de Nacimiento', dataIndex: 'born_date' },
         { title: 'Pasaporte', dataIndex: 'passport' },
         { title: 'Pais Origen', dataIndex: 'origin_country' },
         { title: 'Nacionalidad', dataIndex: 'nationality' },
@@ -87,6 +90,8 @@
                 errorWrongTraveler();
                 break;
             default:
+                sucessTraveler();
+                router.push({ name: 'travelers' });
                 break;
         }
     };

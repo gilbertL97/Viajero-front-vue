@@ -22,12 +22,13 @@
                         v-model:value="traveler.sex"
                         :disabled="props.isOnlyView"
                     >
-                        <a-radio value="M">Masculino</a-radio>
-                        <a-radio value="F">Femenino</a-radio>
+                        <a-radio :value="traveler.sex">Masculino</a-radio>
+                        <a-radio :value="traveler.sex">Femenino</a-radio>
                     </a-radio-group>
                 </a-form-item>
                 <a-form-item :name="['born_date']" label="Fecha de Nacimiento">
                     <a-date-picker
+                        :locale="locale"
                         v-model:value="traveler.born_date"
                         value-format="YYYY-MM-DD"
                         :disabled="props.isOnlyView"
@@ -85,8 +86,10 @@
                         @selected="asignPlans"
                     />
                 </a-form-item>
+
                 <a-form-item :name="['sale_date']" label="Fecha de Venta">
                     <a-date-picker
+                        :locale="locale"
                         v-model:value="traveler.sale_date"
                         value-format="YYYY-MM-DD"
                         :disabled="props.isOnlyView"
@@ -98,6 +101,7 @@
                     :rules="[{ required: true }]"
                 >
                     <a-date-picker
+                        :locale="locale"
                         v-model:value="traveler.start_date"
                         value-format="YYYY-MM-DD"
                         :disabled="props.isOnlyView"
@@ -112,6 +116,7 @@
                     <a-date-picker
                         v-model:value="traveler.end_date_policy"
                         value-format="YYYY-MM-DD"
+                        :locale="locale"
                         :rules="[{ required: true }]"
                         :disabled="props.isOnlyView"
                         :disabled-date="disabledDateEnd"
@@ -181,6 +186,8 @@
 <script lang="ts" setup>
     import { onMounted, reactive, ref, watch } from 'vue';
     import dayjs, { Dayjs } from 'dayjs';
+    import 'dayjs/locale/es';
+    import locale from 'ant-design-vue/es/date-picker/locale/es_ES';
     import { TravelerResponse, Traveler } from '../../types/type.traveler';
     import DropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
     import DropCountries from '@/modules/country/components/dropdown/dropCountries.vue';

@@ -42,11 +42,22 @@ export default () => {
             timer: 3000,
         });
     };
+    const sucessTraveler = () => {
+        Swal.fire({
+            position: 'top',
+            icon: 'success',
+            title: 'Exito',
+            text: 'El fichero se importo correctamente',
+            showConfirmButton: false,
+            timer: 3000,
+        });
+    };
     return {
         alertInactive,
         alertForbidden,
         alertUndelete,
         warningRepeatTraveler,
         errorWrongTraveler,
+        sucessTraveler,
     };
 };
