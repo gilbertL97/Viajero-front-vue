@@ -1,7 +1,8 @@
 <template>
     <a-table
-        :columns="columns"
         :data-source="data"
+        :columns="columns"
+        :customRow="customRow"
         size="small"
         :loading="state.loading"
         :scroll="{ y: 300 }"
@@ -171,6 +172,13 @@
         try {
             data.value = (await getFilterTravelers(search)).data;
         } catch (error) {}
+    };
+    const customRow = (record: TravelerResponse) => {
+        return {
+            onClick: () => {
+                router.push('/travelers/view-travelers/' + record.id);
+            },
+        };
     };
     defineExpose({ filter, refresh });
 </script>

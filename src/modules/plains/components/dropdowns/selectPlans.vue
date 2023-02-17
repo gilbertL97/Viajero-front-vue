@@ -71,8 +71,4 @@
         plain.value = newProps.plainId!;
     });
 </script>
-<style scoped>
-    .ant-select {
-        padding-left: 13px !important;
-    }
-</style>
+<style scoped></style>
