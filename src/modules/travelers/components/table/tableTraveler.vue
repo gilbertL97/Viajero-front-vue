@@ -2,7 +2,6 @@
     <a-table
         :data-source="data"
         :columns="columns"
-        :customRow="customRow"
         size="small"
         :loading="state.loading"
         :scroll="{ y: 300 }"
@@ -21,9 +20,6 @@
                     <template #icon>
                         <EditOutlined />
                     </template>
-                </a-button>
-                <a-button id="button" @click="viewTraveler(record)"
-                    ><template #icon><EyeOutlined /></template>
                 </a-button>
                 <a-button id="button" @click="printPdf(record)"
                     ><template #icon><PrinterOutlined /></template>
@@ -54,12 +50,7 @@
 </template>
 <script lang="ts" setup>
     import { computed, ref, onMounted, reactive } from 'vue';
-    import {
-        DeleteOutlined,
-        EditOutlined,
-        EyeOutlined,
-        PrinterOutlined,
-    } from '@ant-design/icons-vue';
+    import { DeleteOutlined, EditOutlined, PrinterOutlined } from '@ant-design/icons-vue';
     import { TravelerResponse, FilterTravelers } from '../../types/type.traveler';
     import {
         deleteTravelers,
@@ -145,10 +136,6 @@
         router.push('/travelers/edit-travelers/' + record.id);
     };
 
-    const viewTraveler = (record?: any) => {
-        console.log(record);
-        router.push('/travelers/view-travelers/' + record.id);
-    };
     const printPdf = async (record: any) => {
         console.log(record.id);
         await getCertTravelers(record.id).then((response) => {
@@ -173,13 +160,13 @@
             data.value = (await getFilterTravelers(search)).data;
         } catch (error) {}
     };
-    const customRow = (record: TravelerResponse) => {
+    /*const customRow = (record: TravelerResponse) => {
         return {
             onClick: () => {
                 router.push('/travelers/view-travelers/' + record.id);
             },
         };
-    };
+    };*/
     defineExpose({ filter, refresh });
 </script>
 <style lscoped>

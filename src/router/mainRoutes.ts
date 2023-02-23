@@ -6,11 +6,12 @@ import plainsRoutes from '@/modules/plains/routes/plainsRoutes';
 import contractorsRoutes from '@/modules/contratctor/routes/contractorRoutes';
 const store = useAuthStore();
 const beforeEnter = (_to: any, _from: any, next: any) => {
-    const isAutenticade = store.getToken;
-    if (isAutenticade) {
+    const isloggedIn = store.isloggedIn;
+    if (isloggedIn) {
+        console.log(isloggedIn);
         next();
     } else {
-        console.log(isAutenticade);
+        console.log(isloggedIn);
         next({ name: 'login' });
     }
 };
