@@ -1,3 +1,4 @@
+import { UserRole } from '@/helpers/helpers/role.helper';
 import { RouteRecordRaw } from 'vue-router';
 
 const contractorsRoutes: RouteRecordRaw[] = [
@@ -6,6 +7,9 @@ const contractorsRoutes: RouteRecordRaw[] = [
         name: 'create-clients',
         component: () =>
             import('@/modules/contratctor/views/createOrEditContractors.vue'),
+        meta: {
+            role: [UserRole.ADMIN, UserRole.COMAGENT],
+        },
     },
     {
         path: '/clients/edit-clients/:id',
@@ -13,6 +17,9 @@ const contractorsRoutes: RouteRecordRaw[] = [
         component: () =>
             import('@/modules/contratctor/views/createOrEditContractors.vue'),
         props: true,
+        meta: {
+            role: [UserRole.ADMIN, UserRole.COMAGENT],
+        },
     },
 ];
 export default contractorsRoutes;

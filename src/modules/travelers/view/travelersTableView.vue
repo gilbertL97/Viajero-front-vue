@@ -109,7 +109,6 @@
         searchTravel.nationality = filter.nationality;
         searchTravel.coverage = filter.coverage;
         searchTravel.state = filter.state;
-        console.log(searchTravel, 'emitidos');
         table.value?.filter(searchTravel);
     };
     const deleteFilter = () => {
@@ -134,6 +133,7 @@
         searchDateandContractor.start_date_init = undefined;
         searchDateandContractor.start_date_end = undefined;
         searchDateandContractor.contractor = undefined;
+        filterContractor.value = undefined;
     };
     const refresh = () => {
         table.value?.refresh();
@@ -141,6 +141,7 @@
 
     watch([dateFilter, filterContractor], () => {
         if (dateFilter.value?.length > 1 || filterContractor.value) {
+            console.log(dateFilter.value?.length, filterContractor.value);
             if (dateFilter.value?.length > 1) {
                 searchDateandContractor.start_date_init = dateFilter.value[0];
                 searchDateandContractor.start_date_end = dateFilter.value[1];
