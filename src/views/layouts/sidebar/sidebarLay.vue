@@ -18,8 +18,8 @@
                     <NotificationOutlined />
                 </template>
                 <template #title>Mercadotecnia</template>
-                <a-menu-item
-                    ><router-link :to="{ name: 'clients' }">
+                <a-menu-item v-if=""
+                    ><router-link :to="{ name: 'clients' } ">
                         Gestión de Clientes</router-link
                     ></a-menu-item
                 >
@@ -52,6 +52,7 @@
     </a-layout-sider>
 </template>
 <script lang="ts" setup>
+    import { useAuthStore } from '@/modules/auth/store/auth.store';
     import {
         SettingOutlined,
         LineChartOutlined,
@@ -59,10 +60,8 @@
         UsergroupAddOutlined,
     } from '@ant-design/icons-vue';
     import { RouterLink } from 'vue-router';
-    //import { useAuthStore } from '@/modules/auth/store/auth.store';
-    // import { rolRankingValue } from '@/modules/user/types/user.types';
-    //const store = useAuthStore();
-    //const rankinPermisions: number = rolRankingValue[store.getUserInfo!.role];
+    const store = useAuthStore();
+    const role = store.userInfo?.rol;
 </script>
 <style scoped>
     .ant-layout-sider {

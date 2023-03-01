@@ -43,41 +43,41 @@
             >
                 <a-input placeholder="Correo" v-model:value="user.email" />
             </a-form-item>
-                <a-form-item :name="['role']" label="Rol" :rules="[{ required: true }]">
-                    <a-select v-model:value="user.role" placeholder="Seleccione el rol">
-                        <a-select-option
-                            @select="client = false"
-                            :value="UserRole.MARKAGENT"
-                            >{{ UserRoleEquivalen.MARKAGENT }}</a-select-option
-                        >
-                        <a-select-option :value="UserRole.CONSULT">
-                            {{ UserRoleEquivalen.CONSULT }}</a-select-option
-                        >
-                        <a-select-option :value="UserRole.COMAGENT">{{
-                            UserRoleEquivalen.COMAGENT
-                        }}</a-select-option>
-                        <a-select-option :value="UserRole.ADMIN">{{
-                            UserRoleEquivalen.ADMIN
-                        }}</a-select-option>
-                        <a-select-option :value="UserRole.CLIENT">{{
-                            UserRoleEquivalen.CLIENT
-                        }}</a-select-option>
-                    </a-select>
-                </a-form-item>
-                <div v-if="user.role == UserRole.CLIENT">
-                    <a-form-item
-                        :name="['contractor']"
-                        label="Agencia"
-                        :rules="[{ required: true }]"
+            <a-form-item :name="['role']" label="Rol" :rules="[{ required: true }]">
+                <a-select v-model:value="user.role" placeholder="Seleccione el rol">
+                    <a-select-option
+                        @select="client = false"
+                        :value="UserRole.MARKAGENT"
+                        >{{ UserRoleEquivalen.MARKAGENT }}</a-select-option
                     >
-                        <DropdownContrac
-                            :contractor="contractor.client"
-                            :contractor-id="contractor.id"
-                            @selected="asignContract"
-                            :active-select="false"
-                        />
-                    </a-form-item>
-                </div>
+                    <a-select-option :value="UserRole.CONSULT">
+                        {{ UserRoleEquivalen.CONSULT }}</a-select-option
+                    >
+                    <a-select-option :value="UserRole.COMAGENT">{{
+                        UserRoleEquivalen.COMAGENT
+                    }}</a-select-option>
+                    <a-select-option :value="UserRole.ADMIN">{{
+                        UserRoleEquivalen.ADMIN
+                    }}</a-select-option>
+                    <a-select-option :value="UserRole.CLIENT">{{
+                        UserRoleEquivalen.CLIENT
+                    }}</a-select-option>
+                </a-select>
+            </a-form-item>
+            <div v-if="user.role == UserRole.CLIENT">
+                <a-form-item
+                    :name="['contractor']"
+                    label="Agencia"
+                    :rules="[{ required: true }]"
+                >
+                    <DropdownContrac
+                        :contractor="contractor.client"
+                        :contractor-id="contractor.id"
+                        @selected="asignContract"
+                        :active-select="false"
+                    />
+                </a-form-item>
+            </div>
             <div class="btns">
                 <a-form-item :wrapper-col="{ wraper: 2, offset: 13 }">
                     <a-button type="primary" html-type="submit">Aceptar</a-button>
@@ -105,7 +105,7 @@
     import Swal from 'sweetalert2';
 
     const router = useRouter();
-    const props = defineProps<{ id?: string; }>();
+    const props = defineProps<{ id?: string }>();
     const id = ref(0);
     const client = ref(true);
     const loading = ref(false);

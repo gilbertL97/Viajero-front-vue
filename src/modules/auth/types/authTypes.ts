@@ -5,6 +5,11 @@ export interface UserLogin {
     username: string;
     password: string;
 }
+export interface UserAuth {
+    username: string;
+    id: number;
+    rol: string;
+}
 
 export type AuthState = {
     user?: User;

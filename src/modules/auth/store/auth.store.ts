@@ -1,11 +1,13 @@
 import { defineStore, createPinia } from 'pinia';
-import { User } from '@/modules/user/types/user.types';
+import { extract_user_data } from '@/common/jwt/util.jwt';
+import { UserAuth } from '../types/authTypes';
+import accesRole from '@/helpers/helpers/routes.role.json';
 
 const store = createPinia();
 
 interface UserState {
     token?: string | null;
-    userInfo: User | null;
+    userInfo: UserAuth | null;
     isloggedIn: boolean;
 }
 
@@ -16,12 +18,24 @@ export const authStore = defineStore('app-user', {
         isloggedIn: false,
     }),
     getters: {
-        getUserInfo(): User | null {
+        getUserInfo(): UserAuth | null {
+            if (this.getToken) {
+                const { username, id, role } = extract_user_data('user', this.getToken);
+                this.userInfo = {} as UserAuth;
+                this.userInfo!.id = id;
+                this.userInfo!.rol = role;
+                this.userInfo!.username = username;
+            }
             return this.userInfo;
         },
         getToken(): string | null | undefined {
             this.token = localStorage.getItem('token');
             return this.token;
+        },
+        canAcces(): boolean {
+            if (this.userInfo) {
+                const rolesAcces = <[]>JSON.parse(accesRole);
+            }
         },
     },
     actions: {
@@ -30,7 +44,7 @@ export const authStore = defineStore('app-user', {
             localStorage.setItem('token', value);
             //setToken(token)
         },
-        setUserInfo(info: User) {
+        setUserInfo(info: UserAuth) {
             this.userInfo = info;
         },
         setLogged() {
