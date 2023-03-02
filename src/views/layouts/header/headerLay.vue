@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-    import FormChangePass from '@/modules/user/components/form/formChangePass.vue';
+    import FormChangePass from '@/modules/auth/components/form/formChangePass.vue';
     import { ref } from 'vue';
     const visible = ref(false);
     const setVisible = (set: boolean) => {

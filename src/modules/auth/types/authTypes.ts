@@ -6,6 +6,7 @@ export interface UserLogin {
     password: string;
 }
 export interface UserAuth {
+    views: string[];
     username: string;
     id: number;
     rol: string;
@@ -27,3 +28,7 @@ export interface RegisterUserInfo {
     username: string;
     password: string;
 }
+export type AccesControl = {
+    role: string;
+    acces: string[];
+};

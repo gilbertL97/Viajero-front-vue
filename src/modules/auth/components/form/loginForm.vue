@@ -72,7 +72,6 @@
         try {
             const token = await loginService(form.username, form.password);
             if (token) {
-                store.setUserInfo(token.data.user);
                 store.setToken(token.data.access_token);
                 store.setLogged();
                 router.push('/hom');

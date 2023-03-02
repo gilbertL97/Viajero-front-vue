@@ -18,7 +18,7 @@
                     <NotificationOutlined />
                 </template>
                 <template #title>Mercadotecnia</template>
-                <a-menu-item v-if=""
+                <a-menu-item v-if="store.canAccess('clients')"
                     ><router-link :to="{ name: 'clients' } ">
                         Gestión de Clientes</router-link
                     ></a-menu-item
@@ -61,7 +61,6 @@
     } from '@ant-design/icons-vue';
     import { RouterLink } from 'vue-router';
     const store = useAuthStore();
-    const role = store.userInfo?.rol;
 </script>
 <style scoped>
     .ant-layout-sider {

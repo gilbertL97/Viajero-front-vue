@@ -67,12 +67,12 @@
     import { reactive } from 'vue';
     import Swal from 'sweetalert2';
     import { LockOutlined } from '@ant-design/icons-vue';
-    import { ChangePass } from '../../types/user.types';
+    import { ChangePass } from '../../../user/types/user.types';
     import {
         defaultValidateMessages,
         //repeatMessage,
     } from '@/common/utils/validationMessages';
-    import { editPassword } from '../../services/user.service';
+    import { editPassword } from '../../../user/services/user.service';
 
     const layout = {
         labelCol: { span: 10 },

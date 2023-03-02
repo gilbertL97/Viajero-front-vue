@@ -9,8 +9,10 @@ const store = useAuthStore();
 const beforeEnter = (_to: any, _from: any, next: any) => {
     const isloggedIn = store.getToken;
     if (isloggedIn) {
+        console.log('este el esl oken', isloggedIn);
         next();
     } else {
+        console.log('no hay token ');
         next({ name: 'login' });
     }
 };

@@ -1,6 +1,6 @@
 import { defineStore, createPinia } from 'pinia';
 import { extract_user_data } from '@/common/jwt/util.jwt';
-import { UserAuth } from '../types/authTypes';
+import { AccesControl, UserAuth } from '../types/authTypes';
 import accesRole from '@/helpers/helpers/routes.role.json';
 
 const store = createPinia();
@@ -32,11 +32,6 @@ export const authStore = defineStore('app-user', {
             this.token = localStorage.getItem('token');
             return this.token;
         },
-        canAcces(): boolean {
-            if (this.userInfo) {
-                const rolesAcces = <[]>JSON.parse(accesRole);
-            }
-        },
     },
     actions: {
         setToken(value: string) {
@@ -56,6 +51,18 @@ export const authStore = defineStore('app-user', {
             this.userInfo = null;
             /* removeToken()
       resetRouter()*/
+        },
+        canAccess(view: string): boolean {
+            this.getUserInfo;
+            const rolesAcces = <AccesControl[]>accesRole;
+            const access = rolesAcces.find((roles) => {
+                this.userInfo?.rol == roles.role;
+                return roles.acces;
+            });
+            const can = access?.acces.some((ac) => ac == view);
+            console.log(view, can);
+            if (can) return true;
+            return false;
         },
     },
 });
