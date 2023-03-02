@@ -25,7 +25,13 @@ export const authStore = defineStore('app-user', {
                 this.userInfo!.id = id;
                 this.userInfo!.rol = role;
                 this.userInfo!.username = username;
+                const rolesAcces = <AccesControl[]>accesRole;
+                const access = rolesAcces.find(
+                    (roles) => this.userInfo?.rol == roles.role,
+                );
+                this.userInfo.views = access;
             }
+
             return this.userInfo;
         },
         getToken(): string | null | undefined {
@@ -42,6 +48,10 @@ export const authStore = defineStore('app-user', {
         setUserInfo(info: UserAuth) {
             this.userInfo = info;
         },
+        logout() {
+            localStorage.removeItem('token');
+            this.token = '';
+        },
         setLogged() {
             if (typeof this.getToken === 'string' && this.getToken != '')
                 this.isloggedIn = true;
@@ -54,13 +64,7 @@ export const authStore = defineStore('app-user', {
         },
         canAccess(view: string): boolean {
             this.getUserInfo;
-            const rolesAcces = <AccesControl[]>accesRole;
-            const access = rolesAcces.find((roles) => {
-                this.userInfo?.rol == roles.role;
-                return roles.acces;
-            });
-            const can = access?.acces.some((ac) => ac == view);
-            console.log(view, can);
+            const can = this.userInfo?.views?.acces.some((ac) => ac == view);
             if (can) return true;
             return false;
         },

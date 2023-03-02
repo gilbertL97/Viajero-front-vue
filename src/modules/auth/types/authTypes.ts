@@ -6,7 +6,7 @@ export interface UserLogin {
     password: string;
 }
 export interface UserAuth {
-    views: string[];
+    views: AccesControl | undefined;
     username: string;
     id: number;
     rol: string;

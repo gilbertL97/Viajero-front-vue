@@ -1,7 +1,7 @@
 <template>
     <a-layout-sider>
         <a-menu mode="vertical">
-            <a-sub-menu key="sub1">
+            <a-sub-menu v-if="acces('users')" key="sub1">
                 <template #icon>
                     <SettingOutlined />
                 </template>
@@ -13,23 +13,23 @@
                     </router-link></a-menu-item
                 >
             </a-sub-menu>
-            <a-sub-menu key="sub2">
+            <a-sub-menu>
                 <template #icon>
                     <NotificationOutlined />
                 </template>
                 <template #title>Mercadotecnia</template>
-                <a-menu-item v-if="store.canAccess('clients')"
-                    ><router-link :to="{ name: 'clients' } ">
+                <a-menu-item v-if="acces('clients')"
+                    ><router-link :to="{ name: 'clients' }">
                         Gestión de Clientes</router-link
                     ></a-menu-item
                 >
-                <a-menu-item
+                <a-menu-item v-if="acces('plains')"
                     ><router-link :to="{ name: 'plains' }">
                         Gestión de los Planes
                     </router-link></a-menu-item
                 >
             </a-sub-menu>
-            <a-sub-menu key="sub4">
+            <a-sub-menu v-if="acces('travelers')">
                 <template #icon>
                     <UsergroupAddOutlined />
                 </template>
@@ -45,8 +45,8 @@
                     <LineChartOutlined />
                 </template>
                 <template #title>Consultas</template>
-                <a-menu-item key="consultCl">Clientes</a-menu-item>
-                <a-menu-item key="consultUs">Usuarios</a-menu-item>
+                <a-menu-item v-if="acces('plains')">Clientes</a-menu-item>
+                <a-menu-item v-if="acces('plains')">Usuarios</a-menu-item>
             </a-sub-menu>
         </a-menu>
     </a-layout-sider>
@@ -61,6 +61,9 @@
     } from '@ant-design/icons-vue';
     import { RouterLink } from 'vue-router';
     const store = useAuthStore();
+    const acces = (view: string) => {
+        return store.canAccess(view);
+    };
 </script>
 <style scoped>
     .ant-layout-sider {

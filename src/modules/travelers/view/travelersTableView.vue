@@ -20,9 +20,14 @@
             >Borrar Filtros <DeleteOutlined
         /></a-button>
         <a-divider type="vertical" />
-        <a-button @click="createTraveler" type="primary">Añadir</a-button>
+        <a-button
+            v-if="store.canAccess('create-travelers')"
+            @click="createTraveler"
+            type="primary"
+            >Añadir</a-button
+        >
         <a-divider type="vertical" />
-        <a-button @click="gotoUpload" type="primary"
+        <a-button @click="gotoUpload" v-if="store.canAccess('upload')" type="primary"
             ><upload-outlined /> Subir Ficheros</a-button
         >
         <a-divider type="vertical" />
@@ -55,6 +60,11 @@
     import { FilterTravelers } from '../types/type.traveler';
     import locale from 'ant-design-vue/es/date-picker/locale/es_ES';
     import 'dayjs/locale/es';
+    import { useAuthStore } from '@/modules/auth/store/auth.store';
+    const store = useAuthStore();
+    const acces = (view: string) => {
+        return store.canAccess(view);
+    };
 
     const router = useRouter();
 

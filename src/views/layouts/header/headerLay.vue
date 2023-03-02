@@ -25,6 +25,7 @@
                         <a-menu-item @click="visible = true"
                             >Cambiar contraseña</a-menu-item
                         >
+                        <a-menu-item @click="logout">Cerrar Sesión</a-menu-item>
                     </a-menu>
                 </template>
             </a-dropdown>
@@ -43,9 +44,17 @@
 <script setup lang="ts">
     import FormChangePass from '@/modules/auth/components/form/formChangePass.vue';
     import { ref } from 'vue';
+    import { useAuthStore } from '@/modules/auth/store/auth.store';
+    import { useRouter } from 'vue-router';
+    const router = useRouter();
+    const store = useAuthStore();
     const visible = ref(false);
     const setVisible = (set: boolean) => {
         visible.value = set;
+    };
+    const logout = () => {
+        store.logout;
+        router.push({ name: 'login' });
     };
 </script>
 
