@@ -45,7 +45,11 @@
                     <LineChartOutlined />
                 </template>
                 <template #title>Consultas</template>
-                <a-menu-item v-if="acces('plains')">Facturacion</a-menu-item>
+                <a-menu-item v-if="acces('plains')">
+                    <router-link :to="{ name: 'invoicing' }"
+                        >Facturacion</router-link
+                    ></a-menu-item
+                >
                 <a-menu-item v-if="acces('plains')">Usuarios</a-menu-item>
             </a-sub-menu>
         </a-menu>

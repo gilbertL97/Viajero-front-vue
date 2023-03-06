@@ -35,6 +35,9 @@
             value-format="YYYY-MM-DD"
         />
     </a-form-item>
+    <a-form-item :name="['state']" label="Vigente">
+        <a-checkbox v-model:checked="search.state" /> />
+    </a-form-item>
     <a-form-item :name="['contractor']" label="Agencia">
         <DropdownContrac @selected="asignContract" :active-select="true" />
     </a-form-item>

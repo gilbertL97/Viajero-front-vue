@@ -1,13 +1,30 @@
 <template>
-    <a-table :columns="columns" :data-source="data" size="small" :loading="loading" />
+    <a-table :columns="columns" size="small" :loading="loading" :data-source="data">
+        <template #summary>
+            <a-table-summary-row>
+                <a-table-summary-cell>Total</a-table-summary-cell>
+                <a-table-summary-cell>-</a-table-summary-cell>
+                <a-table-summary-cell>
+                    <a-typography-text type="danger">{{
+                        totalTravelers
+                    }}</a-typography-text>
+                </a-table-summary-cell>
+                <a-table-summary-cell>
+                    <a-typography-text type="danger">{{ totalAmount }}</a-typography-text>
+                </a-table-summary-cell>
+            </a-table-summary-row>
+        </template>
+    </a-table>
 </template>
 
 <script setup lang="ts">
-    import { ref } from 'vue';
-    import { ContractorInv } from '../../types/contractor.types';
-
+    import { onMounted, ref } from 'vue';
+    import { Contractor, FilterContractor } from '../../types/contractor.types';
+    import { getInvoicing } from '../../services/contractor.service';
     const loading = ref(false);
-    let data = ref<ContractorInv[]>([]);
+    const data = ref<Contractor[]>([]);
+    const totalAmount = ref(0);
+    const totalTravelers = ref(0);
     const columns = [
         {
             title: 'Nombre',
@@ -22,10 +39,29 @@
             dataIndex: 'total_travelers',
         },
         {
-            title: 'Importe_total',
+            title: 'Importe Total',
             dataIndex: 'total_import',
         },
     ];
+    onMounted(async () => {
+        loading.value = true;
+        await refresh();
+    });
+
+    const refresh = async () => {
+        try {
+            loading.value = true;
+            const filter: FilterContractor = {};
+            filter.dateInvoicing = new Date('2023-02-10');
+            const { contractors, total_travelers, total_amount } = (
+                await getInvoicing(filter)
+            ).data;
+            totalAmount.value = total_amount;
+            totalTravelers.value = total_travelers;
+            data.value = contractors;
+        } catch (error) {}
+        loading.value = false;
+    };
 </script>
 
 <style lang="scss" scoped></style>

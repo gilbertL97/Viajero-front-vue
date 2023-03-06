@@ -142,6 +142,7 @@
         state.loading = true;
         try {
             data.value = (await getContractors()).data;
+            console.log(data.value);
 
             data.value.sort((a, b) =>
                 a.client.toLocaleLowerCase() < b.client.toLocaleLowerCase()

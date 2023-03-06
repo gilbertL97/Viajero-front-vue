@@ -112,6 +112,10 @@
             title: 'Estado',
             dataIndex: 'state',
         },
+        {
+            title: 'Importe',
+            dataIndex: 'total_amount',
+        },
 
         { title: 'Operaciones', dataIndex: 'action', width: 150 },
     ]; /*.filter((col) => {
