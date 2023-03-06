@@ -19,22 +19,27 @@ export const authStore = defineStore('app-user', {
     }),
     getters: {
         getUserInfo(): UserAuth | null {
-            if (this.getToken) {
-                const { username, id, role } = extract_user_data('user', this.getToken);
-                this.userInfo = {} as UserAuth;
-                this.userInfo!.id = id;
-                this.userInfo!.rol = role;
-                this.userInfo!.username = username;
-                const rolesAcces = <AccesControl[]>accesRole;
-                const access = rolesAcces.find(
-                    (roles) => this.userInfo?.rol == roles.role,
-                );
-                this.userInfo.views = access;
+            if (!this.userInfo) {
+                if (this.getToken) {
+                    const { username, id, role } = extract_user_data(
+                        'user',
+                        this.getToken,
+                    );
+                    this.userInfo = {} as UserAuth;
+                    this.userInfo!.id = id;
+                    this.userInfo!.rol = role;
+                    this.userInfo!.username = username;
+                    const rolesAcces = <AccesControl[]>accesRole;
+                    const access = rolesAcces.find(
+                        (roles) => this.userInfo?.rol == roles.role,
+                    );
+                    this.userInfo.views = access;
+                }
             }
-
             return this.userInfo;
         },
         getToken(): string | null | undefined {
+            if (this.token) return this.token;
             this.token = localStorage.getItem('token');
             return this.token;
         },
@@ -43,10 +48,18 @@ export const authStore = defineStore('app-user', {
         setToken(value: string) {
             this.token = value;
             localStorage.setItem('token', value);
+            this.setUserInfo(value);
             //setToken(token)
         },
-        setUserInfo(info: UserAuth) {
-            this.userInfo = info;
+        setUserInfo(token: string) {
+            const { username, id, role } = extract_user_data('user', token);
+            this.userInfo = {} as UserAuth;
+            this.userInfo!.id = id;
+            this.userInfo!.rol = role;
+            this.userInfo!.username = username;
+            const rolesAcces = <AccesControl[]>accesRole;
+            const access = rolesAcces.find((roles) => this.userInfo?.rol == roles.role);
+            this.userInfo.views = access;
         },
         logout() {
             localStorage.removeItem('token');
@@ -63,7 +76,6 @@ export const authStore = defineStore('app-user', {
       resetRouter()*/
         },
         canAccess(view: string): boolean {
-            this.getUserInfo;
             const can = this.userInfo?.views?.acces.some((ac) => ac == view);
             if (can) return true;
             return false;

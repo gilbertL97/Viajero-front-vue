@@ -8,3 +8,7 @@ export type Contractor = {
     poliza: string;
     isActive: boolean;
 };
+export type ContractorInv = Contractor & {
+    total_travelers: number;
+    total_import: number;
+};
