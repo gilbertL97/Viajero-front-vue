@@ -47,7 +47,6 @@ export async function updateTraveler(
 export async function getFilterTravelers(
     filterTravelers: FilterTravelers,
 ): Promise<AxiosResponse<TravelerResponse[]>> {
-    console.log(filterTravelers);
     const config: AxiosRequestConfig = {
         method: 'GET',
         url: '/traveler/filter',

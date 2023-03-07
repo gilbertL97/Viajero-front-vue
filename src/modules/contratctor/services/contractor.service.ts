@@ -1,10 +1,6 @@
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
 import API from '@/service/api';
-import {
-    Contractor,
-    ContractorsAndTotals,
-    FilterContractor,
-} from '../types/contractor.types';
+import { Contractor, ContractorsAndTotals } from '../types/contractor.types';
 
 export async function getContractors(): Promise<AxiosResponse<Contractor[]>> {
     const config: AxiosRequestConfig = {
@@ -57,13 +53,12 @@ export async function addContractors(
 }
 
 export async function getInvoicing(
-    date: FilterContractor,
+    dateInvoicing: string,
 ): Promise<AxiosResponse<ContractorsAndTotals>> {
-    console.log(date);
     const config: AxiosRequestConfig = {
         method: 'GET',
         url: '/contractor/invoicing',
-        params: date,
+        params: { dateInvoicing },
     };
     return await API.request<ContractorsAndTotals>(config);
 }

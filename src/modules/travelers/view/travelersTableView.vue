@@ -62,9 +62,6 @@
     import 'dayjs/locale/es';
     import { useAuthStore } from '@/modules/auth/store/auth.store';
     const store = useAuthStore();
-    const acces = (view: string) => {
-        return store.canAccess(view);
-    };
 
     const router = useRouter();
 
@@ -92,7 +89,7 @@
     });
     //const search = ref(false);
     const dateFilter = ref<Date[]>([]);
-    const table = ref(null);
+    const table = ref(tableTraveler);
     const gotoUpload = () => {
         router.push({ name: 'upload' });
     };

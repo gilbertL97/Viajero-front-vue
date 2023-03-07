@@ -19,8 +19,9 @@
 
 <script setup lang="ts">
     import { onMounted, ref } from 'vue';
-    import { Contractor, FilterContractor } from '../../types/contractor.types';
+    import { Contractor } from '../../types/contractor.types';
     import { getInvoicing } from '../../services/contractor.service';
+
     const loading = ref(false);
     const data = ref<Contractor[]>([]);
     const totalAmount = ref(0);
@@ -49,12 +50,15 @@
     });
 
     const refresh = async () => {
+        const date = new Date();
+        getData(date);
+    };
+    const getData = async (date: Date) => {
         try {
             loading.value = true;
-            const filter: FilterContractor = {};
-            filter.dateInvoicing = new Date('2023-02-10');
+            console.log(date);
             const { contractors, total_travelers, total_amount } = (
-                await getInvoicing(filter)
+                await getInvoicing(date.toISOString())
             ).data;
             totalAmount.value = total_amount;
             totalTravelers.value = total_travelers;
@@ -62,6 +66,7 @@
         } catch (error) {}
         loading.value = false;
     };
+    defineExpose({ getData });
 </script>
 
 <style lang="scss" scoped></style>

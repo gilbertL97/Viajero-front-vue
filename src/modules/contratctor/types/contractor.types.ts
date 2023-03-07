@@ -7,13 +7,12 @@ export type Contractor = {
     file: string;
     poliza: string;
     isActive: boolean;
-    total_travelers?: number;
-    total_import?: number;
+    analysis_number: string;
 };
-/*export type ContractorInv = Contractor & {
+export type ContractorInv = Contractor & {
     total_travelers: number;
     total_import: number;
-};*/
+};
 export type ContractorsAndTotals = {
     contractors: Contractor[];
     total_amount: number;

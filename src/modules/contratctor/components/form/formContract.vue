@@ -57,6 +57,17 @@
                 <a-input placeholder="Telefono" v-model:value="contract.telf" />
             </a-form-item>
             <a-form-item
+                has-feedback
+                :name="['analysis_number']"
+                label="Número de Anàlisis"
+                :rules="[{ required: true, min: 4 }]"
+            >
+                <a-input
+                    placeholder="Número de Análisis"
+                    v-model:value="contract.analysis_number"
+                />
+            </a-form-item>
+            <a-form-item
                 :name="['poliza']"
                 label="Poliza"
                 :rules="[{ required: true, min: 6 }]"
@@ -108,6 +119,7 @@
         file: '',
         poliza: '',
         isActive: true,
+        analysis_number: '',
     });
     const loading = ref(false);
 
@@ -163,6 +175,7 @@
         contract.addres = contractR.addres;
         contract.file = contractR.file;
         contract.isActive = contractR.isActive;
+        contract.analysis_number = contractR.analysis_number;
     };
     const handleError = (error: any) => {
         if (error.response.status == 403) {
