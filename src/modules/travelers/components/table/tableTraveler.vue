@@ -63,12 +63,15 @@
     import { getPlans } from '@/modules/plains/services/plan.service';
     import { usePlainStore } from '@/modules/plains/store/plans.store';
     //import dayjs from 'dayjs';
+    const props = defineProps<{
+        data?: TravelerResponse[];
+    }>();
+
     const store = usePlainStore();
 
     const router = useRouter();
     const data = ref<TravelerResponse[]>([]);
     const plains = ref<Plans[]>([]);
-
     const state = reactive<{
         selectedRowKeys: TravelerResponse[];
         loading: boolean;
@@ -127,6 +130,7 @@
     const hasSelected = computed(() => state.selectedRowKeys.length > 0);
 
     onMounted(async () => {
+        if (props.data?.length) data.value = props.data;
         await refresh();
     });
 

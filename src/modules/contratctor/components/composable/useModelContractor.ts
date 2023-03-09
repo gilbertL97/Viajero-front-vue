@@ -11,6 +11,7 @@ export default (contractR: Contractor) => {
         file: contractR.file,
         poliza: contractR.poliza,
         isActive: true,
+        analysis_number: contractR.analysis_number,
     });
     return contract;
 };

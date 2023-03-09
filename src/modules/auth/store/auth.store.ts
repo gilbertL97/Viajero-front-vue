@@ -33,6 +33,7 @@ export const authStore = defineStore('app-user', {
                     const access = rolesAcces.find(
                         (roles) => this.userInfo?.rol == roles.role,
                     );
+                    console.log('entro aqui');
                     this.userInfo.views = access;
                 }
             }
