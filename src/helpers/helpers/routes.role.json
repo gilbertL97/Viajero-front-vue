@@ -16,7 +16,8 @@
           "create-travelers",
           "edit-travelers",
           "view-travelersd",
-          "upload"
+          "upload",
+          "files"
        ]
     },
     {
@@ -27,7 +28,8 @@
         "create-travelers",
         "edit-travelers",
         "view-travelersd",
-        "upload"
+        "upload",
+        "files"
      ]
     },
     {
@@ -35,7 +37,8 @@
       "role":"consult",
       "acces":[
           "home",
-          "travelers"
+          "travelers",
+          "files"
        ]
     },
     {"role":"marketing",
@@ -48,7 +51,8 @@
           "create-travelers",
           "edit-travelers",
           "view-travelersd",
-          "upload"
+          "upload",
+          "files"
        ]
     },
     {"role":"comercial",
@@ -61,7 +65,8 @@
           "create-travelers",
           "edit-travelers",
           "view-travelersd",
-          "upload"
+          "upload",
+          "files"
 ]
     }
  ]

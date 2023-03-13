@@ -73,6 +73,7 @@
         high_risk: 0,
         daily: false,
         isActive: false,
+        config_string: '',
     });
     // let editable: Plans= reactive({
     //     name: '',
@@ -170,6 +171,7 @@
         plain.high_risk = 2;
         plain.daily = false;
         plain.isActive = false;
+        plain.config_string = '';
     };
 </script>
 

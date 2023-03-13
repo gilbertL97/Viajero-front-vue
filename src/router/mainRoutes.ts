@@ -5,6 +5,7 @@ import userRoutes from '@/modules/user/routes/userRoutes';
 import plainsRoutes from '@/modules/plains/routes/plainsRoutes';
 import contractorsRoutes from '@/modules/contratctor/routes/contractorRoutes';
 import { UserRole } from '@/helpers/helpers/role.helper';
+import filesRoutes from '@/modules/files/router/file.router';
 const store = useAuthStore();
 const beforeEnter = (_to: any, _from: any, next: any) => {
     const isloggedIn = store.getToken;
@@ -102,6 +103,7 @@ const mainRoutes: RouteRecordRaw[] = [
             ...userRoutes,
             ...plainsRoutes,
             ...contractorsRoutes,
+            ...filesRoutes,
         ],
     },
 ];

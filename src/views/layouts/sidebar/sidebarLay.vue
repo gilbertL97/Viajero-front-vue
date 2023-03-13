@@ -39,6 +39,9 @@
                         >Gestion de Viajeros</router-link
                     >
                 </a-menu-item>
+                <a-menu-item>
+                    <router-link :to="{ name: 'files' }">Archivos</router-link>
+                </a-menu-item>
             </a-sub-menu>
             <a-sub-menu key="sub3">
                 <template #icon>
