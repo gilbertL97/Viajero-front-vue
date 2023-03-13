@@ -20,11 +20,8 @@ export const authStore = defineStore('app-user', {
     getters: {
         getUserInfo(): UserAuth | null {
             if (!this.userInfo) {
-                if (this.getToken) {
-                    const { username, id, role } = extract_user_data(
-                        'user',
-                        this.getToken,
-                    );
+                if (this.token) {
+                    const { username, id, role } = extract_user_data('user', this.token);
                     this.userInfo = {} as UserAuth;
                     this.userInfo!.id = id;
                     this.userInfo!.rol = role;
@@ -42,6 +39,7 @@ export const authStore = defineStore('app-user', {
         getToken(): string | null | undefined {
             if (this.token) return this.token;
             this.token = localStorage.getItem('token');
+            this.getUserInfo;
             return this.token;
         },
     },
@@ -73,8 +71,6 @@ export const authStore = defineStore('app-user', {
         resetState() {
             this.token = '';
             this.userInfo = null;
-            /* removeToken()
-      resetRouter()*/
         },
         canAccess(view: string): boolean {
             const can = this.userInfo?.views?.acces.some((ac) => ac == view);
