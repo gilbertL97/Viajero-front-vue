@@ -52,6 +52,16 @@ export default () => {
             timer: 3000,
         });
     };
+    const cantDelete = () => {
+        Swal.fire({
+            position: 'top',
+            icon: 'error',
+            title: 'Error',
+            text: 'No puede eliminar el recurso solicitado',
+            showConfirmButton: false,
+            timer: 3000,
+        });
+    };
     return {
         alertInactive,
         alertForbidden,
@@ -59,5 +69,6 @@ export default () => {
         warningRepeatTraveler,
         errorWrongTraveler,
         sucessTraveler,
+        cantDelete,
     };
 };

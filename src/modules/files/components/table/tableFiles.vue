@@ -27,10 +27,11 @@
     import { onMounted, ref } from 'vue';
     import { DeleteOutlined, UsergroupAddOutlined } from '@ant-design/icons-vue';
     import { FileD } from '../../type/file.type';
-    import { deletFiles, getAllFiles } from '../../services/file.service';
-
+    import { deletFiles, getFiles } from '../../services/file.service';
+    import manageError from '@/common/composable/manageError';
     import dayjs from 'dayjs';
 
+    const { cantDelete } = manageError();
     const loading = ref(false);
     const data = ref<FileD[]>([]);
     const columns = [
@@ -67,6 +68,11 @@
     const onDelete = async (id: number) => {
         try {
             await deletFiles(id);
-        } catch (error) {}
+            refresh();
+        } catch (error: any) {
+            if (error.response.status == 400) {
+                cantDelete();
+            }
+        }
     };
 </script>
