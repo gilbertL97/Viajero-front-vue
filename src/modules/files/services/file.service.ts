@@ -2,7 +2,7 @@ import API from '@/service/api';
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
 import { FileD } from '../type/file.type';
 
-export async function getAllFiles(): Promise<AxiosResponse<FileD[]>> {
+export async function getFiles(): Promise<AxiosResponse<FileD[]>> {
     const config: AxiosRequestConfig = {
         method: 'GET',
         url: '/file',

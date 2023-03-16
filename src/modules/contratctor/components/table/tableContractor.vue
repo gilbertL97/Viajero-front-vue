@@ -94,6 +94,11 @@
             dataIndex: 'poliza',
         },
         {
+            title: 'No de Analisis',
+            dataIndex: 'analysis_number',
+        },
+
+        {
             title: 'Estado',
             dataIndex: 'state',
         },
@@ -103,20 +108,6 @@
     //const selectedRowKeys = ref<Contractor['id'][]>([]); // Check here to configure the default column
 
     const hasSelected = computed(() => state.selectedRowKeys.length > 0);
-
-    // const deletecontractor = () => {
-    //     state.loading = true;
-    //     // ajax request after empty completing
-    //     setTimeout(() => {
-    //         state.loading = false;
-    //         state.selectedRowKeys = [];
-    //     }, 1000);
-    // };
-
-    // const onSelectChange = (selectedRowKeys: Contractor[]) => {
-    //     console.log('selectedRowKeys changed: ', selectedRowKeys);
-    //     state.selectedRowKeys = selectedRowKeys;
-    // };
 
     const onDelete = async (key: number) => {
         console.log(key);
