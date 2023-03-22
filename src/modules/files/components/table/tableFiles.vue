@@ -27,7 +27,7 @@
     import { onMounted, ref } from 'vue';
     import { DeleteOutlined, UsergroupAddOutlined } from '@ant-design/icons-vue';
     import { FileD } from '../../type/file.type';
-    import { deletFiles, getFiles } from '../../services/file.service';
+    import { deletFiles, getFiles, filterFiles } from '../../services/file.service';
     import manageError from '@/common/composable/manageError';
     import dayjs from 'dayjs';
 
@@ -59,7 +59,7 @@
     const getData = async () => {
         try {
             loading.value = true;
-            const files = (await getAllFiles()).data;
+            const files = (await getFiles()).data;
 
             data.value = files;
         } catch (error) {}
@@ -75,4 +75,12 @@
             }
         }
     };
+    const filter = async (file: FileD) => {
+        try {
+            loading.value = true;
+            data.value = (await filterFiles(file)).data;
+        } catch (error) {}
+        loading.value = false;
+    };
+    defineExpose({ filter, refresh });
 </script>

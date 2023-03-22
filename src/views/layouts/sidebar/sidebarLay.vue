@@ -33,7 +33,7 @@
                 <template #icon>
                     <UsergroupAddOutlined />
                 </template>
-                <template #title>Tomadores de Seguros</template>
+                <template #title>Clientes</template>
                 <a-menu-item>
                     <router-link :to="{ name: 'travelers' }"
                         >Gestion de Viajeros</router-link
@@ -48,12 +48,12 @@
                     <LineChartOutlined />
                 </template>
                 <template #title>Consultas</template>
-                <a-menu-item v-if="acces('plains')">
+                <a-menu-item v-if="acces('fact')">
                     <router-link :to="{ name: 'invoicing' }"
                         >Facturacion</router-link
                     ></a-menu-item
                 >
-                <a-menu-item v-if="acces('plains')">Usuarios</a-menu-item>
+                <a-menu-item v-if="acces('current')">Viajeros Vigentes</a-menu-item>
             </a-sub-menu>
         </a-menu>
     </a-layout-sider>

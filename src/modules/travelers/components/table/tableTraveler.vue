@@ -4,7 +4,7 @@
         :columns="columns"
         size="small"
         :loading="state.loading"
-        :scroll="{ y: 300 }"
+        :scroll="{ y: 500, x: 500 }"
     >
         <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'action'">
@@ -168,13 +168,6 @@
             data.value = (await getFilterTravelers(search)).data;
         } catch (error) {}
     };
-    /*const customRow = (record: TravelerResponse) => {
-        return {
-            onClick: () => {
-                router.push('/travelers/view-travelers/' + record.id);
-            },
-        };
-    };*/
     defineExpose({ filter, refresh });
 </script>
 <style lscoped>

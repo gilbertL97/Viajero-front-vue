@@ -309,15 +309,12 @@
     };
     const asignPlans = (value: number) => {
         traveler.coverage = value;
-        console.log('este es el plan :' + value);
     };
     const asignOriginCountry = (value: string) => {
         traveler.origin_country = value;
-        console.log('este es el pais :' + value);
     };
     const asignNationality = (value: string) => {
         traveler.nationality = value;
-        console.log('este es el nacionalidad :' + value);
     };
 
     const intializateTraveler = (travelerR: TravelerResponse) => {
@@ -328,22 +325,8 @@
         traveler.email = travelerR.email;
         traveler.passport = travelerR.passport;
         traveler.sale_date = travelerR.sale_date;
-        console.log(
-            '🚀 ~ file: formTravelers.vue:324 ~ intializateTraveler ~ traveler.sale_date',
-            traveler.sale_date,
-        );
         traveler.start_date = travelerR.start_date;
-        console.log(
-            '🚀 ~ file: formTravelers.vue:325 ~ intializateTraveler ~ traveler.start_date ',
-            traveler.start_date,
-            typeof traveler.start_date,
-        );
         traveler.end_date_policy = travelerR.end_date_policy;
-        console.log(
-            '🚀 ~ file: formTravelers.vue:327 ~ intializateTraveler ~ traveler.end_date_polic',
-            traveler.end_date_policy,
-        );
-
         traveler.number_high_risk_days = travelerR.number_high_risk_days;
         traveler.contractor = travelerR.contractor?.id;
         traveler.origin_country = travelerR.origin_country?.iso;
