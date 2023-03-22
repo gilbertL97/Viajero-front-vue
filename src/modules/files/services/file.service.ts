@@ -9,6 +9,14 @@ export async function getFiles(): Promise<AxiosResponse<FileD[]>> {
     };
     return await API.request<FileD[]>(config);
 }
+export async function filterFiles(file: FileD): Promise<AxiosResponse<FileD[]>> {
+    const config: AxiosRequestConfig = {
+        method: 'GET',
+        url: '/file/filter',
+        params: file,
+    };
+    return await API.request<FileD[]>(config);
+}
 
 export async function deletFiles(id: number): Promise<AxiosResponse<FileD>> {
     const config: AxiosRequestConfig = {
