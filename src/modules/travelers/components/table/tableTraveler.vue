@@ -38,6 +38,12 @@
             <template v-if="column.dataIndex === 'contractor'"
                 >{{ record.contractor.client }}
             </template>
+            <template v-if="column.dataIndex === 'start_date'">
+                <h4>{{ dayjs(record.start_date).format('DD/MM/YYYY') }}</h4>
+            </template>
+            <template v-if="column.dataIndex === 'end_date_policy'">
+                <h4>{{ dayjs(record.end_date_policy).format('DD/MM/YYYY') }}</h4>
+            </template>
         </template>
     </a-table>
     <div style="margin-bottom: 16px">
@@ -51,6 +57,7 @@
 <script lang="ts" setup>
     import { computed, ref, onMounted, reactive } from 'vue';
     import { DeleteOutlined, EditOutlined, PrinterOutlined } from '@ant-design/icons-vue';
+    import dayjs from 'dayjs';
     import { TravelerResponse, FilterTravelers } from '../../types/type.traveler';
     import {
         deleteTravelers,
