@@ -49,7 +49,7 @@
     import dropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
     import { SearchOutlined, DeleteOutlined } from '@ant-design/icons-vue';
     import SearchForm from '../../components/form/searchFormTraveler.vue';
-    import { reactive, ref, watch } from 'vue';
+    import { inject, reactive, ref, watch } from 'vue';
     import { FilterTravelers } from '../../types/type.traveler';
     import locale from 'ant-design-vue/es/date-picker/locale/es_ES';
     import 'dayjs/locale/es';
@@ -58,7 +58,7 @@
     // const store = useAuthStore();
 
     // const router = useRouter();
-
+    const current = inject('current');
     const filterContractor = ref<number | undefined>(undefined);
     const visible = ref(false);
     const searchTravel: FilterTravelers = reactive({
@@ -76,11 +76,12 @@
         coverage: undefined,
         state: undefined,
     });
-    const searchDateandContractor: FilterTravelers = reactive({
+    /*const searchDateandContractor: FilterTravelers = reactive({
         start_date_init: undefined,
         start_date_end: undefined,
         contractor: undefined,
-    });
+        state:undefined
+    });*/
     //const search = ref(false);
     const dateFilter = ref<Date[]>([]);
     /*const gotoUpload = () => {
@@ -108,14 +109,16 @@
         searchTravel.origin_country = filter.origin_country;
         searchTravel.nationality = filter.nationality;
         searchTravel.coverage = filter.coverage;
-        searchTravel.state = true;
+        current ? (searchTravel.state = true) : (searchTravel.state = filter.state);
         emit('filter', searchTravel);
+        eraseSearch();
+        dateFilter.value = [];
+        filterContractor.value = undefined;
     };
     const deleteFilter = () => {
         eraseSearch();
         dateFilter.value = [];
         filterContractor.value = undefined;
-        refresh();
     };
     const eraseSearch = () => {
         searchTravel.name = undefined;
@@ -130,22 +133,21 @@
         searchTravel.coverage = undefined;
         searchTravel.state = undefined;
         dateFilter.value = [];
-        searchDateandContractor.start_date_init = undefined;
+        /*searchDateandContractor.start_date_init = undefined;
         searchDateandContractor.start_date_end = undefined;
-        searchDateandContractor.contractor = undefined;
+        searchDateandContractor.contractor = undefined;*/
         filterContractor.value = undefined;
     };
-    const refresh = () => {};
 
     watch([dateFilter, filterContractor], () => {
         if (dateFilter.value?.length > 1 || filterContractor.value) {
-            console.log(dateFilter.value?.length, filterContractor.value);
             if (dateFilter.value?.length > 1) {
-                searchDateandContractor.start_date_init = dateFilter.value[0];
-                searchDateandContractor.start_date_end = dateFilter.value[1];
+                searchTravel.start_date_init = dateFilter.value[0];
+                searchTravel.start_date_end = dateFilter.value[1];
             }
-            searchDateandContractor.contractor = filterContractor.value;
-            // table.value?.filter(searchDateandContractor);
+            searchTravel.contractor = filterContractor.value;
+            if (current) searchTravel.state = true;
+            emit('filter', searchTravel);
         }
     });
     const emit = defineEmits<{

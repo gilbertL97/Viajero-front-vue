@@ -35,7 +35,7 @@
             value-format="YYYY-MM-DD"
         />
     </a-form-item>
-    <a-form-item :name="['state']" label="Vigente">
+    <a-form-item v-if="!current" :name="['state']" label="Vigente">
         <a-checkbox v-model:checked="search.state" /> />
     </a-form-item>
     <a-form-item :name="['contractor']" label="Agencia">
@@ -48,7 +48,7 @@
     </a-form-item>
 </template>
 <script lang="ts" setup>
-    import { reactive, ref, watch } from 'vue';
+    import { reactive, ref, watch, inject } from 'vue';
     //import dayjs, { Dayjs } from 'dayjs';
     import { FilterTravelers } from '../../types/type.traveler';
     import DropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
@@ -73,7 +73,7 @@
         coverage: undefined,
         state: undefined,
     });
-
+    const current: boolean | undefined = inject('current');
     const layout = {
         labelCol: { span: 8 },
         wrapperCol: { span: 22 },
