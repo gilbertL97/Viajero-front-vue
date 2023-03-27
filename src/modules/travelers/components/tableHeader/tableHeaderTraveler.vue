@@ -119,6 +119,7 @@
         eraseSearch();
         dateFilter.value = [];
         filterContractor.value = undefined;
+        emit('filter', searchTravel);
     };
     const eraseSearch = () => {
         searchTravel.name = undefined;
@@ -131,7 +132,7 @@
         searchTravel.origin_country = undefined;
         searchTravel.nationality = undefined;
         searchTravel.coverage = undefined;
-        searchTravel.state = undefined;
+        current ? (searchTravel.state = true) : (searchTravel.state = undefined);
         dateFilter.value = [];
         /*searchDateandContractor.start_date_init = undefined;
         searchDateandContractor.start_date_end = undefined;
