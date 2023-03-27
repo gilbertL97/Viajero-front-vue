@@ -53,7 +53,11 @@
                         >Facturacion</router-link
                     ></a-menu-item
                 >
-                <a-menu-item v-if="acces('current')">Viajeros Vigentes</a-menu-item>
+                <a-menu-item v-if="acces('current')"
+                    ><router-link :to="{ name: 'view-current-travelers' }"
+                        >Viajeros Vigentes
+                    </router-link></a-menu-item
+                >
             </a-sub-menu>
         </a-menu>
     </a-layout-sider>

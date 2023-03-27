@@ -20,19 +20,19 @@
             >Borrar Filtros <DeleteOutlined
         /></a-button>
         <a-divider type="vertical" />
-        <a-button
+        <!-- <a-button
             v-if="store.canAccess('create-travelers')"
             @click="createTraveler"
             type="primary"
             >Añadir</a-button
-        >
+        > -->
         <a-divider type="vertical" />
-        <a-button @click="gotoUpload" v-if="store.canAccess('upload')" type="primary"
+        <!-- <a-button @click="gotoUpload" v-if="store.canAccess('upload')" type="primary"
             ><upload-outlined /> Subir Ficheros</a-button
-        >
+        > -->
         <a-divider type="vertical" />
         <a-button type="primary" @click="visible = true"
-            >Busqueda avanzada <search-outlined
+            >Busqueda avanzada <SearchOutlined
         /></a-button>
         <a-modal
             v-model:visible="visible"
@@ -47,16 +47,17 @@
 
 <script setup lang="ts">
     import dropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
-    import SearchForm from '../components/form/searchFormTraveler.vue';
-    import { useRouter } from 'vue-router';
+    import { SearchOutlined, DeleteOutlined } from '@ant-design/icons-vue';
+    import SearchForm from '../../components/form/searchFormTraveler.vue';
     import { reactive, ref, watch } from 'vue';
     import { FilterTravelers } from '../../types/type.traveler';
     import locale from 'ant-design-vue/es/date-picker/locale/es_ES';
     import 'dayjs/locale/es';
-    import { useAuthStore } from '@/modules/auth/store/auth.store';
-    const store = useAuthStore();
+    // import { useRouter } from 'vue-router';
+    // import { useAuthStore } from '@/modules/auth/store/auth.store';
+    // const store = useAuthStore();
 
-    const router = useRouter();
+    // const router = useRouter();
 
     const filterContractor = ref<number | undefined>(undefined);
     const visible = ref(false);
@@ -82,13 +83,13 @@
     });
     //const search = ref(false);
     const dateFilter = ref<Date[]>([]);
-    const gotoUpload = () => {
+    /*const gotoUpload = () => {
         router.push({ name: 'upload' });
-    };
-    const createTraveler = (record?: any) => {
+    };*/
+    /*const createTraveler = (record?: any) => {
         console.log(record);
         router.push('/travelers/create-travelers');
-    };
+    };*/
     const getSelected = (value: any) => {
         filterContractor.value = value as number;
     };
@@ -107,7 +108,8 @@
         searchTravel.origin_country = filter.origin_country;
         searchTravel.nationality = filter.nationality;
         searchTravel.coverage = filter.coverage;
-        searchTravel.state = filter.state;
+        searchTravel.state = true;
+        emit('filter', searchTravel);
     };
     const deleteFilter = () => {
         eraseSearch();
@@ -146,6 +148,9 @@
             // table.value?.filter(searchDateandContractor);
         }
     });
+    const emit = defineEmits<{
+        (e: 'filter', searchTravler: FilterTravelers): void;
+    }>();
     //const init = () => {};
 </script>
 

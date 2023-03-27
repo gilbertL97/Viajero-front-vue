@@ -63,5 +63,19 @@ const travelersRoutes: RouteRecordRaw[] = [
             ],
         },
     },
+    {
+        path: '/travelers/view-current-travelers',
+        name: 'view-current-travelers',
+        component: () => import('@/modules/travelers/view/viewCurrentTravelers.vue'),
+        props: true,
+        meta: {
+            role: [
+                UserRole.ADMIN,
+                UserRole.CLIENT,
+                UserRole.COMAGENT,
+                UserRole.MARKAGENT,
+            ],
+        },
+    },
 ];
 export default travelersRoutes;
