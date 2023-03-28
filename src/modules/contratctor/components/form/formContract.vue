@@ -52,19 +52,30 @@
                 has-feedback
                 :name="['telf']"
                 label="Telefono"
-                :rules="[{ min: 8 }]"
+                :rules="[{ min: 8, pattern: /^[0-9]*$/ }]"
             >
-                <a-input placeholder="Telefono" v-model:value="contract.telf" />
+                <a-input
+                    placeholder="Telefono"
+                    v-model:value="contract.telf"
+                    @keydown.space.prevent
+                />
             </a-form-item>
             <a-form-item
                 has-feedback
                 :name="['analysis_number']"
                 label="Número de Anàlisis"
-                :rules="[{ required: true, min: 4 }]"
+                :rules="[
+                    {
+                        required: true,
+                        min: 4,
+                        pattern: /^[0-9]*$/,
+                    },
+                ]"
             >
                 <a-input
                     placeholder="Número de Análisis"
                     v-model:value="contract.analysis_number"
+                    @keydown.space.prevent
                 />
             </a-form-item>
             <a-form-item

@@ -4,7 +4,7 @@
         :columns="columns"
         size="small"
         :loading="state.loading"
-        :scroll="{ y: 500, x: 500 }"
+        :scroll="{ y: 1200, x: 500 }"
     >
         <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'action'">
@@ -91,10 +91,10 @@
         {
             title: 'Nombre',
             dataIndex: 'name',
-            sorter: (a: string, b: string) => {
-                (a.name.toLowerCase() > b.nametoLowerCase()) -
-                    (a.nametoLowerCase() < b.nametoLowerCase());
-            },
+            // sorter: (a: string, b: string) => {
+            //     (a.name.toLowerCase() > b.nametoLowerCase()) -
+            //         (a.nametoLowerCase() < b.nametoLowerCase());
+            // },
         },
 
         {

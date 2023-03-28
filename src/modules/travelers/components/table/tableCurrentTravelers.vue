@@ -4,7 +4,7 @@
         :columns="columns"
         size="small"
         :loading="loading"
-        :scroll="{ x: 1300, y: 180 }"
+        :scroll="{ x: 1300, y: 400 }"
     >
         <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'state'">

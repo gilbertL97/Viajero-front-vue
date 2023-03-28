@@ -44,7 +44,7 @@ export const defaultValidateMessages = {
         range: '${label}  must be between ${min} and ${max} in length',
     },
     pattern: {
-        mismatch: '${label}  does not match pattern ${pattern}',
+        mismatch: '${label}  no es de tipo numerico',
     },
 };
 export const validateMessages = {

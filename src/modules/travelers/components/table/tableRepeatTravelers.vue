@@ -14,7 +14,7 @@
         defineProps<{
             columns?: TableColumnsType;
             data?: FileErrorsDto[] | FilterTravelers[];
-            loading: boolean;
+            loading?: boolean;
         }>(),
         {
             loading: false,
