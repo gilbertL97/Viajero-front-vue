@@ -3,35 +3,27 @@
         ><h4 style="padding-right: 5px"> Fecha Inicio </h4>
         <a-date-picker v-model:value="filter" picker="month" :locale="locale" />
     </div>
-    <TableContractorDetailed v-if="prop.detailed" :data="data" :loading="loading" />
-    <TableContractorFact ref="table" v-else />
+    <TableContractorDetailed :data="data" :loading="loading" />
 </template>
 
 <script setup lang="ts">
     import { onMounted, ref, watch } from 'vue';
-    import TableContractorFact from '../components/table/tableContractorFact.vue';
     import locale from 'ant-design-vue/es/date-picker/locale/es_ES';
     import 'dayjs/locale/es';
     import TableContractorDetailed from '../components/table/tableContractorDetailed.vue';
     import { Contractor } from '../types/contractor.types';
     import { getDetailed } from '../services/contractor.service';
 
-    const prop = defineProps<{
-        detailed: boolean;
-    }>();
     const loading = ref(false);
     const data = ref<Contractor[]>([]);
     const filter = ref<Date>();
-    const table = ref(TableContractorFact);
     watch([filter], () => {
-        table.value.getData(filter.value);
+        getDetailedData(filter.value?.toISOString());
     });
     onMounted(async () => {
-        if (prop.detailed) {
-            getDetailedData(new Date().toISOString());
-        }
+        getDetailedData(new Date().toISOString());
     });
-    const getDetailedData = async (date: string) => {
+    const getDetailedData = async (date?: string) => {
         try {
             loading.value = true;
             data.value = (await getDetailed(date)).data;

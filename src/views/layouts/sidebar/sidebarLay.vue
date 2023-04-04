@@ -54,6 +54,11 @@
                     ></a-menu-item
                 >
                 <a-menu-item v-if="acces('current')"
+                    ><router-link :to="{ name: 'detailed' }"
+                        >Detallado
+                    </router-link></a-menu-item
+                >
+                <a-menu-item v-if="acces('current')"
                     ><router-link :to="{ name: 'view-current-travelers' }"
                         >Viajeros Vigentes
                     </router-link></a-menu-item

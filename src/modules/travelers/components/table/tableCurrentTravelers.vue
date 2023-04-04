@@ -5,6 +5,7 @@
         size="small"
         :loading="loading"
         :scroll="{ x: 1300, y: 400 }"
+        :pagination="pagination"
     >
         <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'state'">
@@ -43,6 +44,7 @@
     defineProps<{
         data: TravelerResponse[];
         loading: boolean;
+        pagination?: boolean;
     }>();
     const columns = [
         {

@@ -62,3 +62,14 @@ export async function getInvoicing(
     };
     return await API.request<ContractorsAndTotals>(config);
 }
+
+export async function getDetailed(
+    dateInvoicing?: string,
+): Promise<AxiosResponse<Contractor[]>> {
+    const config: AxiosRequestConfig = {
+        method: 'GET',
+        url: '/contractor/detailed',
+        params: { dateInvoicing },
+    };
+    return await API.request<Contractor[]>(config);
+}
