@@ -4,10 +4,11 @@
         :data-source="data"
         :loading="loading"
         :scroll="{ x: 400, y: 500 }"
+        :row-key="(record: any) => record.id"
     >
         <template #bodyCell="{ column, record }">
-            <template v-if="column == 'total_travelers'">
-                {{ record.travelers.length }}
+            <template v-if="column.dataIndex == 'total_travelers'"
+                ><h1>{{ record.travelers.length }}</h1>
             </template>
         </template>
         <template #expandedRowRender="{ record }">
@@ -26,6 +27,7 @@
         {
             title: 'Nombre',
             dataIndex: 'client',
+            key: 'name',
         },
         {
             title: 'Poliza',
