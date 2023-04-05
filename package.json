@@ -17,6 +17,7 @@
         "axios": "^0.26.1",
         "bootstrap": "^5.1.3",
         "dayjs": "^1.11.5",
+        "exceljs": "^4.3.0",
         "generate-password-ts": "^1.6.3",
         "pinia": "^2.0.12",
         "sass": "^1.50.0",
