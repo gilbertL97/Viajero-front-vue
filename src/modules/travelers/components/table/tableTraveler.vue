@@ -72,6 +72,7 @@
     //import dayjs from 'dayjs';
     const props = defineProps<{
         data?: TravelerResponse[];
+        loading?: boolean;
     }>();
 
     const store = usePlainStore();

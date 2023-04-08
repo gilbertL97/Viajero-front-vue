@@ -2,22 +2,32 @@
     <a-table :columns="columns" size="small" :loading="loading" :data-source="data">
         <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'created_at'">
-                <h5>{{ dayjs(record.created_at).format('DD/MM/YYYY') }}</h5>
+                <h4>{{ dayjs(record.created_at).format('DD/MM/YYYY') }}</h4>
+            </template>
+            <template v-if="column.dataIndex === 'contractor'">
+                <h4>{{ record.contractor.client }}</h4>
             </template>
             <template v-if="column.dataIndex === 'actions'">
                 <a-popconfirm
-                    :title="`Desea eliminar al Cliente ${record.name} ?`"
+                    :title="`Desea eliminar al Fichero ${record.name} ?`"
                     @confirm="onDelete(record.id)"
                 >
-                    <a-button type="danger"
-                        ><template #icon> <DeleteOutlined /></template
-                    ></a-button>
+                    <a-tooltip>
+                        <template #title>Eliminar</template>
+
+                        <a-button type="danger"
+                            ><template #icon> <DeleteOutlined /></template
+                        ></a-button>
+                    </a-tooltip>
                 </a-popconfirm>
-                <a-button type="primary">
-                    <template #icon>
-                        <UsergroupAddOutlined />
-                    </template>
-                </a-button>
+                <a-tooltip>
+                    <template #title>ver Viajeros</template>
+                    <a-button type="primary">
+                        <template #icon>
+                            <UsergroupAddOutlined />
+                        </template>
+                    </a-button>
+                </a-tooltip>
             </template>
         </template>
     </a-table>

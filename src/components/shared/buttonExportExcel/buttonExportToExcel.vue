@@ -1,7 +1,10 @@
 <template>
-    <a-button @click="exportoExcel"
-        ><template #icon><FileExcelOutlined /> </template>
-    </a-button>
+    <a-tooltip>
+        <template #title>Exportar a Excel</template>
+        <a-button @click="exportoExcel"
+            ><template #icon><FileExcelOutlined /> </template>
+        </a-button>
+    </a-tooltip>
 </template>
 
 <script setup lang="ts">

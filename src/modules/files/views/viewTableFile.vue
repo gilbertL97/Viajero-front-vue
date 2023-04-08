@@ -30,6 +30,10 @@
             dataIndex: 'created_at',
         },
         {
+            title: 'Cliente',
+            dataIndex: 'contractor',
+        },
+        {
             title: 'Operaciones',
             dataIndex: 'actions',
         },
@@ -52,7 +56,6 @@
     const filter = async (file: FileD) => {
         try {
             loading.value = true;
-            console.log(file);
             data.value = (await filterFiles(file)).data;
         } catch (error) {}
         loading.value = false;
