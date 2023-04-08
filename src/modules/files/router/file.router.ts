@@ -5,7 +5,7 @@ const filesRoutes: RouteRecordRaw[] = [
     {
         path: '/file',
         name: 'files',
-        component: () => import('@/modules/files/views/viewTableFiles.vue'),
+        component: () => import('@/modules/files/views/viewTableFile.vue'),
         meta: {
             role: [UserRole.ADMIN, UserRole.MARKAGENT],
         },

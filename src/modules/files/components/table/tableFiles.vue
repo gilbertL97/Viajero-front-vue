@@ -24,63 +24,25 @@
 </template>
 
 <script setup lang="ts">
-    import { onMounted, ref } from 'vue';
+    import { onMounted } from 'vue';
     import { DeleteOutlined, UsergroupAddOutlined } from '@ant-design/icons-vue';
     import { FileD } from '../../type/file.type';
-    import { deletFiles, getFiles, filterFiles } from '../../services/file.service';
-    import manageError from '@/common/composable/manageError';
+
     import dayjs from 'dayjs';
 
-    const { cantDelete } = manageError();
-    const loading = ref(false);
-    const data = ref<FileD[]>([]);
-    const columns = [
-        {
-            title: 'Nombre',
-            dataIndex: 'name',
-        },
-        {
-            title: 'Fecha Importación',
-            dataIndex: 'created_at',
-        },
-        {
-            title: 'Operaciones',
-            dataIndex: 'actions',
-        },
-    ];
-    onMounted(async () => {
-        loading.value = true;
-        await refresh();
-    });
+    defineProps<{
+        data: FileD[];
+        loading: boolean;
+        columns: any[];
+    }>();
 
-    const refresh = async () => {
-        await getData();
-    };
-    const getData = async () => {
-        try {
-            loading.value = true;
-            const files = (await getFiles()).data;
+    onMounted(async () => {});
 
-            data.value = files;
-        } catch (error) {}
-        loading.value = false;
-    };
     const onDelete = async (id: number) => {
-        try {
-            await deletFiles(id);
-            refresh();
-        } catch (error: any) {
-            if (error.response.status == 400) {
-                cantDelete();
-            }
-        }
+        emit('delete', id);
     };
-    const filter = async (file: FileD) => {
-        try {
-            loading.value = true;
-            data.value = (await filterFiles(file)).data;
-        } catch (error) {}
-        loading.value = false;
-    };
-    defineExpose({ filter, refresh });
+
+    const emit = defineEmits<{
+        (e: 'delete', id: number): void;
+    }>();
 </script>

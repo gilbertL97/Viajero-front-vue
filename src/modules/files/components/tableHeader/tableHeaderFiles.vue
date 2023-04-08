@@ -18,9 +18,9 @@
         <a-button type="primary" @click="deleteFilter"
             >Borrar Filtros <DeleteOutlined
         /></a-button>
-    </div>
-    <TableFiles ref="table" />
-</template>
+        <a-divider type="vertical" />
+        <ButtonExportToExcel :data="data" :title="title" :columns="columns" /> </div
+></template>
 
 <script setup lang="ts">
     import locale from 'ant-design-vue/es/date-picker/locale/es_ES';
@@ -28,8 +28,10 @@
     import 'dayjs/locale/es';
     import DropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
     import { reactive, ref, watch } from 'vue';
-    import TableFiles from '../components/table/tableFiles.vue';
-    import { FileD } from '../type/file.type';
+    import { FileD } from '../../type/file.type';
+    import ButtonExportToExcel from '@/components/shared/buttonExportExcel/buttonExportToExcel.vue';
+    defineProps<{ data: FileD[]; title: string; columns: any[] }>();
+
     const filterContractor = ref<number | undefined>(undefined);
     const dateFilter = ref<Date[]>([]);
     const searchFileByDateandContractor = reactive<FileD>({
@@ -37,16 +39,17 @@
         end_date_create: undefined,
         contractor: undefined,
     });
-    const table = ref(TableFiles);
     const getSelected = (value: any) => {
         filterContractor.value = value as number;
     };
     const deleteFilter = () => {
         dateFilter.value = [];
         filterContractor.value = undefined;
-        table.value?.refresh();
+        searchFileByDateandContractor.start_date_create = undefined;
+        searchFileByDateandContractor.end_date_create = undefined;
+        searchFileByDateandContractor.contractor = undefined;
+        emit('filter', searchFileByDateandContractor);
     };
-
     watch([dateFilter, filterContractor], () => {
         if (dateFilter.value?.length > 1 || filterContractor.value) {
             console.log(dateFilter.value?.length, filterContractor.value);
@@ -56,9 +59,12 @@
             }
             searchFileByDateandContractor.contractor = filterContractor.value;
 
-            table.value?.filter(searchFileByDateandContractor);
+            emit('filter', searchFileByDateandContractor);
         }
     });
+    const emit = defineEmits<{
+        (e: 'filter', searchTravler: FileD): void;
+    }>();
 </script>
 
 <style scoped>

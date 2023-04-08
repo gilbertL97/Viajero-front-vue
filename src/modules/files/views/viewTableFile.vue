@@ -1,37 +1,70 @@
 <template>
-    <div class="table-header">
-        <h4> Agencias</h4>
-        <dropdownContrac
-            @selected="getSelected"
-            :activeSelect="true"
-            :contractorId="filterContractor"
-        />
-        <a-divider type="vertical" />
-        <h4> Fecha Inicio </h4>
-        <a-range-picker
-            :locale="locale"
-            :placeholder="['entre', 'entre']"
-            size="small"
-            v-model:value="dateFilter"
-            value-format="YYYY-MM-DD"
-        />
-        <a-divider type="vertical" />
-        <a-button type="primary" @click="deleteFilter"
-            >Borrar Filtros <DeleteOutlined
-        /></a-button>
-    </div>
+    <h1>Tabla Ficheros</h1>
+    <TableHeaderFiles
+        @filter="filter"
+        :data="data"
+        :columns="columns"
+        title="Tabla Ficheros"
+    />
+    <TableFiles :loading="loading" :data="data" @delete="delet" :columns="columns" />
 </template>
 
 <script setup lang="ts">
-    import locale from 'ant-design-vue/es/date-picker/locale/es_ES';
-    import 'dayjs/locale/es';
-    import { ref } from 'vue';
-    const filterContractor = ref<number | undefined>(undefined);
-    const dateFilter = ref<Date[]>([]);
-    const getSelected = (value: any) => {
-        filterContractor.value = value as number;
+    import { onMounted, ref } from 'vue';
+    import TableHeaderFiles from '../components/tableHeader/tableHeaderFiles.vue';
+    import TableFiles from '../components/table/tableFiles.vue';
+    import { FileD } from '../type/file.type';
+    import { deletFiles, filterFiles, getFiles } from '../services/file.service';
+    import manageError from '@/common/composable/manageError';
+
+    const { cantDelete } = manageError();
+    const loading = ref(false);
+    const data = ref<FileD[]>([]);
+    const columns = [
+        {
+            title: 'Nombre',
+            dataIndex: 'name',
+        },
+        {
+            title: 'Fecha Importación',
+            dataIndex: 'created_at',
+        },
+        {
+            title: 'Operaciones',
+            dataIndex: 'actions',
+        },
+    ];
+    onMounted(() => {
+        refresh();
+    });
+    const refresh = async () => {
+        await getData();
     };
-    const deleteFilter = () => {};
+    const getData = async () => {
+        try {
+            loading.value = true;
+            const files = (await getFiles()).data;
+
+            data.value = files;
+        } catch (error) {}
+        loading.value = false;
+    };
+    const filter = async (file: FileD) => {
+        try {
+            loading.value = true;
+            console.log(file);
+            data.value = (await filterFiles(file)).data;
+        } catch (error) {}
+        loading.value = false;
+    };
+    const delet = async (id: number) => {
+        try {
+            await deletFiles(id);
+            refresh();
+        } catch (error) {
+            cantDelete();
+        }
+    };
 </script>
 
 <style scoped></style>
