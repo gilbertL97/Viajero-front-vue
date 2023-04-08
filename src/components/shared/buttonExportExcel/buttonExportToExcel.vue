@@ -1,5 +1,5 @@
 <template>
-    <a-button @click="exportExcel"
+    <a-button @click="exportoExcel"
         ><template #icon><FileExcelOutlined /> </template>
     </a-button>
 </template>
@@ -12,16 +12,11 @@
         title: string;
         columns: Columns[];
     }>();
-    const { getWorkBook } = exportToExcel(props.title, props.columns, props.data);
-    const exportExcel = async () => {
-        const buffer = await getWorkBook();
-        const blob = new Blob([buffer], {
-            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'datos.xlsx';
-        link.click();
+    const { addColumns, addData, exportExcel } = exportToExcel(props.title);
+    const exportoExcel = async () => {
+        addData(props.data);
+        addColumns(props.columns);
+        exportExcel();
     };
     type Columns = {
         title: string;
