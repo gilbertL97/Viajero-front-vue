@@ -22,7 +22,7 @@ export default function useExcel(title: string) {
     };
     const exportExcel = () => {
         const dat = data.value.map((elem: any) => flater(elem));
-        console.log(title, data.value);
+        //console.log(title, data.value);
         worksheet.addRows(dat);
 
         workbook.xlsx.writeBuffer().then((buffer) => {
@@ -54,7 +54,6 @@ export default function useExcel(title: string) {
         if ('client' in elem) return elem.client;
     };
     return {
-        data,
         addData,
         addColumns,
         exportExcel,
