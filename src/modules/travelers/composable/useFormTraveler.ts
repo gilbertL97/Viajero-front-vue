@@ -1,20 +1,18 @@
 import { onMounted, reactive, ref, watch } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
-import { TravelerResponse, Traveler } from '../types/type.traveler';
+import { TravelerResponse, Traveler } from '@/modules/travelers/types/type.traveler';
 import {
     getTraveler,
     insertTraveler,
     updateTraveler,
-} from '../services/traveler.service';
+} from '@/modules/travelers/services/traveler.service';
 import { usePlainStore } from '@/modules/plains/store/plans.store';
 import { useRouter } from 'vue-router';
-export default () => {
+
+export default function useFormTraveler(id?: string) {
     const router = useRouter();
     const store = usePlainStore();
-    const props = defineProps<{
-        id?: string;
-        isOnlyView?: boolean;
-    }>();
+
     //const days = ref(0);
     const contract = reactive<{
         id?: number;
@@ -44,6 +42,7 @@ export default () => {
         id: undefined,
         name: undefined,
     });
+    const hasChanged = ref(true);
 
     const traveler: Traveler = reactive({
         name: '',
@@ -65,16 +64,12 @@ export default () => {
         total_amount: 0,
     });
 
-    const layout = {
-        labelCol: { span: 5 },
-        wrapperCol: { span: 6 },
-    };
-
     const loading = ref(false);
     onMounted(async () => {
-        if (props.id) {
+        if (id) {
             loading.value = true;
-            const travelerR = (await getTraveler(props.id)).data;
+            const travelerR = (await getTraveler(id)).data;
+            hasChanged.value = false;
 
             intializateTraveler(travelerR);
             console.log(traveler.contractor);
@@ -83,7 +78,6 @@ export default () => {
     });
     const disabledDateInit = (current: Dayjs) => {
         // Debe seleccionar un dia mayor q la fecah fin
-
         return current > dayjs(traveler.end_date_policy).endOf('day');
     };
     const disabledDateEnd = (current: Dayjs) => {
@@ -94,7 +88,7 @@ export default () => {
 
     const onFinish = (values: any) => {
         console.log('Succes', values);
-        if (props.id) {
+        if (id) {
             try {
                 updateTraveler(traveler);
             } catch (error) {}
@@ -111,21 +105,18 @@ export default () => {
     const onFinishFailed = (values: any) => {
         console.log('tiht', traveler.contractor, values);
     };
-    const asignContract = (value: number) => {
+    const asignContract = (value: any) => {
         traveler.contractor = value;
         console.log('este es la agencia :' + value);
     };
     const asignPlans = (value: number) => {
         traveler.coverage = value;
-        console.log('este es el plan :' + value);
     };
     const asignOriginCountry = (value: string) => {
         traveler.origin_country = value;
-        console.log('este es el pais :' + value);
     };
     const asignNationality = (value: string) => {
         traveler.nationality = value;
-        console.log('este es el nacionalidad :' + value);
     };
 
     const intializateTraveler = (travelerR: TravelerResponse) => {
@@ -133,13 +124,11 @@ export default () => {
         traveler.name = travelerR.name;
         traveler.sex = travelerR.sex;
         traveler.born_date = travelerR.born_date;
-
         traveler.email = travelerR.email;
         traveler.passport = travelerR.passport;
         traveler.sale_date = travelerR.sale_date;
         traveler.start_date = travelerR.start_date;
         traveler.end_date_policy = travelerR.end_date_policy;
-
         traveler.number_high_risk_days = travelerR.number_high_risk_days;
         traveler.contractor = travelerR.contractor?.id;
         traveler.origin_country = travelerR.origin_country?.iso;
@@ -160,6 +149,29 @@ export default () => {
         plans.id = travelerR.coverage?.id;
         plans.name = travelerR.coverage?.name;
     };
+    const calculate = () => {
+        const plans = store.getPlans.find((e) => e.id == traveler.coverage);
+        const start = dayjs(traveler.start_date);
+        const end = dayjs(traveler.end_date_policy);
+        traveler.number_days = end.diff(start, 'day') + 1;
+        console.log('dias de diferencia ' + end.diff(start, 'day'));
+
+        traveler.amount_days_high_risk =
+            traveler.number_high_risk_days != 0
+                ? plans!.daily
+                    ? plans!.high_risk! * traveler.number_high_risk_days!
+                    : 0
+                : 0;
+
+        traveler.amount_days_covered = plans?.daily
+            ? traveler.number_days * plans!.price!
+            : plans!.price!;
+
+        traveler.total_amount =
+            traveler.amount_days_high_risk != 0
+                ? traveler.amount_days_covered + traveler.amount_days_high_risk
+                : traveler.amount_days_covered;
+    };
     watch(
         [
             () => traveler.start_date,
@@ -168,40 +180,50 @@ export default () => {
             () => traveler.number_high_risk_days,
         ],
         () => {
-            if (traveler.coverage && traveler.end_date_policy && traveler.start_date) {
-                const plans = store.getPlans.find((e) => e.id == traveler.coverage);
-                const start = dayjs(traveler.start_date);
-                const end = dayjs(traveler.end_date_policy);
-                traveler.number_days = end.diff(start, 'day');
-                console.log('dias de diferencia ' + end.diff(start, 'day'));
-
-                traveler.amount_days_high_risk =
-                    traveler.number_high_risk_days != 0
-                        ? plans!.high_risk * traveler.number_high_risk_days!
-                        : 0;
-
-                traveler.amount_days_covered = plans?.daily
-                    ? traveler.number_days * plans!.price
-                    : plans!.price!;
-
-                traveler.total_amount =
-                    traveler.amount_days_high_risk != 0
-                        ? traveler.amount_days_covered + traveler.amount_days_high_risk
-                        : traveler.amount_days_covered;
+            if (
+                traveler.coverage &&
+                traveler.end_date_policy &&
+                traveler.start_date &&
+                hasChanged.value
+            ) {
+                calculate();
             }
+            hasChanged.value = true;
         },
     );
+    watch([() => traveler.number_days], () => {
+        const plans = store.getPlans.find((e) => e.id == traveler.coverage);
+        if (!plans?.daily) {
+            if (traveler.number_days > plans!.number_of_days!) {
+                console.log('Entro a poner Null', plans);
+                traveler.start_date = null;
+                traveler.end_date_policy = null;
+                console.log(traveler.coverage);
+            }
+        }
+    });
+
+    const tets = () => {
+        console.log(hasChanged.value);
+        hasChanged.value = true;
+        console.log(hasChanged.value);
+    };
     return {
-        handleCancel,
-        layout,
+        traveler,
+        contract,
+        nationality,
+        origin,
+        loading,
+        plans,
         disabledDateInit,
         disabledDateEnd,
         onFinish,
+        handleCancel,
         onFinishFailed,
         asignContract,
         asignPlans,
         asignOriginCountry,
         asignNationality,
-        traveler,
+        tets,
     };
-};
+}
