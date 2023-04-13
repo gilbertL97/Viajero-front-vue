@@ -1,6 +1,7 @@
 <template>
     <a-select
-        v-model:value="plain.name"
+        v-model:value="plain.id"
+        v-model:label="plain.name"
         show-search
         placeholder="Seleccione el Plan"
         style="width: 200px"
@@ -8,52 +9,61 @@
         :filter-option="filterOption"
         @change="handleChange"
         :loading="isLoading"
-    >
-        <a-select-option v-for="item in data" :key="item.id">{{
-            item.name
-        }}</a-select-option>
-    </a-select>
+    />
 </template>
 <script lang="ts" setup>
-    import { onBeforeMount, reactive, ref } from 'vue';
+    import { onBeforeMount, ref, reactive, watch } from 'vue';
     import type { SelectProps } from 'ant-design-vue';
     import { Plans } from '../../types/plains.types';
-    import { getPlansActive } from '../../services/plan.service';
-
-    let data = reactive<Plans[]>([]);
+    import { getPlans } from '../../services/plan.service';
+    const data = ref<Plans[]>([]);
     const options = ref<SelectProps['options']>([]);
     const props = defineProps<{
-        plain?: Plans | null;
+        plainObject: Plans;
+        activeSelect: boolean; // esto es para seleccionar los activos
     }>();
-    const plain = ref(props.plain!);
+
+    const plain = reactive<Plans>({
+        id: undefined,
+        name: undefined,
+        isActive: true,
+    });
     const isLoading = ref(false);
     onBeforeMount(async () => {
         isLoading.value = true;
         await refresh();
-        options.value = data.map((plain: Plans) => ({
+        options.value = data.value.map((plain: Plans) => ({
             label: plain.name,
             value: plain.id,
+            disabled: !plain.isActive,
         }));
+        props.activeSelect ??
+            (options.value = options.value.filter((plain) => delete plain.disabled));
+
         isLoading.value = false;
+        plain.id = props.plainObject.id;
+        plain.name = props.plainObject.name;
     });
 
     const refresh = async () => {
         isLoading.value = true;
         try {
-            data = (await getPlansActive()).data;
+            data.value = (await getPlans()).data;
         } catch (error) {}
     };
+
     const filterOption = (input: string, options: any) => {
         return options.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
     };
-    const handleChange: SelectProps['onChange'] = (value) => {
-        emit('update:plain', value);
-        console.log(value);
+    const handleChange: SelectProps['onChange'] = () => {
+        emit('selected', plain.id!);
     };
-    const emit = defineEmits(['update:plain']);
+    const emit = defineEmits<{
+        (e: 'selected', contractor: number): void;
+    }>();
+    watch(props, (newProps) => {
+        plain.id = newProps.plainObject.id;
+        plain.name = newProps.plainObject.name;
+    });
 </script>
-<style scoped>
-    .ant-select {
-        padding-left: 13px !important;
-    }
-</style>
+<style scoped></style>
