@@ -21,7 +21,8 @@ export default function useExcel(title: string) {
         });
     };
     const exportExcel = () => {
-        const dat = data.value.map((elem: any) => flater(elem));
+        const datachnge = [...data.value];
+        const dat = datachnge.map((elem: any) => flater(elem));
         //console.log(title, data.value);
         worksheet.addRows(dat);
 
@@ -32,7 +33,7 @@ export default function useExcel(title: string) {
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'data.xlsx';
+            a.download = title + '.xlsx';
             a.click();
         });
     };
