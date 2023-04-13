@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a-layout-footer>Copyright-gilbert</a-layout-footer>
+        <a-layout-footer>Copyright-Esicuba</a-layout-footer>
     </div>
 </template>
 
