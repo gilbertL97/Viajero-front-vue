@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-    import exportToExcel from '@/common/utils/exportToExcel';
+    import exportToExcel from '@/common/utils/exportToExcelFront';
     import { FileExcelOutlined } from '@ant-design/icons-vue';
     const props = defineProps<{
         data: any[];

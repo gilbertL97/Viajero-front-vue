@@ -1,5 +1,8 @@
 <template>
     <a-table :columns="columns" size="small" :loading="loading" :data-source="data">
+        <template #customFilterDropdown>
+            <slot name="export"></slot>
+        </template>
         <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'created_at'">
                 <h4>{{ dayjs(record.created_at).format('DD/MM/YYYY') }}</h4>

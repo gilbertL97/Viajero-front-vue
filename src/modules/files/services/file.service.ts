@@ -25,3 +25,13 @@ export async function deletFiles(id: number): Promise<AxiosResponse<FileD>> {
     };
     return await API.request<FileD>(config);
 }
+
+export async function getFilelExcel(file: FileD): Promise<AxiosResponse<Buffer>> {
+    const config: AxiosRequestConfig = {
+        method: 'GET',
+        url: '/file/excel',
+        params: file,
+        responseType: 'blob',
+    };
+    return await API.request<Buffer>(config);
+}
