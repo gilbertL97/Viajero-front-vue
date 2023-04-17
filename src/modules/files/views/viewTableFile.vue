@@ -21,12 +21,7 @@
     import TableHeaderFiles from '../components/tableHeader/tableHeaderFiles.vue';
     import TableFiles from '../components/table/tableFiles.vue';
     import { FileD } from '../type/file.type';
-    import {
-        deletFiles,
-        filterFiles,
-        getFiles,
-        getFilelExcel,
-    } from '../services/file.service';
+    import { deletFiles, filterFiles, getFiles } from '../services/file.service';
     import manageError from '@/common/composable/manageError';
 
     const { cantDelete } = manageError();

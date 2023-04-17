@@ -15,6 +15,7 @@
         "lib": ["esnext", "dom"]
     },
     "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/components/shared/validation/validationsTexts.js"],
+    "files":["auto-imports.d.ts"],
     "references": [{ "path": "./tsconfig.node.json" }],
     "types": [
         "vue-sweetalert2"
