@@ -4,8 +4,11 @@
         :columns="columns"
         size="small"
         :loading="state.loading"
-        :scroll="{ y: 1200, x: 500 }"
+        :scroll="{ y: 400, x: 800 }"
     >
+        <template #customFilterDropdown>
+            <DropdownExport url="/travler/excel" title="Archivos" :filter="undefined" />
+        </template>
         <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'action'">
                 <a-popconfirm
@@ -44,6 +47,13 @@
             <template v-if="column.dataIndex === 'end_date_policy'">
                 <h4>{{ dayjs(record.end_date_policy).format('DD/MM/YYYY') }}</h4>
             </template>
+            <template
+                v-if="column.dataIndex === 'origin_country' && record.origin_country"
+                >{{ record.origin_country.iso }}
+            </template>
+            <template v-if="column.dataIndex === 'nationality' && record.nationality"
+                >{{ record.nationality.iso }}
+            </template>
         </template>
     </a-table>
     <div style="margin-bottom: 16px">
@@ -69,6 +79,8 @@
     import { Plans } from '@/modules/plains/types/plains.types';
     import { getPlans } from '@/modules/plains/services/plan.service';
     import { usePlainStore } from '@/modules/plains/store/plans.store';
+    import DropdownExport from '@/components/shared/export/dropdownExport.vue';
+
     //import dayjs from 'dayjs';
     const props = defineProps<{
         data?: TravelerResponse[];
@@ -92,43 +104,109 @@
         {
             title: 'Nombre',
             dataIndex: 'name',
-            // sorter: (a: string, b: string) => {
-            //     (a.name.toLowerCase() > b.nametoLowerCase()) -
-            //         (a.nametoLowerCase() < b.nametoLowerCase());
-            // },
+            width: 150,
+            fixed: 'left',
         },
-
         {
             title: 'Pasaporte',
             dataIndex: 'passport',
+            width: 150,
+            fixed: 'left',
+        },
+        {
+            title: 'Sexo',
+            dataIndex: 'sex',
+            width: 50,
+        },
+        {
+            title: 'Fecha de Nacimiento',
+            dataIndex: 'born_date',
+            width: 100,
+        },
+        {
+            title: 'Correo',
+            dataIndex: 'email',
+            width: 100,
+        },
+        {
+            title: 'Fecha de Venta',
+            dataIndex: 'sale_date',
+            width: 100,
+        },
+
+        {
+            title: 'Cantidad de dias Alto Riesgo',
+            dataIndex: 'number_high_risk_days',
+            width: 100,
+        },
+        {
+            title: 'Pais Origen',
+            dataIndex: 'origin_country',
+            width: 100,
+        },
+        {
+            title: 'Nacionalidad',
+            dataIndex: 'nationality',
+            width: 100,
+        },
+
+        {
+            title: 'Cantidad de Dias',
+            dataIndex: 'number_days',
+            width: 100,
+        },
+
+        {
+            title: 'Monto Dias Alto Riesgo',
+            dataIndex: 'amount_days_high_risk',
+            width: 100,
+        },
+        {
+            title: 'Monto Dias Cubiertos',
+            dataIndex: 'amount_days_covered',
+            width: 100,
         },
         {
             title: 'Fecha Inicio',
             dataIndex: 'start_date',
+            width: 100,
         },
         {
             title: 'Fecha Fin',
             dataIndex: 'end_date_policy',
+            width: 100,
+        },
+
+        {
+            title: 'Estado',
+            dataIndex: 'state',
+            width: 100,
         },
         {
             title: 'Agencia',
             dataIndex: 'contractor',
+            width: 100,
         },
-
         {
             title: 'Cobertura',
             dataIndex: 'coverage',
-        },
-        {
-            title: 'Estado',
-            dataIndex: 'state',
+            width: 100,
+            fixed: 'right',
         },
         {
             title: 'Importe',
             dataIndex: 'total_amount',
+            width: 100,
+            fixed: 'right',
         },
 
-        { title: 'Operaciones', dataIndex: 'action', width: 150 },
+        {
+            title: 'Operaciones',
+            dataIndex: 'action',
+            width: 150,
+            fixed: 'right',
+            customFilterDropdown: true,
+        },
     ]; /*.filter((col) => {
         if (props.isRepeat) return col.isRepeat != false;
     });*/
