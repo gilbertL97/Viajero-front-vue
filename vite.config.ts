@@ -9,7 +9,8 @@ export default defineConfig({
     plugins: [
         vue(),
         Autoimport({
-            dts: true,
+            dts: false,
+            imports: ['vue'],
         }),
     ],
     resolve: {
