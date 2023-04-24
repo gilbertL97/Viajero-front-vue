@@ -1,13 +1,13 @@
 <template>
     <a-table
-        :data-source="data"
+        :data-source="props.data"
         :columns="columns"
         size="small"
-        :loading="state.loading"
+        :loading="props.loading"
         :scroll="{ y: 400, x: 800 }"
     >
         <template #customFilterDropdown>
-            <DropdownExport url="/travler/excel" title="Archivos" :filter="undefined" />
+            <slot></slot>
         </template>
         <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'action'">
@@ -65,33 +65,16 @@
     </div>
 </template>
 <script lang="ts" setup>
-    import { computed, ref, onMounted, reactive } from 'vue';
+    //import { computed, ref, onMounted, reactive } from 'vue';
     import { DeleteOutlined, EditOutlined, PrinterOutlined } from '@ant-design/icons-vue';
     import dayjs from 'dayjs';
-    import { TravelerResponse, FilterTravelers } from '../../types/type.traveler';
-    import {
-        deleteTravelers,
-        getCertTravelers,
-        getFilterTravelers,
-        getTravelers,
-    } from '../../services/traveler.service';
-    import { useRouter } from 'vue-router';
-    import { Plans } from '@/modules/plains/types/plains.types';
-    import { getPlans } from '@/modules/plains/services/plan.service';
-    import { usePlainStore } from '@/modules/plains/store/plans.store';
-    import DropdownExport from '@/components/shared/export/dropdownExport.vue';
+    import { TravelerResponse } from '../../types/type.traveler';
 
-    //import dayjs from 'dayjs';
     const props = defineProps<{
-        data?: TravelerResponse[];
-        loading?: boolean;
+        data: TravelerResponse[];
+        loading: boolean;
     }>();
 
-    const store = usePlainStore();
-
-    const router = useRouter();
-    const data = ref<TravelerResponse[]>([]);
-    const plains = ref<Plans[]>([]);
     const state = reactive<{
         selectedRowKeys: TravelerResponse[];
         loading: boolean;
@@ -135,7 +118,7 @@
         },
 
         {
-            title: 'Cantidad de dias Alto Riesgo',
+            title: 'Cantidad Alto Riesgo',
             dataIndex: 'number_high_risk_days',
             width: 100,
         },
@@ -157,7 +140,7 @@
         },
 
         {
-            title: 'Monto Dias Alto Riesgo',
+            title: 'Monto Alto Riesgo',
             dataIndex: 'amount_days_high_risk',
             width: 100,
         },
@@ -207,54 +190,26 @@
             fixed: 'right',
             customFilterDropdown: true,
         },
-    ]; /*.filter((col) => {
-        if (props.isRepeat) return col.isRepeat != false;
-    });*/
-
-    //const selectedRowKeys = ref<Traveler['id'][]>([]); // Check here to configure the default column
+    ];
 
     const hasSelected = computed(() => state.selectedRowKeys.length > 0);
 
-    onMounted(async () => {
-        if (props.data?.length) data.value = props.data;
-        await refresh();
-    });
-
     const onDelete = async (key: string) => {
-        console.log(key);
-        await deleteTravelers(key).finally(refresh);
+        emit('deleted', key);
     };
 
     const editTraveler = (record?: any) => {
-        console.log(record);
-        router.push('/travelers/edit-travelers/' + record.id);
+        emit('update', record.id);
     };
 
     const printPdf = async (record: any) => {
-        console.log(record.id);
-        await getCertTravelers(record.id).then((response) => {
-            if (response.status == 200) {
-                const blob = new Blob([response.data], { type: 'application/pdf' });
-                window.open(URL.createObjectURL(blob), '_blank')?.print();
-            }
-        });
+        emit('print', record.id);
     };
-    const refresh = async () => {
-        state.loading = true;
-        try {
-            data.value = (await getTravelers()).data;
-            plains.value = (await getPlans()).data;
-            store.setPlans(plains.value);
-        } catch (error) {}
-        state.loading = false;
-    };
-
-    const filter = async (search: FilterTravelers) => {
-        try {
-            data.value = (await getFilterTravelers(search)).data;
-        } catch (error) {}
-    };
-    defineExpose({ filter, refresh });
+    const emit = defineEmits<{
+        (e: 'deleted', deleted: string): void;
+        (e: 'update', deleted: string): void;
+        (e: 'print', deleted: string): void;
+    }>();
 </script>
 <style lscoped>
     #button {

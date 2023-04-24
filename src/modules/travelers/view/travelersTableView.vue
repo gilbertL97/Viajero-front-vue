@@ -1,164 +1,79 @@
 <template>
-    <div class="table-header">
-        <h4> Agencias</h4>
-        <dropdownContrac
-            @selected="getSelected"
-            :activeSelect="true"
-            :contractorId="filterContractor"
-        />
-        <a-divider type="vertical" />
-        <h4> Fecha Inicio </h4>
-        <a-range-picker
-            :locale="locale"
-            :placeholder="['entre', 'entre']"
-            size="small"
-            v-model:value="dateFilter"
-            value-format="YYYY-MM-DD"
-        />
-        <a-divider type="vertical" />
-        <a-button type="primary" @click="deleteFilter"
-            >Borrar Filtros <DeleteOutlined
-        /></a-button>
-        <a-divider type="vertical" />
-        <a-button
-            v-if="store.canAccess('create-travelers')"
-            @click="createTraveler"
-            type="primary"
-            >Añadir</a-button
-        >
-        <a-divider type="vertical" />
-        <a-button @click="gotoUpload" v-if="store.canAccess('upload')" type="primary"
-            ><upload-outlined /> Subir Ficheros</a-button
-        >
-        <a-divider type="vertical" />
-        <a-button type="primary" @click="visible = true"
-            >Busqueda avanzada <search-outlined
-        /></a-button>
-    </div>
-    <tableTraveler ref="table" />
-    <a-modal
-        v-model:visible="visible"
-        title="Busqueda Avanzada"
-        :destroyOnClose="true"
-        :footer="null"
+    <TableHeaderTraveler @filter="filter" />
+    <TableTraveler
+        :loading="loading"
+        :data="data"
+        @deleted="onDelete"
+        @print="printPdf"
+        @update="editTraveler"
     >
-        <SearchForm @visible="closemodal" @filter="advanceFilter"
-    /></a-modal>
+        <DropdownExport url="/traveler/excel" title="Viajeros" :filter="searchTravel"
+    /></TableTraveler>
 </template>
 
 <script setup lang="ts">
+    import TableTraveler from '../components/table/tableTraveler.vue';
+    import TableHeaderTraveler from '../components/tableHeader/tableHeaderTraveler.vue';
+    import { FilterTravelers, TravelerResponse } from '../types/type.traveler';
     import {
-        DeleteOutlined,
-        UploadOutlined,
-        SearchOutlined,
-    } from '@ant-design/icons-vue';
-    import dropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
-    import SearchForm from '../components/form/searchFormTraveler.vue';
+        deleteTravelers,
+        getCertTravelers,
+        getFilterTravelers,
+        getTravelers,
+    } from '../services/traveler.service';
     import { useRouter } from 'vue-router';
-    import { reactive, ref, watch } from 'vue';
-    import tableTraveler from '../components/table/tableTraveler.vue';
-    import { FilterTravelers } from '../types/type.traveler';
-    import locale from 'ant-design-vue/es/date-picker/locale/es_ES';
-    import 'dayjs/locale/es';
-    import { useAuthStore } from '@/modules/auth/store/auth.store';
-    const store = useAuthStore();
+    import { getPlans } from '@/modules/plains/services/plan.service';
+    import { Plans } from '@/modules/plains/types/plains.types';
+
+    import { usePlainStore } from '@/modules/plains/store/plans.store';
+    import DropdownExport from '@/components/shared/export/dropdownExport.vue';
+    import useTravelersFilters from '../composable/useFilterTravelers';
+    const store = usePlainStore();
+    const plains = ref<Plans[]>([]);
 
     const router = useRouter();
-
-    const filterContractor = ref<number | undefined>(undefined);
-    const visible = ref(false);
-    const searchTravel: FilterTravelers = reactive({
-        name: undefined,
-        sex: undefined,
-        passport: undefined,
-        start_date_init: undefined,
-        start_date_end: undefined,
-        end_date_policy_init: undefined,
-        end_date_policy_end: undefined,
-        number_high_risk_days: undefined,
-        contractor: undefined,
-        origin_country: undefined,
-        nationality: undefined,
-        coverage: undefined,
-        state: undefined,
+    const loading = ref(false);
+    const data = ref<TravelerResponse[]>([]);
+    provide('current', false);
+    const { searchTravel } = useTravelersFilters();
+    onMounted(async () => {
+        await refresh();
     });
-    const searchDateandContractor: FilterTravelers = reactive({
-        start_date_init: undefined,
-        start_date_end: undefined,
-        contractor: undefined,
-    });
-    //const search = ref(false);
-    const dateFilter = ref<Date[]>([]);
-    const table = ref(tableTraveler);
-    const gotoUpload = () => {
-        router.push({ name: 'upload' });
+    const refresh = async () => {
+        loading.value = true;
+        try {
+            data.value = (await getTravelers()).data;
+            plains.value = (await getPlans()).data;
+            store.setPlans(plains.value);
+        } catch (error) {}
+        loading.value = false;
     };
-    const createTraveler = (record?: any) => {
+    const filter = async (filter: FilterTravelers) => {
+        console.log(filter);
+        try {
+            data.value = (await getFilterTravelers(filter)).data;
+        } catch (error) {}
+    };
+
+    const onDelete = async (key: string) => {
+        console.log(key);
+        await deleteTravelers(key).finally(refresh);
+    };
+
+    const editTraveler = (record?: string) => {
         console.log(record);
-        router.push('/travelers/create-travelers');
-    };
-    const getSelected = (value: any) => {
-        filterContractor.value = value as number;
-    };
-    const closemodal = () => {
-        visible.value = false;
-    };
-    const advanceFilter = (filter: FilterTravelers) => {
-        eraseSearch();
-        searchTravel.name = filter.name;
-        searchTravel.passport = filter.passport;
-        searchTravel.start_date_init = filter.start_date_init;
-        searchTravel.start_date_end = filter.start_date_end;
-        searchTravel.end_date_policy_init = filter.end_date_policy_init;
-        searchTravel.end_date_policy_end = filter.end_date_policy_end;
-        searchTravel.contractor = filter.contractor;
-        searchTravel.origin_country = filter.origin_country;
-        searchTravel.nationality = filter.nationality;
-        searchTravel.coverage = filter.coverage;
-        searchTravel.state = filter.state;
-        table.value?.filter(searchTravel);
-    };
-    const deleteFilter = () => {
-        eraseSearch();
-        dateFilter.value = [];
-        filterContractor.value = undefined;
-        refresh();
-    };
-    const eraseSearch = () => {
-        searchTravel.name = undefined;
-        searchTravel.passport = undefined;
-        searchTravel.start_date_init = undefined;
-        searchTravel.start_date_end = undefined;
-        searchTravel.end_date_policy_init = undefined;
-        searchTravel.end_date_policy_end = undefined;
-        searchTravel.contractor = undefined;
-        searchTravel.origin_country = undefined;
-        searchTravel.nationality = undefined;
-        searchTravel.coverage = undefined;
-        searchTravel.state = undefined;
-        dateFilter.value = [];
-        searchDateandContractor.start_date_init = undefined;
-        searchDateandContractor.start_date_end = undefined;
-        searchDateandContractor.contractor = undefined;
-        filterContractor.value = undefined;
-    };
-    const refresh = () => {
-        table.value?.refresh();
+        router.push('/travelers/edit-travelers/' + record);
     };
 
-    watch([dateFilter, filterContractor], () => {
-        if (dateFilter.value?.length > 1 || filterContractor.value) {
-            console.log(dateFilter.value?.length, filterContractor.value);
-            if (dateFilter.value?.length > 1) {
-                searchDateandContractor.start_date_init = dateFilter.value[0];
-                searchDateandContractor.start_date_end = dateFilter.value[1];
+    const printPdf = async (record: string) => {
+        console.log(record);
+        await getCertTravelers(record).then((response) => {
+            if (response.status == 200) {
+                const blob = new Blob([response.data], { type: 'application/pdf' });
+                window.open(URL.createObjectURL(blob), '_blank')?.print();
             }
-            searchDateandContractor.contractor = filterContractor.value;
-
-            table.value?.filter(searchDateandContractor);
-        }
-    });
-    //const init = () => {};
+        });
+    };
 </script>
 
 <style lang="scss" scoped>
