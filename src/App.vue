@@ -1,14 +1,21 @@
 <script setup lang="ts">
     // This starter template is using Vue 3 <script setup> SFCs
+
+    import { ConfigProvider } from 'ant-design-vue';
+    import 'dayjs/locale/es';
+    import locale from 'ant-design-vue/es/locale/es_ES';
+
     // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 </script>
 
 <template>
-    <router-view v-slot="{ Component }">
-        <transition name="fade" mode="out-in">
-            <component :is="Component" :key="$route.path" />
-        </transition>
-    </router-view>
+    <ConfigProvider :locale="locale">
+        <router-view v-slot="{ Component }">
+            <transition name="fade" mode="out-in">
+                <component :is="Component" :key="$route.path" />
+            </transition>
+        </router-view>
+    </ConfigProvider>
 </template>
 
 <style>
