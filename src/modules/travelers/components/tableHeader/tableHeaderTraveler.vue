@@ -9,8 +9,6 @@
         <a-divider type="vertical" />
         <h4> Fecha Inicio </h4>
         <a-range-picker
-            :locale="locale"
-            :placeholder="['entre', 'entre']"
             size="small"
             v-model:value="dateFilter"
             value-format="YYYY-MM-DD"
@@ -49,48 +47,15 @@
     import dropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
     import { SearchOutlined, DeleteOutlined } from '@ant-design/icons-vue';
     import SearchForm from '../../components/form/searchFormTraveler.vue';
-    import { inject, reactive, ref, watch } from 'vue';
+    import { inject, ref, watch } from 'vue';
     import { FilterTravelers } from '../../types/type.traveler';
-    import locale from 'ant-design-vue/es/date-picker/locale/es_ES';
-    import 'dayjs/locale/es';
-    // import { useRouter } from 'vue-router';
-    // import { useAuthStore } from '@/modules/auth/store/auth.store';
-    // const store = useAuthStore();
+    import useTravelersFilters from '../../composable/useFilterTravelers';
 
-    // const router = useRouter();
-    const current = inject('current');
+    const current: boolean | undefined = inject('current');
+    const { searchTravel, eraseSearch, assignFilter } = useTravelersFilters(current);
     const filterContractor = ref<number | undefined>(undefined);
     const visible = ref(false);
-    const searchTravel: FilterTravelers = reactive({
-        name: undefined,
-        sex: undefined,
-        passport: undefined,
-        start_date_init: undefined,
-        start_date_end: undefined,
-        end_date_policy_init: undefined,
-        end_date_policy_end: undefined,
-        number_high_risk_days: undefined,
-        contractor: undefined,
-        origin_country: undefined,
-        nationality: undefined,
-        coverage: undefined,
-        state: undefined,
-    });
-    /*const searchDateandContractor: FilterTravelers = reactive({
-        start_date_init: undefined,
-        start_date_end: undefined,
-        contractor: undefined,
-        state:undefined
-    });*/
-    //const search = ref(false);
     const dateFilter = ref<Date[]>([]);
-    /*const gotoUpload = () => {
-        router.push({ name: 'upload' });
-    };*/
-    /*const createTraveler = (record?: any) => {
-        console.log(record);
-        router.push('/travelers/create-travelers');
-    };*/
     const getSelected = (value: any) => {
         filterContractor.value = value as number;
     };
@@ -99,19 +64,9 @@
     };
     const advanceFilter = (filter: FilterTravelers) => {
         eraseSearch();
-        searchTravel.name = filter.name;
-        searchTravel.passport = filter.passport;
-        searchTravel.start_date_init = filter.start_date_init;
-        searchTravel.start_date_end = filter.start_date_end;
-        searchTravel.end_date_policy_init = filter.end_date_policy_init;
-        searchTravel.end_date_policy_end = filter.end_date_policy_end;
-        searchTravel.contractor = filter.contractor;
-        searchTravel.origin_country = filter.origin_country;
-        searchTravel.nationality = filter.nationality;
-        searchTravel.coverage = filter.coverage;
-        current ? (searchTravel.state = true) : (searchTravel.state = filter.state);
+        assignFilter(filter);
         emit('filter', searchTravel);
-        eraseSearch();
+        //eraseSearch();
         dateFilter.value = [];
         filterContractor.value = undefined;
     };
@@ -120,24 +75,6 @@
         dateFilter.value = [];
         filterContractor.value = undefined;
         emit('filter', searchTravel);
-    };
-    const eraseSearch = () => {
-        searchTravel.name = undefined;
-        searchTravel.passport = undefined;
-        searchTravel.start_date_init = undefined;
-        searchTravel.start_date_end = undefined;
-        searchTravel.end_date_policy_init = undefined;
-        searchTravel.end_date_policy_end = undefined;
-        searchTravel.contractor = undefined;
-        searchTravel.origin_country = undefined;
-        searchTravel.nationality = undefined;
-        searchTravel.coverage = undefined;
-        current ? (searchTravel.state = true) : (searchTravel.state = undefined);
-        dateFilter.value = [];
-        /*searchDateandContractor.start_date_init = undefined;
-        searchDateandContractor.start_date_end = undefined;
-        searchDateandContractor.contractor = undefined;*/
-        filterContractor.value = undefined;
     };
 
     watch([dateFilter, filterContractor], () => {
