@@ -6,10 +6,7 @@
         <template #overlay>
             <a-menu>
                 <a-menu-item @click="exportExcel"> Exportar a Excel </a-menu-item>
-                <a-menu-item key="2">
-                    <UserOutlined />
-                    Exportar a pdf
-                </a-menu-item>
+                <a-menu-item key="2"> Exportar a pdf </a-menu-item>
             </a-menu>
         </template>
     </a-dropdown>
