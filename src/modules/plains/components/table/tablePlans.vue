@@ -7,6 +7,9 @@
             size="small"
             :loading="state.loading"
         >
+            <template #customFilterDropdown>
+                <DropdownExport url="/coverage/excel" title="Coberturas" />
+            </template>
             <template #bodyCell="{ column, record }">
                 <template v-if="column.dataIndex === 'action'">
                     <a-popconfirm
@@ -56,6 +59,7 @@
 <script lang="ts" setup>
     import { computed, ref, onMounted, reactive } from 'vue';
     import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
+    import DropdownExport from '@/components/shared/export/dropdownExport.vue';
     import { getPlans, deletePlans } from '../../services/plan.service';
     import { Plans } from '../../types/plains.types';
     import { useRouter } from 'vue-router';
@@ -111,7 +115,7 @@
             dataIndex: 'state',
         },
 
-        { title: 'Operaciones', dataIndex: 'action' },
+        { title: 'Operaciones', dataIndex: 'action', customFilterDropdown: true },
     ];
 
     //const selectedRowKeys = ref<Plans['id'][]>([]); // Check here to configure the default column
