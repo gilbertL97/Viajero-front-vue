@@ -66,22 +66,6 @@ const mainRoutes: RouteRecordRaw[] = [
                     import('@/modules/travelers/components/table/tableTraveler.vue'),
             },*/
             {
-                path: '/travelers',
-                name: 'travelers',
-                component: () =>
-                    import('@/modules/travelers/view/travelersTableView.vue'),
-
-                meta: {
-                    role: [
-                        UserRole.ADMIN,
-                        UserRole.CLIENT,
-                        UserRole.COMAGENT,
-                        UserRole.CONSULT,
-                        UserRole.MARKAGENT,
-                    ],
-                },
-            },
-            {
                 path: '',
                 redirect: '/home',
             },

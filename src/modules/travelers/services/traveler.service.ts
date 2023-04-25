@@ -54,6 +54,15 @@ export async function getFilterTravelers(
     };
     return await API.request<TravelerResponse[]>(config);
 }
+export async function getTravelersByFile(
+    id: number,
+): Promise<AxiosResponse<TravelerResponse[]>> {
+    const config: AxiosRequestConfig = {
+        method: 'GET',
+        url: '/traveler/file/' + id,
+    };
+    return await API.request<TravelerResponse[]>(config);
+}
 
 export async function getCertTravelers(id: string): Promise<AxiosResponse<Buffer>> {
     const config: AxiosRequestConfig = {

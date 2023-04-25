@@ -2,11 +2,35 @@ import { UserRole } from '@/helpers/helpers/role.helper';
 import { RouteRecordRaw } from 'vue-router';
 
 const travelersRoutes: RouteRecordRaw[] = [
-    // {
-    //     path: '/view',
-    //     name: 'travelers',
-    //     component: () => import('@/modules/travelers/components/view/viewTraveler.vue'),
-    // },
+    {
+        path: '/travelers/:idFile',
+        name: 'travelersFile',
+        component: () => import('@/modules/travelers/view/travelersTableView.vue'),
+        props: true,
+        meta: {
+            role: [
+                UserRole.ADMIN,
+                UserRole.CLIENT,
+                UserRole.COMAGENT,
+                UserRole.CONSULT,
+                UserRole.MARKAGENT,
+            ],
+        },
+    },
+    {
+        path: '/travelers',
+        name: 'travelers',
+        component: () => import('@/modules/travelers/view/travelersTableView.vue'),
+        meta: {
+            role: [
+                UserRole.ADMIN,
+                UserRole.CLIENT,
+                UserRole.COMAGENT,
+                UserRole.CONSULT,
+                UserRole.MARKAGENT,
+            ],
+        },
+    },
     {
         path: '/travelers/create-travelers',
         name: 'create-travelers',
