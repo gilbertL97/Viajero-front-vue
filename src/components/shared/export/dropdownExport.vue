@@ -19,7 +19,7 @@
     const prop = defineProps<{
         url: string;
         title: string;
-        filter: any;
+        filter?: any;
     }>();
     const exportExcel = async () => {
         await downloadExcel(prop.url, prop.filter, prop.title);

@@ -7,6 +7,9 @@
             size="small"
             :loading="state.loading"
         >
+            <template #customFilterDropdown>
+                <DropdownExport url="/contractor/excel" title="Cliente" />
+            </template>
             <template #bodyCell="{ column, record }">
                 <template v-if="column.dataIndex === 'action'">
                     <a-popconfirm
@@ -55,6 +58,7 @@
     import { getContractors, deleteContractors } from '../../services/contractor.service';
     import { Contractor } from '../../types/contractor.types';
     import { useRouter } from 'vue-router';
+    import DropdownExport from '@/components/shared/export/dropdownExport.vue';
     import manageError from '@/common/composable/manageError';
     const router = useRouter();
     const { alertUndelete, alertForbidden } = manageError();
@@ -102,7 +106,7 @@
             title: 'Estado',
             dataIndex: 'state',
         },
-        { title: 'Operaciones', dataIndex: 'action' },
+        { title: 'Operaciones', dataIndex: 'action', customFilterDropdown: true },
     ];
 
     //const selectedRowKeys = ref<Contractor['id'][]>([]); // Check here to configure the default column
@@ -144,13 +148,6 @@
             );
         } catch (error) {}
         state.loading = false;
-        // contract.id = -1;
-        // contract.client = '';
-        // contract.email = '';
-        // contract.telf = '';
-        // contract.poliza = '';
-        // contract.addres = '';
-        // contract.file = '';
     };
 </script>
 
