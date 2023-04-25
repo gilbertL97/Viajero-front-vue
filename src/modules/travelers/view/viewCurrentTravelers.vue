@@ -1,5 +1,5 @@
 <template>
-    <TableHeaderTraveler @filter="filter" />
+    <TableHeaderTraveler :current="true" @filter="filter" />
     <TableCurrentTravelers :loading="loading" :data="data" />
 </template>
 

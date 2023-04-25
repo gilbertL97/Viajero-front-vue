@@ -18,16 +18,19 @@
             >Borrar Filtros <DeleteOutlined
         /></a-button>
         <a-divider type="vertical" />
-        <!-- <a-button
-            v-if="store.canAccess('create-travelers')"
+        <a-button
+            v-if="store.canAccess('create-travelers') && !current"
             @click="createTraveler"
             type="primary"
             >Añadir</a-button
-        > -->
+        >
         <a-divider type="vertical" />
-        <!-- <a-button @click="gotoUpload" v-if="store.canAccess('upload')" type="primary"
+        <a-button
+            @click="gotoUpload"
+            v-if="store.canAccess('upload') && !current"
+            type="primary"
             ><upload-outlined /> Subir Ficheros</a-button
-        > -->
+        >
         <a-divider type="vertical" />
         <a-button type="primary" @click="visible = true"
             >Busqueda avanzada <SearchOutlined
@@ -45,17 +48,27 @@
 
 <script setup lang="ts">
     import dropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
-    import { SearchOutlined, DeleteOutlined } from '@ant-design/icons-vue';
+    import {
+        SearchOutlined,
+        DeleteOutlined,
+        UploadOutlined,
+    } from '@ant-design/icons-vue';
     import SearchForm from '../../components/form/searchFormTraveler.vue';
     import { inject, ref, watch } from 'vue';
     import { FilterTravelers } from '../../types/type.traveler';
     import useTravelersFilters from '../../composable/useFilterTravelers';
-
+    import { useRouter } from 'vue-router';
+    import { useAuthStore } from '@/modules/auth/store/auth.store';
+    const router = useRouter();
+    const store = useAuthStore();
     const current: boolean | undefined = inject('current');
     const { searchTravel, eraseSearch, assignFilter } = useTravelersFilters(current);
     const filterContractor = ref<number | undefined>(undefined);
     const visible = ref(false);
     const dateFilter = ref<Date[]>([]);
+    defineProps<{
+        current: boolean;
+    }>();
     const getSelected = (value: any) => {
         filterContractor.value = value as number;
     };
@@ -91,7 +104,12 @@
     const emit = defineEmits<{
         (e: 'filter', searchTravler: FilterTravelers): void;
     }>();
-    //const init = () => {};
+    const gotoUpload = () => {
+        router.push({ name: 'upload' });
+    };
+    const createTraveler = () => {
+        router.push({ name: 'create-travelers' });
+    };
 </script>
 
 <style lang="scss" scoped>
