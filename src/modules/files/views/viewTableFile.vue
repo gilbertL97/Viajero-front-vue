@@ -6,13 +6,28 @@
         :columns="columns"
         title="Tabla Ficheros"
     />
-    <TableFiles :loading="loading" :data="data" @delete="delet" :columns="columns">
+    <TableFiles
+        :loading="loading"
+        :data="data"
+        @delete="manageDelet"
+        :columns="columns"
+        @get-travelers="viewTraveler"
+    >
         <template #export
             ><DropdownExport
                 url="/file/excel"
                 title="Archivos"
                 :filter="file" /></template
     ></TableFiles>
+    <a-modal
+        v-model:visible="visible"
+        title="EL archivo contiene Viajeros. Desea Eliminar?"
+        :destroyOnClose="true"
+        width="50%"
+        @ok="delet"
+    >
+        <TableCurrentTravelers :loading="loading" :data="travlers"
+    /></a-modal>
 </template>
 
 <script setup lang="ts">
@@ -23,9 +38,16 @@
     import { FileD } from '../type/file.type';
     import { deletFiles, filterFiles, getFiles } from '../services/file.service';
     import manageError from '@/common/composable/manageError';
-
+    import { useRouter } from 'vue-router';
+    import { getTravelersByFile } from '@/modules/travelers/services/traveler.service';
+    import { TravelerResponse } from '@/modules/travelers/types/type.traveler';
+    import TableCurrentTravelers from '@/modules/travelers/components/table/tableCurrentTravelers.vue';
+    const route = useRouter();
     const { cantDelete } = manageError();
     const loading = ref(false);
+    const idDelet = ref(0);
+    const visible = ref(false);
+    const travlers = ref<TravelerResponse[]>([]);
     const file = reactive<FileD>({
         start_date_create: undefined,
         end_date_create: undefined,
@@ -75,13 +97,29 @@
         } catch (error) {}
         loading.value = false;
     };
-    const delet = async (id: number) => {
+    const delet = async () => {
         try {
-            await deletFiles(id);
+            await deletFiles(idDelet.value);
             refresh();
         } catch (error) {
             cantDelete();
         }
+        visible.value = false;
+    };
+    const manageDelet = async (id: number) => {
+        idDelet.value = id;
+        await viewTravelerModal(id);
+        if (data.value.length > 0) visible.value = true;
+    };
+    const viewTraveler = (id: number) => {
+        console.log(id);
+        route.push('/travelers/' + id);
+    };
+    const viewTravelerModal = async (id: number) => {
+        try {
+            travlers.value = (await getTravelersByFile(id)).data;
+            console.log(data.value);
+        } catch (error) {}
     };
     const asig = (file2: FileD) => {
         file.contractor = file2.contractor;
