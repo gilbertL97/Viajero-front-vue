@@ -4,7 +4,7 @@ import { AxiosResponse, AxiosRequestConfig } from 'axios';
 export default function useExcelBack() {
     const getFilelExcel = async (
         url: string,
-        filter: any,
+        filter?: any,
     ): Promise<AxiosResponse<Buffer>> => {
         const config: AxiosRequestConfig = {
             method: 'GET',
