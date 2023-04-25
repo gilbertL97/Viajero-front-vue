@@ -33,7 +33,7 @@
                 has-feedback
                 :name="['high_risk']"
                 label="Tarifa alto Riesgo"
-                :rules="[{ required: true }]"
+                :rules="[{ min: 0.1 }]"
             >
                 <a-input-number
                     v-model:value="plain.high_risk"
