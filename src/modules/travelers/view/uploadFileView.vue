@@ -42,6 +42,7 @@
         { title: 'Pais Origen', dataIndex: 'origin_country' },
         { title: 'Nacionalidad', dataIndex: 'nationality' },
         { title: 'Cobertura', dataIndex: 'coverage' },
+        { title: 'Fecha Inicio', dataIndex: 'start_date' },
         { title: 'Fecha de fin de Poliza', dataIndex: 'end_date_policy' },
         { title: 'Cant dias Alto Riesgo', dataIndex: 'number_high_risk_days' },
         { title: 'Cant dias Cubiertos', dataIndex: 'number_days' },
