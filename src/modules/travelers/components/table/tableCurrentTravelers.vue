@@ -7,6 +7,9 @@
         :scroll="{ x: 1300, y: 400 }"
         :pagination="pagination"
     >
+        <template #customFilterIcon>
+            <slot></slot>
+        </template>
         <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'state'">
                 <span>
@@ -140,6 +143,7 @@
             title: 'Agencia',
             dataIndex: 'contractor',
             width: 100,
+            customFilterDropdown: true,
         },
     ];
 </script>

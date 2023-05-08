@@ -1,6 +1,8 @@
 <template>
     <TableHeaderTraveler :current="true" @filter="filter" />
-    <TableCurrentTravelers :loading="loading" :data="data" />
+    <TableCurrentTravelers :loading="loading" :data="data">
+        <DropdownExport url="/traveler/excel" title="Viajeros" :filter="searchTravel"
+    /></TableCurrentTravelers>
 </template>
 
 <script setup lang="ts">
@@ -9,6 +11,7 @@
     import TableHeaderTraveler from '../components/tableHeader/tableHeaderTraveler.vue';
     import { getFilterTravelers } from '../services/traveler.service';
     import { FilterTravelers, TravelerResponse } from '../types/type.traveler';
+    import DropdownExport from '@/components/shared/export/dropdownExport.vue';
 
     provide('current', true);
     const loading = ref(false);
