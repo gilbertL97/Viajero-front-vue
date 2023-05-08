@@ -51,13 +51,11 @@
             title: 'Nombre',
             dataIndex: 'name',
             width: 100,
-            fixed: 'left',
         },
         {
             title: 'Pasaporte',
             dataIndex: 'passport',
             width: 100,
-            fixed: 'left',
         },
         {
             title: 'Sexo',
@@ -132,19 +130,16 @@
             title: 'Cobertura',
             dataIndex: 'coverage',
             width: 100,
-            fixed: 'right',
         },
         {
             title: 'Importe',
             dataIndex: 'total_amount',
             width: 100,
-            fixed: 'right',
         },
         {
             title: 'Agencia',
             dataIndex: 'contractor',
             width: 100,
-            fixed: 'right',
         },
     ];
 </script>
