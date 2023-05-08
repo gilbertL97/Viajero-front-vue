@@ -6,6 +6,7 @@
         :scroll="{ x: 400, y: 500 }"
         :row-key="(record: any) => record.id"
     >
+        <template #customFilterIcon> <slot></slot> </template>
         <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex == 'total_travelers'"
                 ><h1>{{ record.travelers.length }}</h1>
@@ -36,6 +37,7 @@
         {
             title: 'Cantidad de Viajeros',
             dataIndex: 'total_travelers',
+            customFilterDropdown: true,
         },
     ];
 </script>
