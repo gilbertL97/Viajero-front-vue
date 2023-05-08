@@ -6,7 +6,7 @@
         :loading="props.loading"
         :scroll="{ y: 400, x: 800 }"
     >
-        <template #customFilterDropdown>
+        <template #customFilterIcon>
             <slot></slot>
         </template>
         <template #bodyCell="{ column, record }">
@@ -94,7 +94,6 @@
             title: 'Pasaporte',
             dataIndex: 'passport',
             width: 150,
-            fixed: 'left',
         },
         {
             title: 'Sexo',
@@ -174,13 +173,11 @@
             title: 'Cobertura',
             dataIndex: 'coverage',
             width: 100,
-            fixed: 'right',
         },
         {
             title: 'Importe',
             dataIndex: 'total_amount',
             width: 100,
-            fixed: 'right',
         },
 
         {

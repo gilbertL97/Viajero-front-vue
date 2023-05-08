@@ -1,6 +1,6 @@
 <template>
     <a-table :columns="columns" size="small" :loading="loading" :data-source="data">
-        <template #customFilterDropdown> <slot></slot></template>
+        <template  #customFilterIcon> <slot></slot></template>
         <template #summary>
             <a-table-summary-row>
                 <a-table-summary-cell>Total</a-table-summary-cell>

@@ -7,7 +7,7 @@
             size="small"
             :loading="state.loading"
         >
-            <template #customFilterDropdown>
+            <template  #customFilterIcon>
                 <DropdownExport url="/coverage/excel" title="Coberturas" />
             </template>
             <template #bodyCell="{ column, record }">
