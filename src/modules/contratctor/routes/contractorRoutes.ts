@@ -24,7 +24,7 @@ const contractorsRoutes: RouteRecordRaw[] = [
     {
         path: '/clients/inv',
         name: 'invoicing',
-        component: () => import('@/modules/contratctor/views/tableFactView.vue'),
+        component: () => import('@/modules/contratctor/views/viewTableFactView.vue'),
         meta: {
             role: [UserRole.ADMIN, UserRole.COMAGENT],
         },
