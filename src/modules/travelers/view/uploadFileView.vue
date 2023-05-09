@@ -24,7 +24,8 @@
     import { ColumnType } from 'ant-design-vue/lib/table';
     import { useRouter } from 'vue-router';
     const router = useRouter();
-    const { warningRepeatTraveler, errorWrongTraveler, sucessTraveler } = manageError();
+    const { warningRepeatTraveler, errorWrongTraveler, sucessTraveler, genericError } =
+        manageError();
     const contractor = ref();
     const showTable = ref(false);
     const test = ref();
@@ -89,6 +90,9 @@
             case 400:
                 error400(response.response as FileErrorsDto[]);
                 errorWrongTraveler();
+                break;
+            case 500:
+                genericError();
                 break;
             default:
                 sucessTraveler();

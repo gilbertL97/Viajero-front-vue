@@ -127,7 +127,7 @@
         const user1 = store.getUserInfo;
         // para q funcione en los navegadores viejos
         if (user1 != null) {
-            if (user1.role == UserRole.ADMIN)
+            if (user1.rol == UserRole.ADMIN)
                 data.value = data.value.filter((item) => item.id !== user1.id);
         }
     };

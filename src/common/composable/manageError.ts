@@ -62,6 +62,16 @@ export default () => {
             timer: 3000,
         });
     };
+    const genericError = () => {
+        Swal.fire({
+            position: 'top',
+            icon: 'error',
+            title: 'Error',
+            text: 'Ha ocurrido un error',
+            showConfirmButton: false,
+            timer: 3000,
+        });
+    };
     return {
         alertInactive,
         alertForbidden,
@@ -70,5 +80,6 @@ export default () => {
         errorWrongTraveler,
         sucessTraveler,
         cantDelete,
+        genericError,
     };
 };
