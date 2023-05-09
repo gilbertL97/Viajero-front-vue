@@ -5,4 +5,5 @@ declare global {
     const reactive: typeof import('vue')['reactive'];
     const onMounted: typeof import('vue')['onMounted'];
     const provide: typeof import('vue')['provide'];
+    const watch: typeof import('vue')['watch'];
 }
