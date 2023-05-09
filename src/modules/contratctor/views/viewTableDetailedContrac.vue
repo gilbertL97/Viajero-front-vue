@@ -1,48 +1,69 @@
 <template>
-    <div class="table-header"
-        ><h4 style="padding-right: 5px"> Fecha Inicio </h4>
-        <a-date-picker v-model:value="filter" picker="month" :locale="locale" />
+    <div class="table-header">
+        <DropdownContrac
+            @selected="getSelected"
+            :activeSelect="true"
+            :contractorId="filter.id"
+        /><h4 style="padding-right: 5px"> MES </h4>
+        <a-date-picker v-model:value="date" picker="month" />
+        <a-button type="primary" @click="deleteFilter"
+            >Borrar Filtros <DeleteOutlined
+        /></a-button>
     </div>
     <TableContractorDetailed :data="data" :loading="loading">
         <DropdownExport
             url="/contractor/detailed/excel"
             title="Cliente"
-            :filter="excelFilter"
+            :filter="filter"
         />
     </TableContractorDetailed>
 </template>
 
 <script setup lang="ts">
-    import { onMounted, ref, watch } from 'vue';
-    import locale from 'ant-design-vue/es/date-picker/locale/es_ES';
-    import 'dayjs/locale/es';
+    import { onMounted, watch } from 'vue';
     import TableContractorDetailed from '../components/table/tableContractorDetailed.vue';
-    import { Contractor } from '../types/contractor.types';
+    import { DeleteOutlined } from '@ant-design/icons-vue';
+    import { Contractor, FilterDateAndContract } from '../types/contractor.types';
     import { getDetailed } from '../services/contractor.service';
     import DropdownExport from '@/components/shared/export/dropdownExport.vue';
+    import DropdownContrac from '../components/dropdown/dropdownContrac.vue';
 
     const loading = ref(false);
     const data = ref<Contractor[]>([]);
+    const date = ref<Date>();
     const excelFilter = reactive({
         dateInvoicing: '',
     });
-    const filter = ref<Date>();
-    watch([filter], () => {
-        getDetailedData(filter.value?.toISOString());
-        excelFilter.dateInvoicing = filter.value
+    const filter = reactive<FilterDateAndContract>({
+        dateInvoicing: undefined,
+        id: undefined,
+    }); //ref<Date>();
+    watch([() => filter.id, date], () => {
+        filter.dateInvoicing = date.value?.toISOString();
+        console.log(filter);
+        getDetailedData(filter);
+        /* excelFilter.dateInvoicing = filter.value
             ? filter.value.toISOString()
-            : new Date().toISOString();
+            : new Date().toISOString();/*/
     });
     onMounted(async () => {
-        getDetailedData(new Date().toISOString());
+        getDetailedData(filter);
         excelFilter.dateInvoicing = new Date().toISOString();
     });
-    const getDetailedData = async (date?: string) => {
+    const getSelected = (id: any) => {
+        filter.id = id as number;
+    };
+    const getDetailedData = async (filterr: FilterDateAndContract) => {
         try {
             loading.value = true;
-            data.value = (await getDetailed(date)).data;
+            data.value = (await getDetailed(filterr)).data;
         } catch (error) {}
         loading.value = false;
+    };
+    const deleteFilter = () => {
+        filter.dateInvoicing = undefined;
+        filter.id = undefined;
+        date.value = undefined;
     };
 </script>
 

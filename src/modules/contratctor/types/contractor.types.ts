@@ -18,6 +18,10 @@ export type ContractorsAndTotals = {
     total_amount: number;
     total_travelers: number;
 };
+export type FilterDateAndContract = {
+    dateInvoicing?: string;
+    id?: number;
+};
 export type FilterContractor = {
     id?: number;
     email?: string;
