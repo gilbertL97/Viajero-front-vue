@@ -1,6 +1,6 @@
 <template>
     <a-table :columns="columns" size="small" :loading="loading" :data-source="data">
-        <template  #customFilterIcon>
+        <template #customFilterIcon>
             <slot name="export"></slot>
         </template>
         <template #bodyCell="{ column, record }">
@@ -11,9 +11,12 @@
                 <h4>{{ record.contractor.client }}</h4>
             </template>
             <template v-if="column.dataIndex === 'actions'">
-                <a-button type="danger" @click="onDelete(record.id)"
-                    ><template #icon> <DeleteOutlined /></template
-                ></a-button>
+                <a-tooltip>
+                    <template #title>Eliminar</template>
+                    <a-button type="danger" @click="onDelete(record.id)"
+                        ><template #icon> <DeleteOutlined /></template
+                    ></a-button>
+                </a-tooltip>
 
                 <!-- <a-popconfirm
                     :title="`Desea eliminar al Fichero ${record.name} ?`"

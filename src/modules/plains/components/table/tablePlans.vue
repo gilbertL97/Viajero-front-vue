@@ -7,7 +7,7 @@
             size="small"
             :loading="state.loading"
         >
-            <template  #customFilterIcon>
+            <template #customFilterIcon>
                 <DropdownExport url="/coverage/excel" title="Coberturas" />
             </template>
             <template #bodyCell="{ column, record }">
@@ -16,15 +16,22 @@
                         :title="`Desea eliminar el plan ${record.name} ?`"
                         @confirm="onDelete(record.id)"
                     >
-                        <a-button type="danger"
-                            ><template #icon> <DeleteOutlined /></template
-                        ></a-button>
+                        <a-tooltip>
+                            <template #title>Eliminar</template>
+
+                            <a-button type="danger"
+                                ><template #icon> <DeleteOutlined /></template
+                            ></a-button>
+                        </a-tooltip>
                     </a-popconfirm>
-                    <a-button type="primary" @click="editPlans(record.id)">
-                        <template #icon>
-                            <EditOutlined />
-                        </template>
-                    </a-button>
+                    <a-tooltip>
+                        <template #title>Editar</template>
+                        <a-button type="primary" @click="editPlans(record.id)">
+                            <template #icon>
+                                <EditOutlined />
+                            </template>
+                        </a-button>
+                    </a-tooltip>
                 </template>
                 <template v-if="column.dataIndex === 'daily'">
                     <h4 v-if="record.daily">Si</h4>

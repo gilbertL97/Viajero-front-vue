@@ -13,13 +13,19 @@
                         :title="`Desea eliminar al Usuario ${record.name} ?`"
                         @confirm="onDelete(record.id)"
                     >
-                        <a-button type="danger">
-                            <template #icon><DeleteOutlined /></template>
-                        </a-button>
+                        <a-tooltip>
+                            <template #title>Eliminar</template>
+                            <a-button type="danger">
+                                <template #icon><DeleteOutlined /></template>
+                            </a-button>
+                        </a-tooltip>
                     </a-popconfirm>
-                    <a-button type="primary" @click="handleUser(record.id)"
-                        ><template #icon><EditOutlined /></template>
-                    </a-button>
+                    <a-tooltip>
+                        <template #title>Editar</template>
+                        <a-button type="primary" @click="handleUser(record.id)"
+                            ><template #icon><EditOutlined /></template>
+                        </a-button>
+                    </a-tooltip>
                 </template>
                 <template v-if="column.dataIndex === 'role'">
                     {{ rolKeyvalue[record.role] }}</template
