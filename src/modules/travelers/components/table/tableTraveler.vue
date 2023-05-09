@@ -4,7 +4,7 @@
         :columns="columns"
         size="small"
         :loading="props.loading"
-        :scroll="{ y: 400, x: 800 }"
+        :scroll="{ y: 400, x: 1200 }"
     >
         <template #customFilterIcon>
             <slot></slot>
@@ -49,6 +49,9 @@
             </template>
             <template v-if="column.dataIndex === 'start_date'">
                 <h4>{{ dayjs(record.start_date).format('DD/MM/YYYY') }}</h4>
+            </template>
+            <template v-if="column.dataIndex === 'sale_date' && record.sale_date">
+                <h4>{{ dayjs(record.sale_date).format('DD/MM/YYYY') }}</h4>
             </template>
             <template v-if="column.dataIndex === 'end_date_policy'">
                 <h4>{{ dayjs(record.end_date_policy).format('DD/MM/YYYY') }}</h4>
@@ -168,22 +171,22 @@
         {
             title: 'Estado',
             dataIndex: 'state',
-            width: 100,
+            width: 75,
         },
         {
             title: 'Agencia',
             dataIndex: 'contractor',
-            width: 100,
+            width: 200,
         },
         {
             title: 'Cobertura',
             dataIndex: 'coverage',
-            width: 100,
+            width: 150,
         },
         {
             title: 'Importe',
             dataIndex: 'total_amount',
-            width: 100,
+            width: 75,
         },
 
         {
