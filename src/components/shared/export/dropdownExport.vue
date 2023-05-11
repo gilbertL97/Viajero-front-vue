@@ -19,15 +19,16 @@
     const { downloadExcel } = useExcelBack();
     const { downloadPdf } = usePdfBack();
     const prop = defineProps<{
-        url: string;
+        urlExcel: string;
+        urlPdf?: string;
         title: string;
         filter?: any;
     }>();
     const exportExcel = async () => {
-        await downloadExcel(prop.url, prop.filter, prop.title);
+        await downloadExcel(prop.urlExcel, prop.filter, prop.title);
     };
     const exportPdf = async () => {
-        await downloadPdf(prop.url, prop.filter, prop.title);
+        await downloadPdf(prop.urlPdf!, prop.filter, prop.title);
     };
 </script>
 

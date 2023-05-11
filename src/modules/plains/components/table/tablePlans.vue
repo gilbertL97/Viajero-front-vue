@@ -8,7 +8,11 @@
             :loading="state.loading"
         >
             <template #customFilterIcon>
-                <DropdownExport url="/coverage/excel" title="Coberturas" />
+                <DropdownExport
+                    urlExcel="/coverage/excel"
+                    title="Coberturas"
+                    urlPdf="/coverage/pdf"
+                />
             </template>
             <template #bodyCell="{ column, record }">
                 <template v-if="column.dataIndex === 'action'">
