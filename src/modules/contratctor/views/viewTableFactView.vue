@@ -5,7 +5,8 @@
     </div>
     <TableContractorFact ref="table">
         <DropdownExport
-            url="/contractor/invoicing/excel"
+            urlExcel="/contractor/invoicing/excel"
+            urlPdf="/contractor/invoicing/pdf"
             :filter="{ dateInvoicing }"
             title="Cliente"
         />

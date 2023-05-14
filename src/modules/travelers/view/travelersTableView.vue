@@ -7,7 +7,11 @@
         @print="printPdf"
         @update="editTraveler"
     >
-        <DropdownExport urlExcel="/traveler/excel" title="Viajeros" :filter="searchTravel"
+        <DropdownExport
+            urlExcel="/traveler/excel"
+            urlPdf="/traveler/pdf"
+            title="Viajeros"
+            :filter="searchTravel"
     /></TableTraveler>
 </template>
 

@@ -1,7 +1,11 @@
 <template>
     <TableHeaderTraveler :current="true" @filter="filter" />
     <TableCurrentTravelers :loading="loading" :data="data">
-        <DropdownExport urlExcel="/traveler/excel" title="Viajeros" :filter="searchTravel"
+        <DropdownExport
+            urlExcel="/traveler/excel"
+            urlPdf="/traveler/pdf"
+            title="Viajeros"
+            :filter="searchTravel"
     /></TableCurrentTravelers>
 </template>
 

@@ -12,7 +12,8 @@
     </div>
     <TableContractorDetailed :data="data" :loading="loading">
         <DropdownExport
-            url="/contractor/detailed/excel"
+            urlExcel="/contractor/detailed/excel"
+            urlPdf="/contractor/detailed/pdf"
             title="Cliente"
             :filter="filter"
         />

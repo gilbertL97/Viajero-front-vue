@@ -15,7 +15,8 @@
     >
         <template #export
             ><DropdownExport
-                url="/file/excel"
+                urlExcel="/file/excel"
+                urlPdf="/file/pdf"
                 title="Archivos"
                 :filter="file" /></template
     ></TableFiles>
