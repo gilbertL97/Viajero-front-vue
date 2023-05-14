@@ -32,9 +32,6 @@
     const loading = ref(false);
     const data = ref<Contractor[]>([]);
     const date = ref<Date>();
-    const excelFilter = reactive({
-        dateInvoicing: '',
-    });
     const filter = reactive<FilterDateAndContract>({
         dateInvoicing: undefined,
         id: undefined,
@@ -49,7 +46,6 @@
     });
     onMounted(async () => {
         getDetailedData(filter);
-        excelFilter.dateInvoicing = new Date().toISOString();
     });
     const getSelected = (id: any) => {
         filter.id = id as number;

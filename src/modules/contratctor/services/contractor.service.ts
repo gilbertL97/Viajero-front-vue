@@ -57,7 +57,7 @@ export async function addContractors(
 }
 
 export async function getInvoicing(
-    dateInvoicing: string,
+    dateInvoicing?: string,
 ): Promise<AxiosResponse<ContractorsAndTotals>> {
     const config: AxiosRequestConfig = {
         method: 'GET',

@@ -14,12 +14,13 @@ export default function usePdfBack() {
         };
         return await API.request<Buffer>(config);
     };
-    const downloadPdf = async (url: string, filter: any) => {
+    const downloadPdf = async (url: string, filter: any, title: string) => {
         await getFilelPdf(url, filter).then((response) => {
             if (response.status == 200) {
                 const blob = new Blob([response.data], { type: 'application/pdf' });
                 window.open(URL.createObjectURL(blob), '_blank');
             }
+            title;
         });
     };
     return {
