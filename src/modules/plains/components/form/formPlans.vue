@@ -79,7 +79,7 @@
                 <a-upload :before-upload="beforeUpload" :max-count="1">
                     <a-button>
                         <upload-outlined />
-                        Upload
+                        Subir Archivo
                     </a-button>
                 </a-upload>
             </a-form-item>

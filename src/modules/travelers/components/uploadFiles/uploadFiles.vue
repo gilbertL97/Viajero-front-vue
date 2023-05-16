@@ -4,6 +4,7 @@
         :multiple="false"
         :max-count="1"
         :action="sendFile"
+
         :showUploadList="false"
         accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
     >
@@ -18,7 +19,7 @@
     import { FileErrorsDto, FilterTravelers } from '../../types/type.traveler';
     import { addFiles } from '../../services/traveler.service';
     import { UploadOutlined } from '@ant-design/icons-vue';
-
+    import { getFileByname } from '@/modules/files/services/file.service';
     const props = defineProps<{
         contractor?: number;
     }>();
@@ -34,6 +35,7 @@
             },
         ): void;
         (e: 'isLoading', isLoading: boolean): void;
+        (e: 'openModal', c: boolean): void;
     }>();
 
     const sendFile = async (file: File) => {
@@ -49,5 +51,11 @@
                 });
             })
             .finally(() => emit('isLoading', false));
+    };
+    const verifiFile = async (filename: string) => {
+        await getFileByname(filename).catch((e) => {
+            if (e.response.status == 404) {
+            }
+        });
     };
 </script>
