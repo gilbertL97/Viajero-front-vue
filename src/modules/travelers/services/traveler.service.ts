@@ -95,6 +95,5 @@ export async function addFiles(
         url: '/traveler/file/' + contractor,
         data: data,
     };
-    console.log(config.headers);
     return await API.request<FileErrorsDto[] | FilterTravelers[] | void>(config);
 }

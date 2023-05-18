@@ -3,8 +3,7 @@
         name="file"
         :multiple="false"
         :max-count="1"
-        :action="sendFile"
-
+        :before-upload="verifiFile"
         :showUploadList="false"
         accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
     >
@@ -23,7 +22,7 @@
     const props = defineProps<{
         contractor?: number;
     }>();
-
+    const upload = ref(false);
     const isDisabled = computed(() => (props.contractor ? false : true));
 
     const emit = defineEmits<{
@@ -52,10 +51,13 @@
             })
             .finally(() => emit('isLoading', false));
     };
-    const verifiFile = async (filename: string) => {
-        await getFileByname(filename).catch((e) => {
-            if (e.response.status == 404) {
-            }
-        });
+    const verifiFile = async (file: File) => {
+        await getFileByname(file.name)
+            .catch(async (e) => {
+                if (e.response.status == 404) {
+                    await sendFile(file);
+                }
+            })
+            .then({});
     };
 </script>

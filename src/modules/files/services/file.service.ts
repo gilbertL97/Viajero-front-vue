@@ -20,7 +20,7 @@ export async function getFile(id: number): Promise<AxiosResponse<FileD>> {
 export async function getFileByname(name: string): Promise<AxiosResponse<FileD>> {
     const config: AxiosRequestConfig = {
         method: 'GET',
-        url: '/file/' + name,
+        url: '/file/name/' + name,
         //params: id,
     };
     return await API.request<FileD>(config);
