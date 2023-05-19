@@ -12,6 +12,11 @@
             Click para subir archivo
         </a-button>
     </a-upload>
+    <a-modal
+        v-model:visible="visible"
+        title="El archivo ya existe desea reescribirlo"
+        @ok="ok"
+    />
 </template>
 <script lang="ts" setup>
     import { computed } from 'vue';
@@ -22,9 +27,9 @@
     const props = defineProps<{
         contractor?: number;
     }>();
-    const upload = ref(false);
+    const fil = ref<File>();
     const isDisabled = computed(() => (props.contractor ? false : true));
-
+    const visible = ref(false);
     const emit = defineEmits<{
         (
             e: 'response',
@@ -52,12 +57,21 @@
             .finally(() => emit('isLoading', false));
     };
     const verifiFile = async (file: File) => {
+        fil.value = file;
         await getFileByname(file.name)
             .catch(async (e) => {
                 if (e.response.status == 404) {
                     await sendFile(file);
                 }
             })
-            .then({});
+            .then(async (response) => {
+                if (response) {
+                    visible.value = true;
+                }
+            });
+        return false;
+    };
+    const ok = async () => {
+        if (fil.value) await sendFile(fil.value);
     };
 </script>
