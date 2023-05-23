@@ -18,7 +18,9 @@
           "view-travelers",
           "upload",
           "files",
+          "delete-files",
           "current",
+          "detailed",
           "fact"
 
        ]
@@ -33,6 +35,7 @@
         "view-travelers",
         "upload",
         "files",
+        "delete-files",
         "current",
         "fact"
      ]
@@ -84,7 +87,9 @@
       "home",
       "travelers",
       "current",
-      "fact"
+      "fact",          
+      "files"
+
 ]
     }
  ]
