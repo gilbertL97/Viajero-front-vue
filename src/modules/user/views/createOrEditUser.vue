@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-    import FormUser from '../components/form/formUser2.vue';
+    import FormUser from '../components/form/formUser.vue';
 
     const props = defineProps<{ id?: string }>();
 </script>

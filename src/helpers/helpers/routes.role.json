@@ -15,7 +15,7 @@
           "travelers",
           "create-travelers",
           "edit-travelers",
-          "view-travelersd",
+          "view-travelers",
           "upload",
           "files",
           "current",
@@ -30,7 +30,7 @@
         "travelers",
         "create-travelers",
         "edit-travelers",
-        "view-travelersd",
+        "view-travelers",
         "upload",
         "files",
         "current",
@@ -57,7 +57,7 @@
           "travelers",
           "create-travelers",
           "edit-travelers",
-          "view-travelersd",
+          "view-travelers",
           "upload",
           "files",
           "current",
@@ -73,11 +73,18 @@
           "travelers",
           "create-travelers",
           "edit-travelers",
-          "view-travelersd",
+          "view-travelers",
           "upload",
           "files",
           "current",
           "fact"
+]
+    },    {"role":"consultagenci",
+    "acces":[
+      "home",
+      "travelers",
+      "current",
+      "fact"
 ]
     }
  ]

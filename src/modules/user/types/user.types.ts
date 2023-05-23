@@ -42,6 +42,7 @@ export enum UserRole {
     CONSULT = 'consult',
     MARKAGENT = 'marketing',
     COMAGENT = 'comercial',
+    CONSULTAGENT = 'consultagenci',
 }
 
 export enum UserRoleEquivalen {
@@ -50,8 +51,9 @@ export enum UserRoleEquivalen {
     CONSULT = 'Consultante',
     MARKAGENT = 'Agente de Marketing',
     COMAGENT = 'Agente Comercial',
+    CONSULTAGENT = 'Cliente Consultante',
 }
-const roles = ['admin', 'client', 'consult', 'marketing', 'comercial'];
+const roles = ['admin', 'client', 'consult', 'marketing', 'comercial', 'consultagenci'];
 
 type TCustomKeys = { [key in typeof roles[number]]: string };
 
@@ -61,6 +63,7 @@ export const rolKeyvalue: TCustomKeys = {
     consult: 'Consultante',
     marketing: 'Agente de Marketing',
     comercial: 'Agente Comercial',
+    consultagenci: ' Consultante de Agencia',
 };
 type CustomKeys = { [key in typeof roles[number]]: number };
 export const rolRankingValue: CustomKeys = {
