@@ -7,6 +7,7 @@ const filesRoutes: RouteRecordRaw[] = [
         name: 'files',
         component: () => import('@/modules/files/views/viewTableFile.vue'),
         meta: {
+            requiresAuth: true,
             role: [UserRole.ADMIN, UserRole.MARKAGENT],
         },
     },

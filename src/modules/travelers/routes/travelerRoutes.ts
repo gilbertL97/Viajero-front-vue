@@ -8,6 +8,7 @@ const travelersRoutes: RouteRecordRaw[] = [
         component: () => import('@/modules/travelers/view/travelersTableView.vue'),
         props: true,
         meta: {
+            requiresAuth: true,
             role: [
                 UserRole.ADMIN,
                 UserRole.CLIENT,
@@ -22,6 +23,7 @@ const travelersRoutes: RouteRecordRaw[] = [
         name: 'travelers',
         component: () => import('@/modules/travelers/view/travelersTableView.vue'),
         meta: {
+            requiresAuth: true,
             role: [
                 UserRole.ADMIN,
                 UserRole.CLIENT,
@@ -37,6 +39,7 @@ const travelersRoutes: RouteRecordRaw[] = [
         component: () => import('@/modules/travelers/view/createOrEditTravelers.vue'),
         props: true,
         meta: {
+            requiresAuth: true,
             role: [
                 UserRole.ADMIN,
                 UserRole.CLIENT,
@@ -51,6 +54,7 @@ const travelersRoutes: RouteRecordRaw[] = [
         component: () => import('@/modules/travelers/view/createOrEditTravelers.vue'),
         props: true,
         meta: {
+            requiresAuth: true,
             role: [
                 UserRole.ADMIN,
                 UserRole.CLIENT,
@@ -65,6 +69,7 @@ const travelersRoutes: RouteRecordRaw[] = [
         component: () => import('@/modules/travelers/view/viewTravelerInfo.vue'),
         props: true,
         meta: {
+            requiresAuth: true,
             role: [
                 UserRole.ADMIN,
                 UserRole.CLIENT,
@@ -79,6 +84,7 @@ const travelersRoutes: RouteRecordRaw[] = [
         component: () => import('@/modules/travelers/view/uploadFileView.vue'),
         props: true,
         meta: {
+            requiresAuth: true,
             role: [
                 UserRole.ADMIN,
                 UserRole.CLIENT,
@@ -93,6 +99,7 @@ const travelersRoutes: RouteRecordRaw[] = [
         component: () => import('@/modules/travelers/view/viewCurrentTravelers.vue'),
         props: true,
         meta: {
+            requiresAuth: true,
             role: [
                 UserRole.ADMIN,
                 UserRole.CLIENT,

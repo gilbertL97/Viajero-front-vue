@@ -7,13 +7,15 @@ import contractorsRoutes from '@/modules/contratctor/routes/contractorRoutes';
 import { UserRole } from '@/helpers/helpers/role.helper';
 import filesRoutes from '@/modules/files/router/file.router';
 const store = useAuthStore();
-const beforeEnter = (_to: any, _from: any, next: any) => {
-    const isloggedIn = store.getToken;
-    if (isloggedIn) {
-        console.log('este el esl oken', isloggedIn);
+const beforeEnter = (to: any, _from: any, next: any) => {
+    const requiresAuth = to.matched.some(
+        (record: { meta: { requiresAuth: any } }) => record.meta.requiresAuth,
+    );
+    const isloggedIn = store.isloggedIn;
+    console.log(store.token, isloggedIn);
+    if (isloggedIn && requiresAuth) {
         next();
     } else {
-        console.log('no hay token ');
         next({ name: 'login' });
     }
 };
@@ -23,6 +25,7 @@ const mainRoutes: RouteRecordRaw[] = [
         name: 'home',
         component: () => import('@/views/home/indexHome.vue'),
         meta: {
+            requiresAuth: true,
             role: [
                 UserRole.ADMIN,
                 UserRole.CLIENT,
@@ -38,6 +41,7 @@ const mainRoutes: RouteRecordRaw[] = [
                 name: 'users',
                 component: () => import('@/modules/user/components/table/tableUser.vue'),
                 meta: {
+                    requiresAuth: true,
                     role: [UserRole.ADMIN],
                 },
             },
@@ -47,6 +51,7 @@ const mainRoutes: RouteRecordRaw[] = [
                 component: () =>
                     import('@/modules/contratctor/components/table/tableContractor.vue'),
                 meta: {
+                    requiresAuth: true,
                     role: [UserRole.ADMIN, UserRole.MARKAGENT],
                 },
             },
@@ -56,6 +61,7 @@ const mainRoutes: RouteRecordRaw[] = [
                 component: () =>
                     import('@/modules/plains/components/table/tablePlans.vue'),
                 meta: {
+                    requiresAuth: true,
                     role: [UserRole.ADMIN, UserRole.CLIENT, UserRole.MARKAGENT],
                 },
             },
@@ -74,6 +80,7 @@ const mainRoutes: RouteRecordRaw[] = [
                 name: 'home',
                 component: () => import('@/views/default/backTemp.vue'),
                 meta: {
+                    requiresAuth: true,
                     role: [
                         UserRole.ADMIN,
                         UserRole.CLIENT,
@@ -91,5 +98,7 @@ const mainRoutes: RouteRecordRaw[] = [
         ],
     },
 ];
-
+mainRoutes.forEach((route) => {
+    route.beforeEnter = beforeEnter;
+});
 export default mainRoutes;
