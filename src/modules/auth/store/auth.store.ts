@@ -9,6 +9,7 @@ interface UserState {
     token?: string | null;
     userInfo: UserAuth | null;
     isloggedIn: boolean;
+    time: Date | null;
 }
 
 export const authStore = defineStore('app-user', {
@@ -16,21 +17,25 @@ export const authStore = defineStore('app-user', {
         token: '',
         userInfo: null,
         isloggedIn: false,
+        time: null,
     }),
     getters: {
         getUserInfo(): UserAuth | null {
             if (!this.userInfo) {
                 if (this.token) {
-                    const { username, id, role } = extract_user_data('user', this.token);
+                    const { username, id, role, iat } = extract_user_data(
+                        'user',
+                        this.token,
+                    );
                     this.userInfo = {} as UserAuth;
                     this.userInfo!.id = id;
                     this.userInfo!.rol = role;
                     this.userInfo!.username = username;
+                    this.time = iat;
                     const rolesAcces = <AccesControl[]>accesRole;
                     const access = rolesAcces.find(
                         (roles) => this.userInfo?.rol == roles.role,
                     );
-                    console.log('entro aqui');
                     this.userInfo.views = access;
                 }
             }
@@ -41,6 +46,9 @@ export const authStore = defineStore('app-user', {
             this.token = localStorage.getItem('token');
             this.getUserInfo;
             return this.token;
+        },
+        isloggedIn(): boolean {
+            return this.getToken ? true : false;
         },
     },
     actions: {
@@ -59,6 +67,11 @@ export const authStore = defineStore('app-user', {
             const rolesAcces = <AccesControl[]>accesRole;
             const access = rolesAcces.find((roles) => this.userInfo?.rol == roles.role);
             this.userInfo.views = access;
+        },
+        clearToken() {
+            this.token = null;
+            this.time = null;
+            localStorage.removeItem('token');
         },
         logout() {
             localStorage.removeItem('token');
