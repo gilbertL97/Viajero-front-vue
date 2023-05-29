@@ -71,15 +71,16 @@
         loading.value = true;
         try {
             const token = await loginService(form.username, form.password);
+            console.log(token);
             if (token) {
                 store.setToken(token.data.access_token);
-                store.setLogged();
                 router.push('/hom');
             }
             loading.value = false;
         } catch (error: any) {
+            console.log(error);
             errors.value = true;
-            if (error.response.status == 401) {
+            if (error.response) {
                 message.value = 'ERROR USUARIO NO AUTORIZADO';
                 description.value =
                     'Ha introducido incorrectamente el usuario y/o la contraseña';

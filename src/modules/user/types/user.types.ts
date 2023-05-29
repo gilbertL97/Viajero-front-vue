@@ -63,7 +63,7 @@ export const rolKeyvalue: TCustomKeys = {
     consult: 'Consultante',
     marketing: 'Agente de Marketing',
     comercial: 'Agente Comercial',
-    consultagenci: ' Consultante de Agencia',
+    consultagenci: ' Cliente Consultante',
 };
 type CustomKeys = { [key in typeof roles[number]]: number };
 export const rolRankingValue: CustomKeys = {

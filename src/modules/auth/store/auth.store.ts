@@ -48,6 +48,7 @@ export const authStore = defineStore('app-user', {
             return this.token;
         },
         isloggedIn(): boolean {
+            console.log(this.getToken);
             return this.getToken ? true : false;
         },
     },
@@ -78,8 +79,10 @@ export const authStore = defineStore('app-user', {
             this.token = '';
         },
         setLogged() {
-            if (typeof this.getToken === 'string' && this.getToken != '')
+            if (typeof this.getToken === 'string' && this.getToken != '') {
                 this.isloggedIn = true;
+                console.log(this.getToken);
+            }
         },
         resetState() {
             this.token = '';

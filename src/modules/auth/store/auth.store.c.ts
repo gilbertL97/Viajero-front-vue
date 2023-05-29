@@ -6,14 +6,12 @@ import accesRole from '@/helpers/helpers/routes.role.json';
 interface UserState {
     token?: string | null;
     userInfo: UserAuth | null;
-    isloggedIn: boolean;
     time: Date | null;
 }
 export const useVideoPlayer = defineStore('auth-store', () => {
     const userState = reactive<UserState>({
         token: '',
         userInfo: null,
-        isloggedIn: false,
         time: null,
     });
     const getToken = () => {
@@ -56,5 +54,5 @@ export const useVideoPlayer = defineStore('auth-store', () => {
         userState.time = null;
         localStorage.removeItem('token');
     };
-    return {};
+    return { isloggedIn, setToken, logout };
 });

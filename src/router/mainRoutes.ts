@@ -12,7 +12,6 @@ const beforeEnter = (to: any, _from: any, next: any) => {
         (record: { meta: { requiresAuth: any } }) => record.meta.requiresAuth,
     );
     const isloggedIn = store.isloggedIn;
-    console.log(store.token, isloggedIn);
     if (isloggedIn && requiresAuth) {
         next();
     } else {
@@ -34,7 +33,7 @@ const mainRoutes: RouteRecordRaw[] = [
                 UserRole.MARKAGENT,
             ],
         },
-        beforeEnter,
+        // beforeEnter,
         children: [
             {
                 path: '/users',
