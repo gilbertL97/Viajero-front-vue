@@ -10,7 +10,7 @@
             <slot></slot>
         </template>
         <template #bodyCell="{ column, record }">
-            <template v-if="column.dataIndex === 'action'">
+            <template v-if="column.dataIndex === 'action' && acces('edit-travelers')">
                 <a-popconfirm
                     :title="`Desea eliminar al Usuario ${record.name} ?`"
                     @confirm="onDelete(record.id)"
@@ -75,10 +75,11 @@
 </template>
 <script lang="ts" setup>
     //import { computed, ref, onMounted, reactive } from 'vue';
+    import { useAuthStore } from '@/modules/auth/store/auth.store';
     import { DeleteOutlined, EditOutlined, PrinterOutlined } from '@ant-design/icons-vue';
     import dayjs from 'dayjs';
     import { TravelerResponse } from '../../types/type.traveler';
-
+    const store = useAuthStore();
     const props = defineProps<{
         data: TravelerResponse[];
         loading: boolean;
@@ -216,6 +217,9 @@
         (e: 'update', deleted: string): void;
         (e: 'print', deleted: string): void;
     }>();
+    const acces = (view: string) => {
+        return store.canAccess(view);
+    };
 </script>
 <style lscoped>
     #button {

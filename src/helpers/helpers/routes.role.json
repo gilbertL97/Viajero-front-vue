@@ -36,6 +36,7 @@
         "upload",
         "files",
         "delete-files",
+        "detailed",
         "current",
         "fact"
      ]
@@ -48,6 +49,7 @@
           "travelers",
           "files",        
           "current",
+          "detailed",
           "fact"
        ]
     },
@@ -64,6 +66,7 @@
           "upload",
           "files",
           "current",
+          "detailed",
           "fact"
        ]
     },
@@ -80,6 +83,7 @@
           "upload",
           "files",
           "current",
+          "detailed",
           "fact"
 ]
     },    {"role":"consultagenci",
@@ -88,7 +92,8 @@
       "travelers",
       "current",
       "fact",          
-      "files"
+      "files",
+      "detailed"
 
 ]
     }

@@ -18,8 +18,7 @@
         <a-button type="primary" @click="deleteFilter"
             >Borrar Filtros <DeleteOutlined
         /></a-button>
-        <a-divider type="vertical" />
-        <ButtonExportToExcel :data="data" :title="title" :columns="columns" /> </div
+        <a-divider type="vertical" /> </div
 ></template>
 
 <script setup lang="ts">
@@ -29,7 +28,6 @@
     import DropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
     import { reactive, ref, watch } from 'vue';
     import { FileD } from '../../type/file.type';
-    import ButtonExportToExcel from '@/components/shared/buttonExportExcel/buttonExportToExcel.vue';
     defineProps<{ data: FileD[]; title: string; columns: any[] }>();
 
     const filterContractor = ref<number | undefined>(undefined);

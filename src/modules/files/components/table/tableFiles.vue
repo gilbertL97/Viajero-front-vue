@@ -11,7 +11,7 @@
                 <h4>{{ record.contractor.client }}</h4>
             </template>
             <template v-if="column.dataIndex === 'actions'">
-                <a-tooltip>
+                <a-tooltip v-if="acces('delete-files')">
                     <template #title>Eliminar</template>
                     <a-button type="danger" @click="onDelete(record.id)"
                         ><template #icon> <DeleteOutlined /></template
@@ -44,11 +44,11 @@
 </template>
 
 <script setup lang="ts">
-    import { onMounted } from 'vue';
     import { DeleteOutlined, UsergroupAddOutlined } from '@ant-design/icons-vue';
     import { FileD } from '../../type/file.type';
     import dayjs from 'dayjs';
-
+    import { useAuthStore } from '@/modules/auth/store/auth.store';
+    const store = useAuthStore();
     defineProps<{
         data: FileD[];
         loading: boolean;
@@ -66,4 +66,7 @@
         (e: 'delete', id: number): void;
         (e: 'getTravelers', id: number): void;
     }>();
+    const acces = (view: string) => {
+        return store.canAccess(view);
+    };
 </script>
