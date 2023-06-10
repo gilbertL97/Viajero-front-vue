@@ -73,5 +73,6 @@
     };
     const ok = async () => {
         if (fil.value) await sendFile(fil.value);
+        visible.value = false;
     };
 </script>

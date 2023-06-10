@@ -32,6 +32,16 @@ export default () => {
             timer: 3000,
         });
     };
+    const warningTraveler = () => {
+        Swal.fire({
+            position: 'top',
+            icon: 'warning',
+            title: 'Importante',
+            text: 'Se importaron viajeros con los siguientes errores',
+            showConfirmButton: false,
+            timer: 3000,
+        });
+    };
     const errorWrongTraveler = () => {
         Swal.fire({
             position: 'top',
@@ -81,5 +91,6 @@ export default () => {
         sucessTraveler,
         cantDelete,
         genericError,
+        warningTraveler,
     };
 };

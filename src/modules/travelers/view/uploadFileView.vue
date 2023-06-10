@@ -18,13 +18,13 @@
     import UploadFiles from '@/modules/travelers/components/uploadFiles/uploadFiles.vue';
     import DropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
     import { ref } from 'vue';
-    import TableGenericErrorsTravelers from '../components/table/tableRepeatTravelers.vue';
+    import TableGenericErrorsTravelers from '../components/table/tableErrorFilesTravelers.vue';
     import { FileErrorsDto, FilterTravelers } from '../types/type.traveler';
     import manageError from '@/common/composable/manageError';
     import { ColumnType } from 'ant-design-vue/lib/table';
     import { useRouter } from 'vue-router';
     const router = useRouter();
-    const { warningRepeatTraveler, errorWrongTraveler, sucessTraveler, genericError } =
+    const { warningTraveler, errorWrongTraveler, sucessTraveler, genericError } =
         manageError();
     const contractor = ref();
     const showTable = ref(false);
@@ -43,6 +43,7 @@
         { title: 'Pais Origen', dataIndex: 'origin_country' },
         { title: 'Nacionalidad', dataIndex: 'nationality' },
         { title: 'Cobertura', dataIndex: 'coverage' },
+        { title: 'fecha de Venta', dataIndex: 'sale_date' },
         { title: 'Fecha Inicio', dataIndex: 'start_date' },
         { title: 'Fecha de fin de Poliza', dataIndex: 'end_date_policy' },
         { title: 'Cant dias Alto Riesgo', dataIndex: 'number_high_risk_days' },
@@ -50,6 +51,7 @@
         { title: 'Monto de dias Alto Riesgo', dataIndex: 'amount_days_high_risk' },
         { title: 'Monto de dias Cubiertos', dataIndex: 'amount_days_covered' },
         { title: 'Monto Total', dataIndex: 'total_amount' },
+        { title: 'Fila', width: 50, dataIndex: 'row', fixed: 'right', key: 'row' },
     ]);
     const asignContract = (value: any) => {
         contractor.value = value;
@@ -59,11 +61,9 @@
     const error400 = (dataResp: FileErrorsDto[]) => {
         if (!findRow()) {
             const row: ColumnType<any> = {
-                title: 'Fila',
+                title: 'Duplicado',
+                dataIndex: 'sex',
                 width: 50,
-                dataIndex: 'row',
-                fixed: 'right',
-                key: 'row',
             };
             columns.value.push(row);
         }
@@ -73,19 +73,19 @@
         data.value = dataResp;
         test.value = 'Se encontraron los siguientes errores';
     };
-    const conflict409 = (dataResp: FilterTravelers[]) => {
+    const warnings = (dataResp: FilterTravelers[]) => {
         showTable.value = true;
         data.value = dataResp;
-        test.value = 'Se encontraron ' + dataResp.length + ' viajeros repetidos';
+        test.value = 'Se encontraron ' + dataResp.length + ' filas con errores';
     };
     const ProcessResponse = (response: {
         response: void | FilterTravelers[] | FileErrorsDto[];
         header: number;
     }) => {
         switch (response.header) {
-            case 409:
-                conflict409(response.response as FilterTravelers[]);
-                warningRepeatTraveler();
+            case 202:
+                warnings(response.response as FileErrorsDto[]);
+                warningTraveler();
                 break;
             case 400:
                 error400(response.response as FileErrorsDto[]);

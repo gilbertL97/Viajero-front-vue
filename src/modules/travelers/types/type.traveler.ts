@@ -49,6 +49,7 @@ export interface TravelerResponse {
 }
 
 export type FilterTravelers = {
+    row?: number;
     name?: string;
     passport?: string;
     start_date_init?: Date;
