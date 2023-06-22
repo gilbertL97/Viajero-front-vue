@@ -201,7 +201,7 @@
 
     const hasSelected = computed(() => state.selectedRowKeys.length > 0);
 
-    const onDelete = async (key: string) => {
+    const onDelete = (key: string) => {
         emit('deleted', key);
     };
 
@@ -209,13 +209,13 @@
         emit('update', record.id);
     };
 
-    const printPdf = async (record: any) => {
+    const printPdf = (record: any) => {
         emit('print', record.id);
     };
     const emit = defineEmits<{
         (e: 'deleted', deleted: string): void;
-        (e: 'update', deleted: string): void;
-        (e: 'print', deleted: string): void;
+        (e: 'update', updated: string): void;
+        (e: 'print', printed: string): void;
     }>();
     const acces = (view: string) => {
         return store.canAccess(view);
