@@ -43,5 +43,14 @@ const contractorsRoutes: RouteRecordRaw[] = [
             role: [UserRole.ADMIN, UserRole.COMAGENT],
         },
     },
+    {
+        path: '/clients',
+        name: 'clients',
+        component: () => import('@/modules/contratctor/views/viewContractorTable.vue'),
+        meta: {
+            requiresAuth: true,
+            role: [UserRole.ADMIN, UserRole.MARKAGENT],
+        },
+    },
 ];
 export default contractorsRoutes;

@@ -46,16 +46,6 @@ const mainRoutes: RouteRecordRaw[] = [
                 },
             },
             {
-                path: '/clients',
-                name: 'clients',
-                component: () =>
-                    import('@/modules/contratctor/components/table/tableContractor.vue'),
-                meta: {
-                    requiresAuth: true,
-                    role: [UserRole.ADMIN, UserRole.MARKAGENT],
-                },
-            },
-            {
                 path: '/plains',
                 name: 'plains',
                 component: () =>
