@@ -27,15 +27,9 @@
         getTravelersByFile,
     } from '../services/traveler.service';
     import { useRouter } from 'vue-router';
-    import { getPlans } from '@/modules/plains/services/plan.service';
-    import { Plans } from '@/modules/plains/types/plains.types';
-
-    import { usePlainStore } from '@/modules/plains/store/plans.store';
     import DropdownExport from '@/components/shared/export/dropdownExport.vue';
     import useTravelersFilters from '../composable/useFilterTravelers';
 
-    const store = usePlainStore();
-    const plains = ref<Plans[]>([]);
     const props = defineProps<{
         idFile?: string;
     }>();
@@ -53,8 +47,6 @@
         loading.value = true;
         try {
             data.value = (await getTravelers()).data;
-            plains.value = (await getPlans()).data;
-            store.setPlans(plains.value);
         } catch (error) {}
         loading.value = false;
     };
