@@ -191,23 +191,40 @@ export default function useFormTraveler(id?: string) {
             hasChanged.value = true;
         },
     );
-    watch([() => traveler.number_days], () => {
+    // watch([() => traveler.number_days], () => {
+    //     const plans = store.getPlans.find((e) => e.id == traveler.coverage);
+    //     if (!plans?.daily) {
+    //         if (traveler.number_days > plans!.number_of_days! + 1) {
+    //             traveler.start_date = null;
+    //             traveler.end_date_policy = null;
+    //             console.log(
+    //                 'Puso null las fechas xq el numero de dias es mayor q la cant d dias del plan',
+    //             );
+    //         }
+    //     }
+    // });
+
+    const validateDateRange = (rule: any, value: any) => {
         const plans = store.getPlans.find((e) => e.id == traveler.coverage);
+        if (value == null || value == undefined) {
+            return Promise.reject('Campo requerido');
+        }
         if (!plans?.daily) {
             if (traveler.number_days > plans!.number_of_days!) {
-                console.log('Entro a poner Null', plans);
                 traveler.start_date = null;
                 traveler.end_date_policy = null;
-                console.log(traveler.coverage);
+                return Promise.reject('Campo requerido');
+            } else {
+                Promise.resolve();
             }
         }
-    });
-
+    };
     const tets = () => {
         console.log(hasChanged.value);
         hasChanged.value = true;
         console.log(hasChanged.value);
     };
+
     return {
         traveler,
         contract,
@@ -225,5 +242,6 @@ export default function useFormTraveler(id?: string) {
         asignOriginCountry,
         asignNationality,
         tets,
+        validateDateRange,
     };
 }
