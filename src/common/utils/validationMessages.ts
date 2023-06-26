@@ -46,6 +46,9 @@ export const defaultValidateMessages = {
     pattern: {
         mismatch: '${label}  no es de tipo numerico',
     },
+    numberDays: {
+        number: 'La cantidad de dias no coincide con el plan',
+    },
 };
 export const validateMessages = {
     required: '${label} es un campo obligatorio',

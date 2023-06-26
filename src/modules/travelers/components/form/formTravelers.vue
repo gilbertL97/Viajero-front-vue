@@ -18,27 +18,19 @@
                     <a-input v-model:value="traveler.name" :disabled="props.isOnlyView" />
                 </a-form-item>
                 <a-form-item label="Sexo">
-                    <a-radio-group
-                        v-model:value="traveler.sex"
-                        :disabled="props.isOnlyView"
-                    >
-                        <a-radio :value="traveler.sex">Masculino</a-radio>
-                        <a-radio :value="traveler.sex">Femenino</a-radio>
+                    <a-radio-group v-model:value="traveler.sex">
+                        <a-radio value="M">Masculino</a-radio>
+                        <a-radio value="F">Femenino</a-radio>
                     </a-radio-group>
                 </a-form-item>
                 <a-form-item :name="['born_date']" label="Fecha de Nacimiento">
                     <a-date-picker
-                        :locale="locale"
                         v-model:value="traveler.born_date"
                         value-format="YYYY-MM-DD"
-                        :disabled="props.isOnlyView"
                     />
                 </a-form-item>
                 <a-form-item :name="['email']" label="Email" :rules="[{ type: 'email' }]">
-                    <a-input
-                        v-model:value="traveler.email"
-                        :disabled="props.isOnlyView"
-                    />
+                    <a-input v-model:value="traveler.email" />
                 </a-form-item>
 
                 <a-form-item
@@ -47,10 +39,7 @@
                     label="Pasaporte"
                     :rules="[{ required: true, min: 8 }]"
                 >
-                    <a-input
-                        v-model:value="traveler.passport"
-                        :disabled="props.isOnlyView"
-                    />
+                    <a-input v-model:value="traveler.passport" />
                 </a-form-item>
                 <a-form-item
                     :name="['origin_country']"
@@ -60,7 +49,6 @@
                     <DropCountries
                         :country-id="origin.iso"
                         :country="origin.name"
-                        :disabled="props.isOnlyView"
                         @selected="asignOriginCountry"
                     />
                 </a-form-item>
@@ -69,7 +57,6 @@
                     <DropCountries
                         :country-id="nationality.iso"
                         :country="nationality.name"
-                        :disabled="props.isOnlyView"
                         @selected="asignNationality"
                     />
                 </a-form-item>
@@ -81,7 +68,6 @@
                     <DropdownPlans
                         :plain="plans.name"
                         :plainId="plans.id"
-                        :disabled="props.isOnlyView"
                         :activeSelect="false"
                         @selected="asignPlans"
                     />
@@ -89,10 +75,8 @@
 
                 <a-form-item :name="['sale_date']" label="Fecha de Venta">
                     <a-date-picker
-                        :locale="locale"
                         v-model:value="traveler.sale_date"
                         value-format="YYYY-MM-DD"
-                        :disabled="props.isOnlyView"
                     />
                 </a-form-item>
                 <a-form-item
@@ -101,38 +85,35 @@
                     :rules="[{ required: true }]"
                 >
                     <a-date-picker
-                        :locale="locale"
                         v-model:value="traveler.start_date"
                         value-format="YYYY-MM-DD"
-                        :disabled="props.isOnlyView"
                         :disabled-date="disabledDateInit"
                     />
                 </a-form-item>
                 <a-form-item
                     :name="['end_date_policy']"
                     label="Fecha de Fin de Poliza"
-                    :rules="[{ required: true }]"
+                    :rules="[
+                        {
+                            validator: validateDateRange,
+                            messsage: '${label}  es un campo obligatorio',
+                        },
+                    ]"
                 >
                     <a-date-picker
                         v-model:value="traveler.end_date_policy"
                         value-format="YYYY-MM-DD"
-                        :locale="locale"
-                        :rules="[{ required: true }]"
-                        :disabled="props.isOnlyView"
-                        :disabled-date="disabledDateEnd"
                     />
                 </a-form-item>
                 <a-form-item
                     :name="['number_high_risk_days']"
                     label="Dias de alto Riesgo"
-                    :rules="[{ required: true }]"
                 >
                     <a-input-number
                         v-model:value="traveler.number_high_risk_days"
                         :max="traveler.number_days"
                         :min="0"
                         :step="1"
-                        :disabled="props.isOnlyView"
                     />
                 </a-form-item>
                 <a-form-item
@@ -144,7 +125,6 @@
                         :contractor="contract.client"
                         :contractor-id="contract.id"
                         @selected="asignContract"
-                        :disabled="props.isOnlyView"
                         :active-select="false"
                     />
                 </a-form-item>
@@ -183,8 +163,6 @@
     </a-row>
 </template>
 <script lang="ts" setup>
-    import 'dayjs/locale/es';
-    import locale from 'ant-design-vue/es/date-picker/locale/es_ES';
     import DropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
     import DropCountries from '@/modules/country/components/dropdown/dropCountries.vue';
     import DropdownPlans from '@/modules/plains/components/dropdowns/selectPlans.vue';
@@ -201,7 +179,6 @@
         origin,
         plans,
         loading,
-        disabledDateEnd,
         disabledDateInit,
         asignContract,
         asignNationality,
@@ -210,6 +187,7 @@
         handleCancel,
         onFinish,
         onFinishFailed,
+        validateDateRange,
     } = useFormTraveler(props.id);
 
     const layout = {

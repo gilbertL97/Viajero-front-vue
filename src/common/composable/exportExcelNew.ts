@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import * as ExcelJS from 'exceljs';
 
-export default function useExcel() {
+export default function useExcel(title: string) {
     type Columns = {
         title: string;
         dataIndex: string;
