@@ -1,4 +1,5 @@
 import { TravelerResponse } from '@/modules/travelers/types/type.traveler';
+import { User } from '@/modules/user/types/user.types';
 
 export type FileD = {
     id?: number;
@@ -8,4 +9,5 @@ export type FileD = {
     end_date_create?: Date;
     contractor?: number;
     travelers?: TravelerResponse[];
+    user?: User;
 };

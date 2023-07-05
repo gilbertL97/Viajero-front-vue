@@ -71,7 +71,10 @@
         {
             title: 'Cliente',
             dataIndex: 'contractor',
-            ellipsis: true,
+        },
+        {
+            title: 'Usuario',
+            dataIndex: 'user',
         },
         {
             title: 'Operaciones',
@@ -89,7 +92,6 @@
         try {
             loading.value = true;
             const files = (await getFiles()).data;
-
             data.value = files;
         } catch (error) {}
         loading.value = false;

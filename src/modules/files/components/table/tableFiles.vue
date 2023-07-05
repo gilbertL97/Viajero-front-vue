@@ -10,6 +10,9 @@
             <template v-if="column.dataIndex === 'contractor'">
                 <h4>{{ record.contractor.client }}</h4>
             </template>
+            <template v-if="column.dataIndex === 'user'">
+                <h4>{{ record.user ? record.user.name : '-' }}</h4>
+            </template>
             <template v-if="column.dataIndex === 'actions'">
                 <a-tooltip v-if="acces('delete-files')">
                     <template #title>Eliminar</template>
