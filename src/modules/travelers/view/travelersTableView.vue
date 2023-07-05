@@ -13,6 +13,7 @@
             title="Viajeros"
             :filter="searchTravel"
     /></TableTraveler>
+    <PaginationTable />
 </template>
 
 <script setup lang="ts">
@@ -29,6 +30,7 @@
     import { useRouter } from 'vue-router';
     import DropdownExport from '@/components/shared/export/dropdownExport.vue';
     import useTravelersFilters from '../composable/useFilterTravelers';
+    import PaginationTable from '@/components/shared/pagination/paginationTable.vue';
 
     const props = defineProps<{
         idFile?: string;
