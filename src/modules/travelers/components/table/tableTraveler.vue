@@ -5,7 +5,9 @@
         size="small"
         :loading="props.loading"
         :scroll="{ y: 400, x: 1200 }"
+        :pagination="false"
     >
+        >
         <template #customFilterIcon>
             <slot></slot>
         </template>

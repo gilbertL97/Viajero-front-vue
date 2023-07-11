@@ -47,7 +47,10 @@ export interface TravelerResponse {
     createdAt?: Date | null;
     deleteAt?: Date | null;
 }
-
+export interface TravelerAndTotals {
+    traveler: TravelerResponse[];
+    total: number;
+}
 export type FilterTravelers = {
     row?: number;
     name?: string;

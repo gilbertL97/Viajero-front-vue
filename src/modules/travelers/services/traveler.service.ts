@@ -1,9 +1,11 @@
+import { PaginationDto } from '@/common/types/pagination.type';
 import API from '@/service/api';
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
 import {
     FileErrorsDto,
     FilterTravelers,
     Traveler,
+    TravelerAndTotals,
     TravelerResponse,
 } from '../types/type.traveler';
 
@@ -15,6 +17,16 @@ export async function getTravelers(): Promise<AxiosResponse<TravelerResponse[]>>
     return await API.request<TravelerResponse[]>(config);
 }
 
+export async function getTravelersPag(
+    pagination?: PaginationDto,
+): Promise<AxiosResponse<TravelerAndTotals>> {
+    const config: AxiosRequestConfig = {
+        method: 'GET',
+        url: '/traveler/pagination',
+        params: pagination,
+    };
+    return await API.request<TravelerAndTotals>(config);
+}
 export async function getTraveler(id: string): Promise<AxiosResponse<TravelerResponse>> {
     const config: AxiosRequestConfig = {
         method: 'GET',
@@ -53,6 +65,18 @@ export async function getFilterTravelers(
         params: filterTravelers,
     };
     return await API.request<TravelerResponse[]>(config);
+}
+export async function getFilterTravelersPag(
+    filterTravelers: FilterTravelers,
+    pag?: PaginationDto,
+): Promise<AxiosResponse<TravelerAndTotals>> {
+    const config: AxiosRequestConfig = {
+        method: 'POST',
+        url: '/traveler/filter/pag',
+        data: filterTravelers,
+        params: pag,
+    };
+    return await API.request<TravelerAndTotals>(config);
 }
 export async function getTravelersByFile(
     id: number,

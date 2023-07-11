@@ -13,7 +13,7 @@
             title="Viajeros"
             :filter="searchTravel"
     /></TableTraveler>
-    <PaginationTable />
+    <PaginationTable :total="totalTravelers" @page="paginate" />
 </template>
 
 <script setup lang="ts">
@@ -23,20 +23,22 @@
     import {
         deleteTravelers,
         getCertTravelers,
-        getFilterTravelers,
-        getTravelers,
+        getFilterTravelersPag,
         getTravelersByFile,
+        getTravelersPag,
     } from '../services/traveler.service';
     import { useRouter } from 'vue-router';
     import DropdownExport from '@/components/shared/export/dropdownExport.vue';
     import useTravelersFilters from '../composable/useFilterTravelers';
     import PaginationTable from '@/components/shared/pagination/paginationTable.vue';
+    import { PaginationDto } from '@/common/types/pagination.type';
 
     const props = defineProps<{
         idFile?: string;
     }>();
     const router = useRouter();
     const loading = ref(false);
+    const totalTravelers = ref(0);
     const data = ref<TravelerResponse[]>([]);
     provide('current', false);
     const { searchTravel } = useTravelersFilters();
@@ -45,20 +47,34 @@
             getfile(+props.idFile);
         } else await refresh();
     });
-    const refresh = async () => {
+    const refresh = async (pagination?: PaginationDto) => {
         loading.value = true;
         try {
-            data.value = (await getTravelers()).data;
+            //aqui cambie esto para la paginacion
+            const { traveler, total } = (await getTravelersPag(pagination)).data;
+            data.value = traveler;
+            totalTravelers.value = total;
         } catch (error) {}
         loading.value = false;
     };
-    const filter = async (filter: FilterTravelers) => {
-        console.log(filter);
+    const getDataFiltered = async (
+        filter: FilterTravelers,
+        pagination?: PaginationDto,
+    ) => {
         try {
-            data.value = (await getFilterTravelers(filter)).data;
+            const { traveler, total } = (await getFilterTravelersPag(filter, pagination))
+                .data;
+            data.value = traveler;
+            totalTravelers.value = total;
         } catch (error) {}
     };
+    const filter = async (filter: FilterTravelers) => {
+        await getDataFiltered(filter);
+    };
 
+    const paginate = async (page: PaginationDto) => {
+        await getDataFiltered(searchTravel, page);
+    };
     const onDelete = async (key: string) => {
         console.log(key);
         await deleteTravelers(key).finally(refresh);
