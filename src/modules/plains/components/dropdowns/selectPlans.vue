@@ -12,7 +12,7 @@
     />
 </template>
 <script lang="ts" setup>
-    import { onBeforeMount, ref, reactive, watch } from 'vue';
+    import { onBeforeMount } from 'vue';
     import type { SelectProps } from 'ant-design-vue';
     import { Plans } from '../../types/plains.types';
     import { getPlans } from '../../services/plan.service';

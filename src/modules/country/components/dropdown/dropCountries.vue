@@ -11,8 +11,8 @@
     />
 </template>
 <script lang="ts" setup>
-    import { onBeforeMount, ref, reactive, watch } from 'vue';
     import type { SelectProps } from 'ant-design-vue';
+    import { onBeforeMount } from 'vue';
     import { getCountries } from '../../services/country.services';
     import { Country } from '../../types/country.type';
 

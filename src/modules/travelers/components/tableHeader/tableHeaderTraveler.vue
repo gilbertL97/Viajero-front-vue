@@ -54,7 +54,7 @@
         UploadOutlined,
     } from '@ant-design/icons-vue';
     import SearchForm from '../../components/form/searchFormTraveler.vue';
-    import { inject, ref, watch } from 'vue';
+    import { inject } from 'vue';
     import { FilterTravelers } from '../../types/type.traveler';
     import useTravelersFilters from '../../composable/useFilterTravelers';
     import { useRouter } from 'vue-router';

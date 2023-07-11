@@ -48,7 +48,7 @@
     </a-form-item>
 </template>
 <script lang="ts" setup>
-    import { reactive, ref, watch, inject } from 'vue';
+    import { inject } from 'vue';
     //import dayjs, { Dayjs } from 'dayjs';
     import { FilterTravelers } from '../../types/type.traveler';
     import DropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';

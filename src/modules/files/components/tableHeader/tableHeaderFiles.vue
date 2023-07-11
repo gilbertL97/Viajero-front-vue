@@ -9,7 +9,6 @@
         <a-divider type="vertical" />
         <h4> Fecha Inicio :</h4>
         <a-range-picker
-            :locale="locale"
             size="small"
             v-model:value="dateFilter"
             value-format="YYYY-MM-DD"
@@ -22,11 +21,8 @@
 ></template>
 
 <script setup lang="ts">
-    import locale from 'ant-design-vue/es/date-picker/locale/es_ES';
     import { DeleteOutlined } from '@ant-design/icons-vue';
-    import 'dayjs/locale/es';
     import DropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
-    import { reactive, ref, watch } from 'vue';
     import { FileD } from '../../type/file.type';
     defineProps<{ data: FileD[]; title: string; columns: any[] }>();
 
