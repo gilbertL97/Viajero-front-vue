@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
     import TableContractorFact from '../components/table/tableContractorFact.vue';
-    import DropdownExport from '@/components/shared/export/dropdownExport.vue';
+    import DropdownExport from '@/common/components/export/dropdownExport.vue';
     import { getInvoicing } from '../services/contractor.service';
     import { ContractorsAndTotals } from '../types/contractor.types';
 

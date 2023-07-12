@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
     import TableContractor from '../components/table/tableContractor.vue';
-    import DropdownExport from '@/components/shared/export/dropdownExport.vue';
+    import DropdownExport from '@/common/components/export/dropdownExport.vue';
     import { useRouter } from 'vue-router';
     import manageError from '@/common/composable/manageError';
 

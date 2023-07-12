@@ -15,7 +15,7 @@
     import TableHeaderTraveler from '../components/tableHeader/tableHeaderTraveler.vue';
     import { getFilterTravelers } from '../services/traveler.service';
     import { FilterTravelers, TravelerResponse } from '../types/type.traveler';
-    import DropdownExport from '@/components/shared/export/dropdownExport.vue';
+    import DropdownExport from '@/common/components/export/dropdownExport.vue';
 
     provide('current', true);
     const loading = ref(false);

@@ -28,9 +28,9 @@
         getTravelersPag,
     } from '../services/traveler.service';
     import { useRouter } from 'vue-router';
-    import DropdownExport from '@/components/shared/export/dropdownExport.vue';
+    import DropdownExport from '@/common/components/export/dropdownExport.vue';
     import useTravelersFilters from '../composable/useFilterTravelers';
-    import PaginationTable from '@/components/shared/pagination/paginationTable.vue';
+    import PaginationTable from '@/common/components/pagination/paginationTable.vue';
     import { PaginationDto } from '@/common/types/pagination.type';
 
     const props = defineProps<{

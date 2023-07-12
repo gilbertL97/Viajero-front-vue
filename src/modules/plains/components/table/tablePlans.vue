@@ -70,7 +70,7 @@
 <script lang="ts" setup>
     import { computed, ref, onMounted, reactive } from 'vue';
     import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
-    import DropdownExport from '@/components/shared/export/dropdownExport.vue';
+    import DropdownExport from '@/common/components/export/dropdownExport.vue';
     import { getPlans, deletePlans } from '../../services/plan.service';
     import { Plans } from '../../types/plains.types';
     import { useRouter } from 'vue-router';

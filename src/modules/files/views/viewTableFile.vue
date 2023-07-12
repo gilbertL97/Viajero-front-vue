@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
     import { onMounted, reactive, ref } from 'vue';
-    import DropdownExport from '@/components/shared/export/dropdownExport.vue';
+    import DropdownExport from '@/common/components/export/dropdownExport.vue';
     import TableHeaderFiles from '../components/tableHeader/tableHeaderFiles.vue';
     import TableFiles from '../components/table/tableFiles.vue';
     import { FileD } from '../type/file.type';

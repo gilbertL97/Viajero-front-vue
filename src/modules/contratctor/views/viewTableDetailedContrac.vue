@@ -26,7 +26,7 @@
     import { DeleteOutlined } from '@ant-design/icons-vue';
     import { Contractor, FilterDateAndContract } from '../types/contractor.types';
     import { getDetailed } from '../services/contractor.service';
-    import DropdownExport from '@/components/shared/export/dropdownExport.vue';
+    import DropdownExport from '@/common/components/export/dropdownExport.vue';
     import DropdownContrac from '../components/dropdown/dropdownContrac.vue';
 
     const loading = ref(false);
