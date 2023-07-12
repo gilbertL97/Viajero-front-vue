@@ -13,8 +13,8 @@
 </template>
 
 <script setup lang="ts">
-    import useExcelBack from '@/common/utils/exportToExcelBack';
-    import usePdfBack from '@/common/utils/exportToPdfBack';
+    import useExcelBack from '@/common/composable/exportToExcelBack';
+    import usePdfBack from '@/common/composable/exportToPdfBack';
     import { EllipsisOutlined } from '@ant-design/icons-vue';
     const { downloadExcel } = useExcelBack();
     const { downloadPdf } = usePdfBack();
