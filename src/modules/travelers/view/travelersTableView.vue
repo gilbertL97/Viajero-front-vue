@@ -61,12 +61,14 @@
         filter: FilterTravelers,
         pagination?: PaginationDto,
     ) => {
+        loading.value = true;
         try {
             const { traveler, total } = (await getFilterTravelersPag(filter, pagination))
                 .data;
             data.value = traveler;
             totalTravelers.value = total;
         } catch (error) {}
+        loading.value = false;
     };
     const filter = async (filter: FilterTravelers) => {
         await getDataFiltered(filter);
