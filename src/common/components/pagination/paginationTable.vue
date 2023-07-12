@@ -26,6 +26,7 @@
         currentPag.page = current;
         emits('page', currentPag);
     };
+    watch([() => props.total], () => (currentPag.page = 1));
 </script>
 
 <style scoped></style>
