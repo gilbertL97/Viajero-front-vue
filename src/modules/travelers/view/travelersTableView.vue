@@ -51,8 +51,8 @@
         loading.value = true;
         try {
             //aqui cambie esto para la paginacion
-            const { traveler, total } = (await getTravelersPag(pagination)).data;
-            data.value = traveler;
+            const { travelers, total } = (await getTravelersPag(pagination)).data;
+            data.value = travelers;
             totalTravelers.value = total;
         } catch (error) {}
         loading.value = false;
@@ -63,9 +63,9 @@
     ) => {
         loading.value = true;
         try {
-            const { traveler, total } = (await getFilterTravelersPag(filter, pagination))
+            const { travelers, total } = (await getFilterTravelersPag(filter, pagination))
                 .data;
-            data.value = traveler;
+            data.value = travelers;
             totalTravelers.value = total;
         } catch (error) {}
         loading.value = false;
