@@ -204,25 +204,20 @@ export default function useFormTraveler(id?: string) {
     //     }
     // });
 
-    const validateDateRange = (rule: any, value: any) => {
+    const validateDateRange = () => {
         const plans = store.getPlans.find((e) => e.id == traveler.coverage);
-        if (value == null || value == undefined) {
-            return Promise.reject('Campo requerido');
-        }
         if (!plans?.daily) {
             if (traveler.number_days > plans!.number_of_days!) {
-                traveler.start_date = null;
                 traveler.end_date_policy = null;
-                return Promise.reject('Campo requerido');
+                return Promise.reject('La fecha excede la cantidad de dias');
             } else {
-                Promise.resolve();
+                return Promise.resolve();
             }
         }
+        return Promise.resolve();
     };
     const tets = () => {
-        console.log(hasChanged.value);
         hasChanged.value = true;
-        console.log(hasChanged.value);
     };
 
     return {

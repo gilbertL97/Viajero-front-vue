@@ -93,10 +93,14 @@
                 <a-form-item
                     :name="['end_date_policy']"
                     label="Fecha de Fin de Poliza"
+                    :disabled-date="disabledDateEnd"
                     :rules="[
                         {
+                            required: true,
+                        },
+                        {
                             validator: validateDateRange,
-                            messsage: '${label}  es un campo obligatorio',
+                            messsage: 'es un campo obligatorio',
                         },
                     ]"
                 >
@@ -180,6 +184,7 @@
         plans,
         loading,
         disabledDateInit,
+        disabledDateEnd,
         asignContract,
         asignNationality,
         asignOriginCountry,
