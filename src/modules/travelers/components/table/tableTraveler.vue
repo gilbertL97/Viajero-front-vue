@@ -39,7 +39,7 @@
             <template v-if="column.dataIndex === 'state'">
                 <span>
                     <a-tag :color="record.state == false ? 'red' : 'green'">
-                        {{ record.state == false ? 'vencida' : 'vigente' }}
+                        {{ record.state == false ? 'no vigente' : 'vigente' }}
                     </a-tag>
                 </span>
             </template>
