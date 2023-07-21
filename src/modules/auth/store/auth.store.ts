@@ -2,9 +2,10 @@ import { defineStore, createPinia } from 'pinia';
 import { extract_user_data } from '@/common/jwt/util.jwt';
 import { AccesControl, UserAuth } from '../types/authTypes';
 import accesRole from '@/helpers/helpers/routes.role.json';
+import SimpleCrypto from 'simple-crypto-js';
 
 const store = createPinia();
-
+const simpleCrypto = new SimpleCrypto(import.meta.env.VITE_SECRET_SALT as string);
 interface UserState {
     token?: string | null;
     userInfo: UserAuth | null;
@@ -43,19 +44,19 @@ export const authStore = defineStore('app-user', {
         },
         getToken(): string | null | undefined {
             if (this.token) return this.token;
-            this.token = localStorage.getItem('token');
+            const tok = localStorage.getItem('token');
+            this.token = tok ? simpleCrypto.decrypt(tok).toString() : 'No token found';
             this.getUserInfo;
             return this.token;
         },
         isloggedIn(): boolean {
-            console.log(this.getToken);
             return this.getToken ? true : false;
         },
     },
     actions: {
         setToken(value: string) {
             this.token = value;
-            localStorage.setItem('token', value);
+            localStorage.setItem('token', simpleCrypto.encrypt(value));
             this.setUserInfo(value);
             //setToken(token)
         },
@@ -81,7 +82,6 @@ export const authStore = defineStore('app-user', {
         setLogged() {
             if (typeof this.getToken === 'string' && this.getToken != '') {
                 this.isloggedIn = true;
-                console.log(this.getToken);
             }
         },
         resetState() {
