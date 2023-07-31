@@ -18,8 +18,8 @@
     <a-form-item :name="['start_date']" label="Fecha de Inicio de Viaje">
         <a-range-picker
             v-model:value="range_start"
-            :locale="locale"
-            value-format="YYYY-MM-DD"
+            format="DD/MM/YYYY"
+            valueFormat="YYYY-MM-DD"
         />
         <!-- <a-date-picker
             
@@ -31,8 +31,8 @@
     <a-form-item :name="['end_date_policy']" label="Fecha de Fin de Poliza">
         <a-range-picker
             v-model:value="range_end"
-            :locale="locale"
-            value-format="YYYY-MM-DD"
+            format="DD/MM/YYYY"
+            valueFormat="YYYY-MM-DD"
         />
     </a-form-item>
     <a-form-item v-if="!current" :name="['state']" label="Vigente">
@@ -54,8 +54,6 @@
     import DropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
     import DropCountries from '@/modules/country/components/dropdown/dropCountries.vue';
     import DropdownPlans from '@/modules/plains/components/dropdowns/selectPlans.vue';
-    import locale from 'ant-design-vue/es/date-picker/locale/es_ES';
-    import 'dayjs/locale/es';
     const range_start = ref<Date[]>([]);
     const range_end = ref<Date[]>([]);
     const search: FilterTravelers = reactive({

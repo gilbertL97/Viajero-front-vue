@@ -26,7 +26,8 @@
                 <a-form-item :name="['born_date']" label="Fecha de Nacimiento">
                     <a-date-picker
                         v-model:value="traveler.born_date"
-                        value-format="YYYY-MM-DD"
+                        format="DD/MM/YYYY"
+                        valueFormat="DD/MM/YYYY"
                     />
                 </a-form-item>
                 <a-form-item :name="['email']" label="Email" :rules="[{ type: 'email' }]">
@@ -76,7 +77,8 @@
                 <a-form-item :name="['sale_date']" label="Fecha de Venta">
                     <a-date-picker
                         v-model:value="traveler.sale_date"
-                        value-format="YYYY-MM-DD"
+                        format="DD/MM/YYYY"
+                        valueFormat="YYYY-MM-DD"
                     />
                 </a-form-item>
                 <a-form-item
@@ -86,7 +88,8 @@
                 >
                     <a-date-picker
                         v-model:value="traveler.start_date"
-                        value-format="YYYY-MM-DD"
+                        format="DD/MM/YYYY"
+                        valueFormat="YYYY-MM-DD"
                         :disabled-date="disabledDateInit"
                     />
                 </a-form-item>
@@ -99,14 +102,15 @@
                             required: true,
                         },
                         {
-                            validator: validateDateRange,
+                            validator: validateEndDateRangeDays,
                             messsage: 'es un campo obligatorio',
                         },
                     ]"
                 >
                     <a-date-picker
                         v-model:value="traveler.end_date_policy"
-                        value-format="YYYY-MM-DD"
+                        format="DD/MM/YYYY"
+                        valueFormat="YYYY-MM-DD"
                     />
                 </a-form-item>
                 <a-form-item
@@ -192,7 +196,7 @@
         handleCancel,
         onFinish,
         onFinishFailed,
-        validateDateRange,
+        validateEndDateRangeDays,
     } = useFormTraveler(props.id);
 
     const layout = {
