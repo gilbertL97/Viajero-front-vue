@@ -2,7 +2,7 @@
     <a-pagination
         v-model:current="currentPag.page"
         :total="props.total"
-        :show-size-changer="false"
+        :page-size-options="pageSizeOptions"
         size="small"
         @change="onChange"
         :show-total="(total:number) => `Total ${total} `"
@@ -10,7 +10,7 @@
 </template>
 <script setup lang="ts">
     import { PaginationDto } from '@/common/types/pagination.type';
-
+    const pageSizeOptions = ref<string[]>(['10', '20', '50']);
     const props = defineProps<{
         total: number;
     }>();
@@ -21,9 +21,10 @@
     const emits = defineEmits<{
         (e: 'page', current: PaginationDto): void;
     }>();
-    const onChange = (current: number) => {
-        console.log(current);
+    const onChange = (current: number, pageSize: number) => {
+        console.log(current, pageSize);
         currentPag.page = current;
+        currentPag.limit = pageSize;
         emits('page', currentPag);
     };
     watch([() => props.total], () => (currentPag.page = 1));
