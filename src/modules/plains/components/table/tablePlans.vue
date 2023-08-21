@@ -172,13 +172,13 @@
         state.loading = true;
         try {
             data.value = (await getPlans()).data;
-            data.value.sort((a, b) =>
-                a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()
-                    ? -1
-                    : a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase()
-                    ? 1
-                    : 0,
-            );
+            // data.value.sort((a, b) =>
+            //     a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()
+            //         ? -1
+            //         : a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase()
+            //         ? 1
+            //         : 0,
+            // );
         } catch (error) {}
         state.loading = false;
         plain.id = -1;
