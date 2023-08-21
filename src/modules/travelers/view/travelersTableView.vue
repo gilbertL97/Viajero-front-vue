@@ -71,6 +71,7 @@
         loading.value = false;
     };
     const filter = async (filter: FilterTravelers) => {
+        console.log(filter.contractor);
         await getDataFiltered(filter);
     };
 

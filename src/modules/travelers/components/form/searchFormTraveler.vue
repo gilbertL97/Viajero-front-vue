@@ -112,7 +112,8 @@
     }>();
     const searchTraveler = () => {
         emit('filter', search);
-        emit('visible', true);
+        console.log(search);
+        emit('visible', false);
     };
     watch([range_end, range_start], () => {
         if (range_start.value) {
