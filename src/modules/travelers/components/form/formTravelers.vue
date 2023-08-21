@@ -96,7 +96,6 @@
                 <a-form-item
                     :name="['end_date_policy']"
                     label="Fecha de Fin de Poliza"
-                    :disabled-date="disabledDateEnd"
                     :rules="[
                         {
                             required: true,
@@ -111,6 +110,7 @@
                         v-model:value="traveler.end_date_policy"
                         format="DD/MM/YYYY"
                         valueFormat="YYYY-MM-DD"
+                        :disabled-date="disabledDateEnd"
                     />
                 </a-form-item>
                 <a-form-item

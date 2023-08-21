@@ -8,6 +8,7 @@ import {
 } from '@/modules/travelers/services/traveler.service';
 import { usePlainStore } from '@/modules/plains/store/plans.store';
 import { useRouter } from 'vue-router';
+import { Plans } from '@/modules/plains/types/plains.types';
 
 export default function useFormTraveler(id?: string) {
     const router = useRouter();
@@ -204,20 +205,24 @@ export default function useFormTraveler(id?: string) {
     //     }
     // });
 
-    const validateDateRange = () => {
+    const validateEndDateRangeDays = () => {
         const plans = store.getPlans.find((e) => e.id == traveler.coverage);
-        if (!plans?.daily) {
-            if (traveler.number_days > plans!.number_of_days!) {
-                traveler.end_date_policy = null;
-                return Promise.reject('La fecha excede la cantidad de dias');
-            } else {
-                return Promise.resolve();
-            }
+        // if (plans === undefined) return Promise.reject('Seleccione la cobertura');
+        if (plans && !plans.daily) {
+            return validateDateRang(plans);
         }
         return Promise.resolve();
     };
     const tets = () => {
         hasChanged.value = true;
+    };
+    const validateDateRang = (plans: Plans | undefined) => {
+        console.log(traveler);
+        if (traveler.number_days > plans!.number_of_days!) {
+            return Promise.reject('La fecha excede la cantidad de dias');
+        } else {
+            return Promise.resolve();
+        }
     };
 
     return {
@@ -237,6 +242,6 @@ export default function useFormTraveler(id?: string) {
         asignOriginCountry,
         asignNationality,
         tets,
-        validateDateRange,
+        validateEndDateRangeDays,
     };
 }
