@@ -51,3 +51,12 @@ export async function getFilelExcel(file: FileD): Promise<AxiosResponse<Buffer>>
     };
     return await API.request<Buffer>(config);
 }
+
+export async function autoImportFiles(): Promise<AxiosResponse<Buffer>> {
+    const config: AxiosRequestConfig = {
+        method: 'POST',
+        url: '/file/task',
+        responseType: 'blob',
+    };
+    return await API.request<Buffer>(config);
+}

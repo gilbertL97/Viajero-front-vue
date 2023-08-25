@@ -1,17 +1,20 @@
 <template>
     <a-layout-sider>
         <a-menu mode="vertical">
-            <a-sub-menu v-if="acces('users')" key="sub1">
+            <a-sub-menu key="sub1">
                 <template #icon>
                     <SettingOutlined />
                 </template>
 
                 <template #title>Administración</template>
-                <a-menu-item>
+                <a-menu-item v-if="acces('users')">
                     <router-link :to="{ name: 'users' }">
                         Gestión de Usuarios
                     </router-link></a-menu-item
                 >
+                <a-menu-item v-if="acces('import')" @click="downloadZipFile()"
+                    >importacion de Archivos en el Server
+                </a-menu-item>
             </a-sub-menu>
             <a-sub-menu>
                 <template #icon>
@@ -76,10 +79,12 @@
         UsergroupAddOutlined,
     } from '@ant-design/icons-vue';
     import { RouterLink } from 'vue-router';
+    import useZipFile from '@/common/composable/exportZipFile';
     const store = useAuthStore();
     const acces = (view: string) => {
         return store.canAccess(view);
     };
+    const { downloadZipFile } = useZipFile();
 </script>
 <style scoped>
     .ant-layout-sider {

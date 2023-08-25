@@ -21,7 +21,8 @@
           "delete-files",
           "current",
           "detailed",
-          "fact"
+          "fact",
+          "import"
 
        ]
     },
@@ -38,7 +39,8 @@
         "delete-files",
         "detailed",
         "current",
-        "fact"
+        "fact",
+        "import"
      ]
     },
     {
