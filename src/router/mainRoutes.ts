@@ -6,6 +6,7 @@ import plainsRoutes from '@/modules/plains/routes/plainsRoutes';
 import contractorsRoutes from '@/modules/contratctor/routes/contractorRoutes';
 import { UserRole } from '@/helpers/helpers/role.helper';
 import filesRoutes from '@/modules/files/router/file.router';
+import configRoutes from '@/modules/config/routes/config.routes';
 const store = useAuthStore();
 const beforeEnter = (to: any, _from: any, next: any) => {
     const requiresAuth = to.matched.some(
@@ -85,6 +86,7 @@ const mainRoutes: RouteRecordRaw[] = [
             ...plainsRoutes,
             ...contractorsRoutes,
             ...filesRoutes,
+            ...configRoutes,
         ],
     },
 ];

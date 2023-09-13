@@ -80,7 +80,7 @@
         } catch (error: any) {
             console.log(error);
             errors.value = true;
-            if (error.response) {
+            if (error.response.status == 401) {
                 message.value = 'ERROR USUARIO NO AUTORIZADO';
                 description.value =
                     'Ha introducido incorrectamente el usuario y/o la contraseña';

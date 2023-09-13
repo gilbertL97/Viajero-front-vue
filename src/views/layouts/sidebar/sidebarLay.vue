@@ -12,6 +12,11 @@
                         Gestión de Usuarios
                     </router-link></a-menu-item
                 >
+                <a-menu-item v-if="acces('users')">
+                    <router-link :to="{ name: 'config' }">
+                        Gestión de Usuarios
+                    </router-link></a-menu-item
+                >
                 <a-menu-item v-if="acces('import')" @click="downloadZipFile()"
                     >importacion de Archivos en el Server
                 </a-menu-item>
