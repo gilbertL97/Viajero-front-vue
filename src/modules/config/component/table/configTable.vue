@@ -8,7 +8,7 @@
             <template v-if="column.dataIndex === 'action'">
                 <a-tooltip>
                     <template #title>Editar</template>
-                    <a-button type="primary" @click="editContractor(record.id)">
+                    <a-button type="primary" @click="editContractor(record)">
                         <template #icon>
                             <EditOutlined />
                         </template>
@@ -38,11 +38,11 @@
         },
         { title: 'Operaciones', dataIndex: 'action' },
     ];
-    const editContractor = (id: number) => {
-        emit('update', id);
+    const editContractor = (config: Config) => {
+        emit('update', config);
     };
     const emit = defineEmits<{
-        (e: 'update', deleted: number): void;
+        (e: 'update', config: Config): void;
     }>();
 </script>
 <style scoped></style>

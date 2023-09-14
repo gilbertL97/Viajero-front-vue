@@ -14,7 +14,7 @@ export async function editsConfigurations(
 ): Promise<AxiosResponse<Config>> {
     const config: AxiosRequestConfig = {
         method: 'PATCH',
-        url: '/config' + configs.id,
+        url: '/config/' + configs.id,
         data: configs,
     };
     return await API.request<Config>(config);
