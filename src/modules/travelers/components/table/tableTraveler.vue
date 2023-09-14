@@ -32,9 +32,12 @@
                         </template>
                     </a-button>
                 </a-tooltip>
-                <a-button id="button" @click="printPdf(record)"
-                    ><template #icon><PrinterOutlined /></template>
-                </a-button>
+                <a-tooltip>
+                    <template #title>Cert. Seguro</template>
+                    <a-button id="button" @click="printPdf(record)"
+                        ><template #icon><PrinterOutlined /></template>
+                    </a-button>
+                </a-tooltip>
             </template>
             <template v-if="column.dataIndex === 'state'">
                 <span>
