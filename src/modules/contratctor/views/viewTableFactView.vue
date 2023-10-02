@@ -1,7 +1,12 @@
 <template>
     <div class="table-header"
         ><h4 style="padding-right: 5px"> Mes : </h4>
-        <a-date-picker v-model:value="filter" picker="month" />
+        <a-date-picker
+            v-model:value="filter"
+            picker="month"
+            format="MM/YYYY"
+            valueFormat="YYYY-MM-DD"
+        />
     </div>
     <TableContractorFact :data="data" :loading="loading">
         <DropdownExport
@@ -20,7 +25,7 @@
     import { ContractorsAndTotals } from '../types/contractor.types';
 
     const dateInvoicing = ref<string>();
-    const filter = ref<Date>();
+    const filter = ref<string>();
     const data = ref<ContractorsAndTotals>({
         contractors: [],
         total_amount: 0,
@@ -28,10 +33,12 @@
     });
     const loading = ref(false);
     watch([filter], () => {
-        dateInvoicing.value = filter.value?.toISOString();
-        getData(filter.value?.toISOString());
+        console.log(filter.value);
+        dateInvoicing.value = filter?.value;
+        getData(filter?.value);
     });
     onMounted(() => {
+        filter.value = new Date().toISOString();
         getData();
     });
     const getData = async (date?: string) => {
