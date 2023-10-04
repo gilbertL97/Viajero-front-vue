@@ -14,11 +14,11 @@
                 >
                 <a-menu-item v-if="acces('users')">
                     <router-link :to="{ name: 'config' }">
-                        Configuracion
+                        Configuraciòn
                     </router-link></a-menu-item
                 >
                 <a-menu-item v-if="acces('import')" @click="downloadZipFile()"
-                    >Importacion de Archivos en el Server
+                    >Importaciòn Manual de Archivos
                 </a-menu-item>
             </a-sub-menu>
             <a-sub-menu>
@@ -44,7 +44,7 @@
                 <template #title>Clientes</template>
                 <a-menu-item>
                     <router-link :to="{ name: 'travelers' }"
-                        >Gestion de Viajeros</router-link
+                        >Gestiòn de Viajeros</router-link
                     >
                 </a-menu-item>
                 <a-menu-item>
@@ -58,7 +58,7 @@
                 <template #title>Consultas</template>
                 <a-menu-item v-if="acces('fact')">
                     <router-link :to="{ name: 'invoicing' }"
-                        >Facturacion</router-link
+                        >Facturaciòn</router-link
                     ></a-menu-item
                 >
                 <a-menu-item v-if="acces('current')"
