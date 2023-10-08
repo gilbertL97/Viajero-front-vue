@@ -31,5 +31,6 @@ export type FilterContractor = {
     file?: string;
     poliza?: string;
     isActive?: boolean;
-    dateInvoicing?: Date;
+    dateInvoicing?: Date | string;
+    ids?: number[];
 };

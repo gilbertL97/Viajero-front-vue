@@ -8,6 +8,14 @@
                 height="95"
             />
         </div>
+        <div class="logo">
+            <img
+                src="../../../assets/imagenes/logogenericosinletras.png"
+                alt="logoEsicuba"
+                width="120"
+                height="50"
+            />
+        </div>
         <div class="profile">
             <a-dropdown placement="topLeft">
                 <a class="ant-dropdown-link" @click.prevent>
@@ -15,8 +23,8 @@
                         <img
                             src="../../../assets/imagenes/user4.png"
                             alt=""
-                            width="40"
-                            height="40"
+                            width="50"
+                            height="50"
                         />
                     </span>
                 </a>
@@ -64,14 +72,16 @@
         padding-bottom: 6px;
         background: #1b1462;
         height: 90px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
     .sello {
-        float: left;
         margin-top: 0%;
     }
+    .logo {
+    }
     .profile {
-        float: right;
         border-radius: 50%;
-        padding-top: 1%;
     }
 </style>
