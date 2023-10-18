@@ -3,6 +3,7 @@
         v-model:value="contractor.value"
         v-model:label="contractor.label"
         placeholder="Seleccione al cliente"
+        :max-tag-count="props.maxTagCount"
         style="width: 200px"
         :options="options"
         :filter-option="filterOption"
@@ -23,10 +24,11 @@
     const data = ref<Contractor[]>([]);
     const options = ref<SelectProps['options']>([]);
     const props = defineProps<{
-        contractorId?: number;
+        contractorId?: number | number[];
         contractor?: string;
         mode?: string;
         activeSelect: boolean;
+        maxTagCount?: number;
     }>();
 
     const contractor = reactive<select>({

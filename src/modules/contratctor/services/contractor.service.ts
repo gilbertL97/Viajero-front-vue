@@ -3,7 +3,7 @@ import API from '@/service/api';
 import {
     Contractor,
     ContractorsAndTotals,
-    FilterDateAndContract,
+    FilterContractor,
 } from '../types/contractor.types';
 
 export async function getContractors(): Promise<AxiosResponse<Contractor[]>> {
@@ -68,7 +68,7 @@ export async function getInvoicing(
 }
 
 export async function getDetailed(
-    filter: FilterDateAndContract,
+    filter: FilterContractor,
 ): Promise<AxiosResponse<Contractor[]>> {
     const config: AxiosRequestConfig = {
         method: 'GET',
