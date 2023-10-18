@@ -41,8 +41,9 @@
     const totalTravelers = ref(0);
     const data = ref<TravelerResponse[]>([]);
     provide('current', false);
-    const { searchTravel } = useTravelersFilters();
+    const { searchTravel, eraseSearch } = useTravelersFilters();
     onMounted(async () => {
+        eraseSearch();
         if (props.idFile) {
             getfile(+props.idFile);
         } else await refresh();
