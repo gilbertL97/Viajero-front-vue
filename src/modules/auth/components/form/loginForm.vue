@@ -74,7 +74,7 @@
             console.log(token);
             if (token) {
                 store.setToken(token.data.access_token);
-                router.push('/hom');
+                router.push('/home');
             }
             loading.value = false;
         } catch (error: any) {
