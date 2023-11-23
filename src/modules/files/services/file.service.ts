@@ -33,6 +33,17 @@ export async function filterFiles(file: FileD): Promise<AxiosResponse<FileD[]>> 
     };
     return await API.request<FileD[]>(config);
 }
+export async function filterFilesPagination(
+    file: FileD,
+    pag?: PaginationDto,//concluir la operacionde ahcerle spread a un objeto en ts
+): Promise<AxiosResponse<FileD[]>> {
+    const config: AxiosRequestConfig = {
+        method: 'GET',
+        url: '/file/filter',
+        params:  file,
+    };
+    return await API.request<FileD[]>(config);
+}
 
 export async function deletFiles(id: number): Promise<AxiosResponse<FileD>> {
     const config: AxiosRequestConfig = {

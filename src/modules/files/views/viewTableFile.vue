@@ -20,6 +20,7 @@
                 title="Archivos"
                 :filter="file" /></template
     ></TableFiles>
+    <PaginationTable />
     <a-modal
         v-model:visible="visible"
         title="EL archivo contiene Viajeros. Desea Eliminar?"
@@ -47,6 +48,7 @@
     import { getTravelersByFile } from '@/modules/travelers/services/traveler.service';
     import { TravelerResponse } from '@/modules/travelers/types/type.traveler';
     import TableCurrentTravelers from '@/modules/travelers/components/table/tableCurrentTravelers.vue';
+    import PaginationTable from '@/common/components/pagination/paginationTable.vue';
     const route = useRouter();
     const { cantDelete } = manageError();
     const loading = ref(false);
