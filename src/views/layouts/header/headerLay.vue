@@ -8,13 +8,14 @@
                 height="95"
             />
         </div>
-        <div class="logo">
-            <img
-                src="../../../assets/imagenes/logogenericosinletras.png"
-                alt="logoEsicuba"
-                width="120"
-                height="50"
-            />
+        <div class="logo"
+            ><a>
+                <img
+                    src="../../../assets/imagenes/logogenericosinletras.png"
+                    alt="logoEsicuba"
+                    width="120"
+                    height="50"
+            /></a>
         </div>
         <div class="profile">
             <a-dropdown placement="topLeft">
