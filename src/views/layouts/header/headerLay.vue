@@ -1,21 +1,24 @@
 <template>
     <a-layout-header class="header" :style="{ zIndex: 1, width: '100%' }">
         <div class="sello">
-            <img
-                src="../../../assets/imagenes/sello/blanco.png"
-                alt=""
-                width="95"
-                height="95"
-            />
+            <router-link :to="{ path: '/home' }">
+                <img
+                    src="../../../assets/imagenes/sello/blanco.png"
+                    alt=""
+                    width="80"
+                    height="80"
+                />
+            </router-link>
         </div>
-        <div class="logo"
-            ><a>
+        <div class="logo">
+            <router-link :to="{ path: '/home' }">
                 <img
                     src="../../../assets/imagenes/logogenericosinletras.png"
                     alt="logoEsicuba"
                     width="120"
                     height="50"
-            /></a>
+                />
+            </router-link>
         </div>
         <div class="profile">
             <a-dropdown placement="topLeft">
@@ -24,8 +27,8 @@
                         <img
                             src="../../../assets/imagenes/user4.png"
                             alt=""
-                            width="50"
-                            height="50"
+                            width="45"
+                            height="45"
                         />
                     </span>
                 </a>
@@ -72,9 +75,9 @@
         margin-bottom: 15px;
         padding-bottom: 6px;
         background: #1b1462;
-        height: 90px;
+        height: 5rem;
         display: flex;
-        justify-content: space-between;
+
         align-items: center;
     }
     .sello {
@@ -83,6 +86,7 @@
     .logo {
     }
     .profile {
+        margin-left: auto;
         border-radius: 50%;
     }
 </style>

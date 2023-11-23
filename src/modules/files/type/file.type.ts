@@ -1,7 +1,7 @@
 import { TravelerResponse } from '@/modules/travelers/types/type.traveler';
 import { User } from '@/modules/user/types/user.types';
 
-export type FileD = {
+export interface FileD {
     id?: number;
     name?: string;
     created_at?: Date;
@@ -10,4 +10,8 @@ export type FileD = {
     contractor?: number;
     travelers?: TravelerResponse[];
     user?: User;
-};
+}
+export interface fileAndTotal {
+    files: FileD[];
+    total: number;
+}
