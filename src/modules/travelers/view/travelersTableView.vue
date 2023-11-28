@@ -52,7 +52,7 @@
         loading.value = true;
         try {
             //aqui cambie esto para la paginacion
-            const { travelers, total } = (await getTravelersPag(pagination)).data;
+            const { data: travelers, total } = (await getTravelersPag(pagination)).data;
             data.value = travelers;
             totalTravelers.value = total;
         } catch (error) {}
@@ -63,17 +63,18 @@
         pagination?: PaginationDto,
     ) => {
         loading.value = true;
+
         try {
-            const { travelers, total } = (await getFilterTravelersPag(filter, pagination))
-                .data;
+            const { data: travelers, total } = (
+                await getFilterTravelersPag(pagination, filter)
+            ).data;
             data.value = travelers;
             totalTravelers.value = total;
         } catch (error) {}
         loading.value = false;
     };
-    const filter = async (filter: FilterTravelers) => {
-        console.log(filter.contractor);
-        await getDataFiltered(filter);
+    const filter = async (filterTravelers: FilterTravelers) => {
+        await getDataFiltered(filterTravelers);
     };
 
     const paginate = async (page: PaginationDto) => {

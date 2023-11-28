@@ -22,7 +22,7 @@ export async function getTravelersPag(
 ): Promise<AxiosResponse<TravelerAndTotals>> {
     const config: AxiosRequestConfig = {
         method: 'GET',
-        url: '/traveler/pagination',
+        url: '/traveler',
         params: pagination,
     };
     return await API.request<TravelerAndTotals>(config);
@@ -61,20 +61,20 @@ export async function getFilterTravelers(
 ): Promise<AxiosResponse<TravelerResponse[]>> {
     const config: AxiosRequestConfig = {
         method: 'GET',
-        url: '/traveler/filter',
+        url: '/traveler',
         params: filterTravelers,
     };
     return await API.request<TravelerResponse[]>(config);
 }
 export async function getFilterTravelersPag(
-    filterTravelers: FilterTravelers,
     pag?: PaginationDto,
+    filter?: FilterTravelers,
 ): Promise<AxiosResponse<TravelerAndTotals>> {
+    const query = Object.assign({}, pag, filter);
     const config: AxiosRequestConfig = {
-        method: 'POST',
-        url: '/traveler/filter/pag',
-        data: filterTravelers,
-        params: pag,
+        method: 'GET',
+        url: '/traveler',
+        params: query,
     };
     return await API.request<TravelerAndTotals>(config);
 }

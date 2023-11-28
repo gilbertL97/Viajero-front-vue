@@ -48,7 +48,7 @@ export interface TravelerResponse {
     deleteAt?: Date | null;
 }
 export interface TravelerAndTotals {
-    travelers: TravelerResponse[];
+    data: TravelerResponse[];
     total: number;
 }
 export type FilterTravelers = {
