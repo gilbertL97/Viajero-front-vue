@@ -25,37 +25,34 @@
                 <template #icon>
                     <NotificationOutlined />
                 </template>
-                <template #title>Mercadotecnia</template>
+                <template #title>Gestión</template>
                 <a-menu-item v-if="acces('clients')"
                     ><router-link :to="{ name: 'clients' }">
-                        Gestión de Clientes</router-link
+                        Clientes</router-link
                     ></a-menu-item
                 >
                 <a-menu-item v-if="acces('plains')"
                     ><router-link :to="{ name: 'plains' }">
-                        Gestión de los Planes
+                        Planes
                     </router-link></a-menu-item
                 >
-            </a-sub-menu>
-            <a-sub-menu v-if="acces('travelers')">
-                <template #icon>
-                    <UsergroupAddOutlined />
-                </template>
-                <template #title>Clientes</template>
-                <a-menu-item>
+                <a-menu-item v-if="acces('travelers')">
                     <router-link :to="{ name: 'travelers' }"
                         >Gestión de Viajeros</router-link
                     >
                 </a-menu-item>
-                <a-menu-item>
+                <a-menu-item v-if="acces('travelers')">
                     <router-link :to="{ name: 'files' }">Archivos</router-link>
+                </a-menu-item>
+                <a-menu-item v-if="store.canAccess('upload')">
+                    <router-link :to="{ name: 'upload' }">Subir Ficheros</router-link>
                 </a-menu-item>
             </a-sub-menu>
             <a-sub-menu key="sub3">
                 <template #icon>
                     <LineChartOutlined />
                 </template>
-                <template #title>Consultas</template>
+                <template #title>Reportes</template>
                 <a-menu-item v-if="acces('fact')">
                     <router-link :to="{ name: 'invoicing' }"
                         >Facturación</router-link
@@ -81,7 +78,6 @@
         SettingOutlined,
         LineChartOutlined,
         NotificationOutlined,
-        UsergroupAddOutlined,
     } from '@ant-design/icons-vue';
     import { RouterLink } from 'vue-router';
     import useZipFile from '@/common/composable/exportZipFile';
