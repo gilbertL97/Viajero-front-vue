@@ -90,21 +90,17 @@
     const handleCancel = () => {
         emit('visible', false);
     };
-    const asignContract = (value: any) => {
-        search.contractor = value;
-        console.log('este es la agencia :' + value);
+    const asignContract = (value: number | number[] | undefined) => {
+        search.contractor = value !== undefined ? (value as number) : undefined;
     };
     const asignPlans = (value: number) => {
-        search.coverage = value;
-        console.log('este es el plan :' + value);
+        search.coverage = value !== undefined ? (value as number) : undefined;
     };
     const asignOriginCountry = (value: string) => {
         search.origin_country = value;
-        console.log('este es el pais :' + value);
     };
     const asignNationality = (value: string) => {
         search.nationality = value;
-        console.log('este es el nacionalidad :' + value);
     };
     const emit = defineEmits<{
         (e: 'filter', travelers: FilterTravelers): void;
@@ -112,7 +108,6 @@
     }>();
     const searchTraveler = () => {
         emit('filter', search);
-        console.log(search);
         emit('visible', false);
     };
     watch([range_end, range_start], () => {

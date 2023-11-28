@@ -63,7 +63,6 @@
     };
     const handleChange: SelectProps['onChange'] = () => {
         emit('selected', contractor.value);
-        console.log(contractor.value);
     };
     const emit = defineEmits<{
         (e: 'selected', contractor: number | number[] | undefined): void;
@@ -72,7 +71,6 @@
         contractor.label = newProps.contractor;
         contractor.value = newProps.contractorId; // terminar y probar  q no hace falta enviar el label solo coon el value
         // adema s q se actualize  las props ss
-        console.log(newProps.contractor, newProps.contractorId);
     });
 </script>
 <style scoped>
