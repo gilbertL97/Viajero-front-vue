@@ -92,6 +92,7 @@
 
     watch([dateFilter, filterContractor], () => {
         if (dateFilter.value?.length > 1 || filterContractor.value) {
+            eraseSearch();
             if (dateFilter.value?.length > 1) {
                 searchTravel.start_date_init = dateFilter.value[0];
                 searchTravel.start_date_end = dateFilter.value[1];
