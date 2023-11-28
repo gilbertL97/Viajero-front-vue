@@ -1,13 +1,14 @@
 import API from '@/service/api';
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
-import { FileD } from '../type/file.type';
+import { FileD, FileAndTotal } from '../type/file.type';
+import { PaginationDto } from '@/common/types/pagination.type';
 
-export async function getFiles(): Promise<AxiosResponse<FileD[]>> {
+export async function getFiles(): Promise<AxiosResponse<FileAndTotal>> {
     const config: AxiosRequestConfig = {
         method: 'GET',
         url: '/file',
     };
-    return await API.request<FileD[]>(config);
+    return await API.request<FileAndTotal>(config);
 }
 export async function getFile(id: number): Promise<AxiosResponse<FileD>> {
     const config: AxiosRequestConfig = {
@@ -34,15 +35,16 @@ export async function filterFiles(file: FileD): Promise<AxiosResponse<FileD[]>> 
     return await API.request<FileD[]>(config);
 }
 export async function filterFilesPagination(
-    file: FileD,
-    pag?: PaginationDto,//concluir la operacionde ahcerle spread a un objeto en ts
-): Promise<AxiosResponse<FileD[]>> {
+    file?: FileD,
+    pag?: PaginationDto, //concluir la operacionde ahcerle spread a un objeto en ts
+): Promise<AxiosResponse<FileAndTotal>> {
+    const query = Object.assign({}, pag, file);
     const config: AxiosRequestConfig = {
         method: 'GET',
-        url: '/file/filter',
-        params:  file,
+        url: '/file',
+        params: query,
     };
-    return await API.request<FileD[]>(config);
+    return await API.request<FileAndTotal>(config);
 }
 
 export async function deletFiles(id: number): Promise<AxiosResponse<FileD>> {

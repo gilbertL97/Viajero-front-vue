@@ -11,7 +11,13 @@ export interface FileD {
     travelers?: TravelerResponse[];
     user?: User;
 }
-export interface fileAndTotal {
-    files: FileD[];
+export interface FilterFileD {
+    name?: string;
+    start_date_create?: Date;
+    end_date_create?: Date;
+    contractor?: number;
+}
+export interface FileAndTotal {
+    data: FileD[];
     total: number;
 }

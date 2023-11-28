@@ -18,9 +18,9 @@
                 urlExcel="/file/excel"
                 urlPdf="/file/pdf"
                 title="Archivos"
-                :filter="file" /></template
+                :filter="filterFiler" /></template
     ></TableFiles>
-    <PaginationTable />
+    <PaginationTable :total="totalFiles" @page="paginate" />
     <a-modal
         v-model:visible="visible"
         title="EL archivo contiene Viajeros. Desea Eliminar?"
@@ -33,15 +33,13 @@
 </template>
 
 <script setup lang="ts">
-    import { onMounted, reactive, ref } from 'vue';
     import DropdownExport from '@/common/components/export/dropdownExport.vue';
     import TableHeaderFiles from '../components/tableHeader/tableHeaderFiles.vue';
     import TableFiles from '../components/table/tableFiles.vue';
-    import { FileD } from '../type/file.type';
+    import { FileD, FilterFileD } from '../type/file.type';
     import {
         deletFiles,
-        filterFiles,
-        getFiles,
+        filterFilesPagination,
     } from '@/modules/files/services/file.service';
     import manageError from '@/common/composable/manageError';
     import { useRouter } from 'vue-router';
@@ -49,17 +47,16 @@
     import { TravelerResponse } from '@/modules/travelers/types/type.traveler';
     import TableCurrentTravelers from '@/modules/travelers/components/table/tableCurrentTravelers.vue';
     import PaginationTable from '@/common/components/pagination/paginationTable.vue';
+    import { PaginationDto } from '@/common/types/pagination.type';
+    import useFileFilter from '../composable/useFileFilter';
     const route = useRouter();
     const { cantDelete } = manageError();
+    const { filterFiler } = useFileFilter();
     const loading = ref(false);
     const idDelet = ref(0);
     const visible = ref(false);
     const travlers = ref<TravelerResponse[]>([]);
-    const file = reactive<FileD>({
-        start_date_create: undefined,
-        end_date_create: undefined,
-        contractor: undefined,
-    });
+    const totalFiles = ref(0);
     const data = ref<FileD[]>([]);
     const columns = [
         {
@@ -90,21 +87,17 @@
     const refresh = async () => {
         await getData();
     };
-    const getData = async () => {
+    const getData = async (pag?: PaginationDto, file?: FilterFileD) => {
         try {
             loading.value = true;
-            const files = (await getFiles()).data;
+            const { data: files, total } = (await filterFilesPagination(file, pag)).data;
             data.value = files;
+            totalFiles.value = total;
         } catch (error) {}
         loading.value = false;
     };
-    const filter = async (file: FileD) => {
-        asig(file);
-        try {
-            loading.value = true;
-            data.value = (await filterFiles(file)).data;
-        } catch (error) {}
-        loading.value = false;
+    const filter = async (file: FilterFileD) => {
+        await getData(undefined, file);
     };
     const delet = async () => {
         try {
@@ -130,10 +123,8 @@
             console.log(data.value);
         } catch (error) {}
     };
-    const asig = (file2: FileD) => {
-        file.contractor = file2.contractor;
-        file.end_date_create = file2.end_date_create;
-        file.start_date_create = file2.start_date_create;
+    const paginate = async (page: PaginationDto) => {
+        await getData(page, filterFiler);
     };
 </script>
 

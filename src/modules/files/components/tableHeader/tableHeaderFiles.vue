@@ -7,7 +7,7 @@
             :contractorId="filterContractor"
         />
         <a-divider type="vertical" />
-        <h4> Fecha Inicio :</h4>
+        <h4> Fecha Importación:</h4>
         <a-range-picker
             size="small"
             v-model:value="dateFilter"
@@ -23,41 +23,36 @@
 <script setup lang="ts">
     import { DeleteOutlined } from '@ant-design/icons-vue';
     import DropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
-    import { FileD } from '../../type/file.type';
+    import { FileD, FilterFileD } from '../../type/file.type';
+    import useFileFilter from '../../composable/useFileFilter';
+    const { eraseSearch, assignFilter, filterFiler } = useFileFilter();
     defineProps<{ data: FileD[]; title: string; columns: any[] }>();
 
     const filterContractor = ref<number | undefined>(undefined);
     const dateFilter = ref<Date[]>([]);
-    const searchFileByDateandContractor = reactive<FileD>({
-        start_date_create: undefined,
-        end_date_create: undefined,
-        contractor: undefined,
-    });
     const getSelected = (value: any) => {
         filterContractor.value = value as number;
     };
     const deleteFilter = () => {
         dateFilter.value = [];
         filterContractor.value = undefined;
-        searchFileByDateandContractor.start_date_create = undefined;
-        searchFileByDateandContractor.end_date_create = undefined;
-        searchFileByDateandContractor.contractor = undefined;
-        emit('filter', searchFileByDateandContractor);
+        eraseSearch();
+        emit('filter', filterFiler);
     };
     watch([dateFilter, filterContractor], () => {
         if (dateFilter.value?.length > 1 || filterContractor.value) {
             console.log(dateFilter.value?.length, filterContractor.value);
             if (dateFilter.value?.length > 1) {
-                searchFileByDateandContractor.start_date_create = dateFilter.value[0];
-                searchFileByDateandContractor.end_date_create = dateFilter.value[1];
+                filterFiler.start_date_create = dateFilter.value[0];
+                filterFiler.end_date_create = dateFilter.value[1];
             }
-            searchFileByDateandContractor.contractor = filterContractor.value;
-
-            emit('filter', searchFileByDateandContractor);
+            filterFiler.contractor = filterContractor.value;
+            assignFilter(filterFiler);
+            emit('filter', filterFiler);
         }
     });
     const emit = defineEmits<{
-        (e: 'filter', searchTravler: FileD): void;
+        (e: 'filter', searchTravler: FilterFileD): void;
     }>();
 </script>
 
