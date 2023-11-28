@@ -40,11 +40,29 @@ export class Http {
         return Promise.reject(error);
     }
 
-    get(path: string) {
+    get(path: string, query?: any) {
+        let finalUrl = path;
+        if (query !== undefined) {
+            const params = new URLSearchParams();
+            Object.keys(query).forEach((key) => {
+                if (query[key] !== undefined) {
+                    if (Array.isArray(query[key])) {
+                        (query[key] as any[]).forEach((item) => params.append(key, item));
+                    } else if (typeof query[key] === 'object') {
+                        this.assignObjectValues([key], query[key], params);
+                    } else {
+                        // @ts-ignore
+                        params.append(key, query[key]);
+                    }
+                }
+            });
+            finalUrl += `?${params.toString()}`;
+        }
         return this.service.request({
             method: 'GET',
-            url: path,
+            url: finalUrl,
             responseType: 'json',
+            params: query,
         });
     }
 
@@ -80,6 +98,14 @@ export class Http {
             method: 'DELETE',
             url: path,
             responseType: 'json',
+        });
+    }
+    private assignObjectValues(path: string[], object: any, params: URLSearchParams) {
+        Object.keys(object).forEach((key) => {
+            if (typeof object[key] === 'object')
+                this.assignObjectValues(path.concat(key), object[key], params);
+            else if (object[key] !== '')
+                params.append(path.join('.').concat('.' + key), object[key]);
         });
     }
 }
