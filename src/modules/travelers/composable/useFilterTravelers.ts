@@ -37,10 +37,10 @@ export default function useTravelersFilters(current?: boolean) {
         searchTravel.start_date_end = filter.start_date_end;
         searchTravel.end_date_policy_init = filter.end_date_policy_init;
         searchTravel.end_date_policy_end = filter.end_date_policy_end;
-        searchTravel.contractor = Number(filter.contractor);
+        searchTravel.contractor = filter.contractor;
         searchTravel.origin_country = filter.origin_country;
         searchTravel.nationality = filter.nationality;
-        searchTravel.coverage = Number(filter.coverage);
+        searchTravel.coverage = filter.coverage;
         //se pone esto por si solo quiere los vigentes
         current ? (searchTravel.state = true) : (searchTravel.state = filter.state);
     };
