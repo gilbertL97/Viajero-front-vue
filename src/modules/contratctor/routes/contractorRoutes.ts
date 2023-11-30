@@ -33,17 +33,6 @@ const contractorsRoutes: RouteRecordRaw[] = [
         },
     },
     {
-        path: '/clients/detail',
-        name: 'detailed',
-        component: () =>
-            import('@/modules/contratctor/views/viewTableDetailedContrac.vue'),
-        props: true,
-        meta: {
-            requiresAuth: true,
-            role: [UserRole.ADMIN, UserRole.COMAGENT],
-        },
-    },
-    {
         path: '/clients',
         name: 'clients',
         component: () => import('@/modules/contratctor/views/viewContractorTable.vue'),
