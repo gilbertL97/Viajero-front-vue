@@ -3,6 +3,7 @@ import API from '@/service/api';
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
 import {
     FileErrorsDto,
+    FilterTravelerDetailedReport,
     FilterTravelers,
     Traveler,
     TravelerAndTotals,
@@ -68,7 +69,7 @@ export async function getFilterTravelers(
 }
 export async function getFilterTravelersPag(
     pag?: PaginationDto,
-    filter?: FilterTravelers,
+    filter?: FilterTravelers | FilterTravelerDetailedReport,
 ): Promise<AxiosResponse<TravelerAndTotals>> {
     const query = Object.assign({}, pag, filter);
     const config: AxiosRequestConfig = {

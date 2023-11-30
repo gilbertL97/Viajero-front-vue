@@ -108,5 +108,15 @@ const travelersRoutes: RouteRecordRaw[] = [
             ],
         },
     },
+    {
+        path: '/travelers/detail',
+        name: 'detailed',
+        component: () => import('@/modules/travelers/view/viewTableDetailedTraveler.vue'),
+        props: true,
+        meta: {
+            requiresAuth: true,
+            role: [UserRole.ADMIN, UserRole.COMAGENT],
+        },
+    },
 ];
 export default travelersRoutes;

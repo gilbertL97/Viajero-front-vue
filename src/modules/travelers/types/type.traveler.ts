@@ -65,7 +65,11 @@ export type FilterTravelers = {
     coverage?: number;
     state?: boolean;
 };
-
+export type FilterTravelerDetailedReport = {
+    start_date_init?: string;
+    start_date_end?: string;
+    idContractors?: number[];
+};
 export type ErrorsDto = {
     property: string;
     errors: string;
