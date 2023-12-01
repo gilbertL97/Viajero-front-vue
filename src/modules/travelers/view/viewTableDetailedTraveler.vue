@@ -19,8 +19,8 @@
     </div>
     <TableCurrentTravelers :data="data" :loading="loading">
         <DropdownExport
-            urlExcel="/contractor/detailed/excel"
-            urlPdf="/contractor/detailed/pdf"
+            urlExcel="/traveler/excel"
+            urlPdf="/traveler/pdf"
             title="Cliente"
             :filter="filter"
         />
@@ -37,15 +37,14 @@
         FilterTravelerDetailedReport,
         TravelerResponse,
     } from '../types/type.traveler';
-    import dayjs from 'dayjs';
     import { getFilterTravelersPag } from '../services/traveler.service';
     import PaginationTable from '@/common/components/pagination/paginationTable.vue';
     import TableCurrentTravelers from '../components/table/tableCurrentTravelers.vue';
     import { PaginationDto } from '@/common/types/pagination.type';
-
+    import { DateHelper } from '@/common/helper/dateHelper';
     const loading = ref(false);
     const total = ref(0);
-    const date = ref<string>();
+    const date = ref<string>('');
     const data = ref<TravelerResponse[]>([]);
     const filter = reactive<FilterTravelerDetailedReport>({
         start_date_init: undefined,
@@ -53,11 +52,9 @@
         idContractors: undefined,
     }); //ref<Date>();
     watch([() => filter.idContractors, date], () => {
-        const initMonth = dayjs(date.value).set('date', 1); //cambio la fecha a inicio del mes
-        //le sumo otro mes a la fecha fin para que esete en el rango de ese mes
-        filter.start_date_end = initMonth.add(1, 'month').format('YYYY-MM-DD');
-        //convierto a string para trabajar
-        filter.start_date_init = initMonth.format('YYYY-MM-DD');
+        const { end, init } = DateHelper.convertToRange(date.value);
+        filter.start_date_end = end;
+        filter.start_date_init = init;
         getDetailedData(filter);
         /* excelFilter.dateInvoicing = filter.value
             ? filter.value.toISOString()
@@ -65,6 +62,9 @@
     });
     onMounted(async () => {
         date.value = new Date().toISOString();
+        const { end, init } = DateHelper.convertToRange(date.value);
+        filter.start_date_end = end;
+        filter.start_date_init = init;
         getDetailedData(filter);
     });
     const getSelected = (id: number | number[] | undefined) => {
@@ -89,7 +89,7 @@
     };
     const deleteFilter = () => {
         filter.idContractors = undefined;
-        date.value = undefined;
+        date.value = '';
     };
 </script>
 
