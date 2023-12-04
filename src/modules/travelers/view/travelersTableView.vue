@@ -2,6 +2,7 @@
     <TableHeaderTraveler :current="false" @filter="filter" />
     <TableTraveler
         :loading="loading"
+        :isOnlyRead="false"
         :data="data"
         @deleted="onDelete"
         @print="printPdf"

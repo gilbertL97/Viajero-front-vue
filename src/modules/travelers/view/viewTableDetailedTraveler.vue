@@ -17,14 +17,14 @@
             >Borrar Filtros <DeleteOutlined
         /></a-button>
     </div>
-    <TableCurrentTravelers :data="data" :loading="loading">
+    <TableTraveler :data="data" :loading="loading" :is-only-read="true">
         <DropdownExport
             urlExcel="/traveler/excel"
             urlPdf="/traveler/pdf"
             title="Cliente"
             :filter="filter"
         />
-    </TableCurrentTravelers>
+    </TableTraveler>
     <PaginationTable :total="total" @page="paginate" />
 </template>
 
@@ -39,9 +39,10 @@
     } from '../types/type.traveler';
     import { getFilterTravelersPag } from '../services/traveler.service';
     import PaginationTable from '@/common/components/pagination/paginationTable.vue';
-    import TableCurrentTravelers from '../components/table/tableCurrentTravelers.vue';
+    import TableTraveler from '../components/table/tableTraveler.vue';
     import { PaginationDto } from '@/common/types/pagination.type';
     import { DateHelper } from '@/common/helper/dateHelper';
+
     const loading = ref(false);
     const total = ref(0);
     const date = ref<string>('');

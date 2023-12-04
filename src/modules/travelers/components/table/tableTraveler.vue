@@ -12,7 +12,13 @@
             <slot></slot>
         </template>
         <template #bodyCell="{ column, record }">
-            <template v-if="column.dataIndex === 'action' && acces('edit-travelers')">
+            <template
+                v-if="
+                    column.dataIndex === 'action' &&
+                    acces('edit-travelers') &&
+                    !props.isOnlyRead
+                "
+            >
                 <a-popconfirm
                     :title="`Desea eliminar al Usuario ${record.name} ?`"
                     @confirm="onDelete(record.id)"
@@ -88,6 +94,7 @@
     const props = defineProps<{
         data: TravelerResponse[];
         loading: boolean;
+        isOnlyRead: boolean;
     }>();
 
     const state = reactive<{
