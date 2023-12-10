@@ -66,9 +66,6 @@
     const filterContractor = ref<number | undefined>(undefined);
     const visible = ref(false);
     const dateFilter = ref<Date[]>([]);
-    defineProps<{
-        current: boolean;
-    }>();
     const getSelected = (value: any) => {
         filterContractor.value = value as number;
     };
