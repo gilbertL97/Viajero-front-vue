@@ -25,7 +25,7 @@
             :filter="filter"
         />
     </TableTraveler>
-    <PaginationTable :total="total" @page="paginate" />
+    <PaginationTable :total="totalDetail" @page="paginate" />
 </template>
 
 <script setup lang="ts">
@@ -44,7 +44,7 @@
     import { DateHelper } from '@/common/helper/dateHelper';
 
     const loading = ref(false);
-    const total = ref(0);
+    const totalDetail = ref(0);
     const date = ref<string>('');
     const data = ref<TravelerResponse[]>([]);
     const filter = reactive<FilterTravelerDetailedReport>({
@@ -81,7 +81,7 @@
                 await getFilterTravelersPag(pag, filterr)
             ).data;
             data.value = travelers;
-            total.value = totalT;
+            totalDetail.value = totalT;
         } catch (error) {}
         loading.value = false;
     };
