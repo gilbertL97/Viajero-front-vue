@@ -55,7 +55,6 @@
     ]);
     const asignContract = (value: any) => {
         contractor.value = value;
-        console.log('este es la agencia :' + value);
     };
 
     const error400 = (dataResp: FileErrorsDto[]) => {

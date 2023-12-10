@@ -41,7 +41,6 @@
     };
     watch([dateFilter, filterContractor], () => {
         if (dateFilter.value?.length > 1 || filterContractor.value) {
-            console.log(dateFilter.value?.length, filterContractor.value);
             if (dateFilter.value?.length > 1) {
                 filterFiler.start_date_create = dateFilter.value[0];
                 filterFiler.end_date_create = dateFilter.value[1];

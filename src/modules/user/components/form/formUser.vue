@@ -174,10 +174,6 @@
     };
     const asignContract = (value: number | number[] | undefined) => {
         user.contractor = value as number;
-        console.log(
-            'este es el value :' + value,
-            'este es el user.contractor:' + user.contractor,
-        );
     };
 
     const alert = (message1: string, message2?: string) => {
@@ -197,7 +193,6 @@
         window.alert('la contraseña momentania sera esta ' + password);
     };*/
     const onFinishFailed = (values: any) => {
-        console.log('tiht', values);
     };
     const charge = async () => {
         if (props.id) {
@@ -216,7 +211,6 @@
             user.contractor = userR.contractors?.[0].id;
             setContract(userR.contractors![0]);
         }
-        console.log(userR.contractors);
     };
     const setContract = (contractR: Contractor) => {
         contractor.id = contractR.id;

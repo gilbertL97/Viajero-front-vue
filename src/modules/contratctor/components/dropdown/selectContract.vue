@@ -45,7 +45,7 @@
         if (value?.valueOf()) {
             const id2: number = +value?.valueOf();
 
-            console.log(id2);
+        
 
             //  emit('selected', value);
         }

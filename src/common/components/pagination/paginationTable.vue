@@ -22,7 +22,7 @@
         (e: 'page', current: PaginationDto): void;
     }>();
     const onChange = (current: number, pageSize: number) => {
-        console.log(current, pageSize);
+
         currentPag.page = current;
         currentPag.limit = pageSize;
         emits('page', currentPag);

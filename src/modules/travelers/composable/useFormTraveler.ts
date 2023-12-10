@@ -73,7 +73,7 @@ export default function useFormTraveler(id?: string) {
             hasChanged.value = false;
 
             intializateTraveler(travelerR);
-            console.log(traveler.contractor);
+
             loading.value = false;
         }
     });
@@ -88,7 +88,7 @@ export default function useFormTraveler(id?: string) {
     };
 
     const onFinish = (values: any) => {
-        console.log('Succes', values);
+
         if (id) {
             try {
                 updateTraveler(traveler);
@@ -104,11 +104,9 @@ export default function useFormTraveler(id?: string) {
         router.push({ name: 'travelers' });
     };
     const onFinishFailed = (values: any) => {
-        console.log('tiht', traveler.contractor, values);
     };
     const asignContract = (value: any) => {
         traveler.contractor = value;
-        console.log('este es la agencia :' + value);
     };
     const asignPlans = (value: number) => {
         traveler.coverage = value;

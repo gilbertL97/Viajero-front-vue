@@ -55,7 +55,6 @@
     };
     const handleChange: SelectProps['onChange'] = () => {
         emit('selected', country.value);
-        console.log(country.value);
     };
     const emit = defineEmits<{
         (e: 'selected', country: string): void;

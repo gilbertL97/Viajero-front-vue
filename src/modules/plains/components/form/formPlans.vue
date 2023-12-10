@@ -147,12 +147,11 @@
         router.push('/plains');
     };
     const handleCancel = () => {
-        console.log(props.id);
+
         router.push('/plains');
     };
     const getPlan = async () => {
         try {
-            console.log(props.id);
             const plainR = (await getPlain(id.value)).data;
             setPlain(plainR);
         } catch (error: any) {

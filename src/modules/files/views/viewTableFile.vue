@@ -114,13 +114,11 @@
         if (data.value.length > 0) visible.value = true;
     };
     const viewTraveler = (id: number) => {
-        console.log(id);
         route.push('/travelers/' + id);
     };
     const viewTravelerModal = async (id: number) => {
         try {
             travlers.value = (await getTravelersByFile(id)).data;
-            console.log(data.value);
         } catch (error) {}
     };
     const paginate = async (page: PaginationDto) => {

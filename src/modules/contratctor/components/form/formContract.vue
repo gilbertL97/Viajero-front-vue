@@ -148,7 +148,6 @@
         router.push({ name: 'clients' });
     };
     const handleCancel = () => {
-        console.log(contract);
         router.push({ name: 'clients' });
     };
     const getContract = async () => {

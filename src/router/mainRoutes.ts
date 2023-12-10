@@ -14,7 +14,6 @@ const beforeEnter = (to: any, _from: any, next: any) => {
     );
     const isloggedIn = store.isloggedIn;
     if (isloggedIn && requiresAuth) {
-        console.log('entro a al next');
         next();
     } else {
         next({ name: 'login' });

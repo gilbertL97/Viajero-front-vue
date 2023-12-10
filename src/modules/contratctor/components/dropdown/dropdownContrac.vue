@@ -45,9 +45,9 @@
             value: client.id,
             disabled: !client.isActive,
         }));
-        props.activeSelect
-            ? (options.value = options.value.filter((cl) => delete cl.disabled))
-            : console.log('');
+        props.activeSelect &&
+            (options.value = options.value.filter((cl) => delete cl.disabled));
+
         isloading.value = false;
         contractor.label = props.contractor!;
         contractor.value = props.contractorId!;

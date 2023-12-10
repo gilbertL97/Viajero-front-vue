@@ -32,7 +32,6 @@
             label: country.comun_name,
             value: country.iso,
         }));
-        console.log(country.value);
     });
 
     const loading = ref(false);

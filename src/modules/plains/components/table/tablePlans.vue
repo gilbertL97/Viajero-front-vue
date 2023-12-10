@@ -148,7 +148,6 @@
     // };
 
     const onDelete = async (key: number) => {
-        console.log(key);
         try {
             await deletePlans(key);
             //data.value = data.value.filter((item) => item.id !== key);

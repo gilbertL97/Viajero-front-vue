@@ -65,20 +65,19 @@
     const loading = ref(false);
 
     const handleFinishFailed: FormProps['onFinishFailed'] = (errors) => {
-        console.log(errors);
+   
     };
     const login = async (): Promise<void> => {
         loading.value = true;
         try {
             const token = await loginService(form.username, form.password);
-            console.log(token);
+
             if (token) {
                 store.setToken(token.data.access_token);
                 router.push('/home');
             }
             loading.value = false;
         } catch (error: any) {
-            console.log(error);
             errors.value = true;
             if (error.response.status == 401) {
                 message.value = 'ERROR USUARIO NO AUTORIZADO';

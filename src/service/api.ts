@@ -37,9 +37,8 @@ API.interceptors.response.use(
                       statusText: 'Cors Errors , There no status text',
                   },
               };
-        console.log(error.response.status);
+
         if (error.response.status == 401) {
-            console.log(error.response.status);
             router.push({ name: 'login' });
         }
         throw error;

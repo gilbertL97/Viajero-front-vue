@@ -118,7 +118,6 @@
     // };
 
     const onDelete = async (key: number) => {
-        console.log(key);
         await deleteUsers(key);
         //data.value = data.value.filter((item) => item.id !== key);
         refresh();
@@ -165,7 +164,6 @@
         state.loading = true;
         try {
             data.value = (await getUsers()).data;
-            console.log(data.value);
             data.value.sort((a, b) =>
                 a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()
                     ? -1

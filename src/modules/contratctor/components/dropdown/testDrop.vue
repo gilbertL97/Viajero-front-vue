@@ -40,7 +40,6 @@
         }));
         //contractor.value = props.contractorId;
         isloading.value = false;
-        console.log(props);
     });
     const refresh = async () => {
         try {
@@ -51,7 +50,6 @@
         return options.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
     };
     const handleChange: SelectProps['onChange'] = (value) => {
-        console.log(value);
         emit('selected', select.value);
     };
     const emit = defineEmits<{

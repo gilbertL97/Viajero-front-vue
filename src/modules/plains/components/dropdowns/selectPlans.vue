@@ -61,7 +61,6 @@
     };
     const handleChange: SelectProps['onChange'] = () => {
         emit('selected', plain.value);
-        console.log(plain.value);
     };
     const emit = defineEmits<{
         (e: 'selected', contractor: number): void;
