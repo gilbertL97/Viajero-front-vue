@@ -33,7 +33,6 @@
     });
     const loading = ref(false);
     watch([filter], () => {
-        console.log(filter.value);
         dateInvoicing.value = filter?.value;
         getData(filter?.value);
     });
