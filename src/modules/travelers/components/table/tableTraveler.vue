@@ -16,7 +16,7 @@
                 v-if="
                     column.dataIndex === 'action' &&
                     acces('edit-travelers') &&
-                    !props.isOnlyRead
+                    !is_OnlyRead
                 "
             >
                 <a-popconfirm
@@ -90,13 +90,17 @@
     import { DeleteOutlined, EditOutlined, PrinterOutlined } from '@ant-design/icons-vue';
     import dayjs from 'dayjs';
     import { TravelerResponse } from '../../types/type.traveler';
+    import { inject } from 'vue';
     const store = useAuthStore();
     const props = defineProps<{
         data: TravelerResponse[];
         loading: boolean;
         isOnlyRead: boolean;
     }>();
-
+    const is_OnlyRead = ref(false);
+    const current: boolean | undefined = inject('current');
+    (props.isOnlyRead || current) && (is_OnlyRead.value = true); //si esta en solo lectura o es consulta vigente only read se pone en true
+    onMounted(() => {});
     const state = reactive<{
         selectedRowKeys: TravelerResponse[];
         loading: boolean;
