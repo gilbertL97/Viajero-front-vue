@@ -18,7 +18,7 @@
                     </router-link></a-menu-item
                 >
                 <a-menu-item v-if="acces('import')" @click="downloadZipFile()"
-                    >Importación Manual de Archivos
+                    >Ejecución de Importación Automática
                 </a-menu-item>
             </a-sub-menu>
             <a-sub-menu>
@@ -37,9 +37,7 @@
                     </router-link></a-menu-item
                 >
                 <a-menu-item v-if="acces('travelers')">
-                    <router-link :to="{ name: 'travelers' }"
-                        >Gestión de Viajeros</router-link
-                    >
+                    <router-link :to="{ name: 'travelers' }">Viajeros</router-link>
                 </a-menu-item>
                 <a-menu-item v-if="acces('travelers')">
                     <router-link :to="{ name: 'files' }">Archivos</router-link>
@@ -64,7 +62,11 @@
                     </router-link></a-menu-item
                 >
                 <a-menu-item v-if="acces('current')"
-                    ><router-link :to="{ name: 'view-current-travelers' }"
+                    ><router-link
+                        :to="{
+                            name: 'view-current-travelers',
+                            params: { current: 'true' },
+                        }"
                         >Viajeros Vigentes
                     </router-link></a-menu-item
                 >
