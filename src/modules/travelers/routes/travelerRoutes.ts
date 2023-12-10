@@ -94,9 +94,9 @@ const travelersRoutes: RouteRecordRaw[] = [
         },
     },
     {
-        path: '/travelers/view-current-travelers',
+        path: '/travelers/view-current-travelers/:current',
         name: 'view-current-travelers',
-        component: () => import('@/modules/travelers/view/viewCurrentTravelers.vue'),
+        component: () => import('@/modules/travelers/view/travelersTableView.vue'),
         props: true,
         meta: {
             requiresAuth: true,

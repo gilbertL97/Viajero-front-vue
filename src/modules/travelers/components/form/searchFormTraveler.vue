@@ -56,6 +56,7 @@
     import DropdownPlans from '@/modules/plains/components/dropdowns/selectPlans.vue';
     const range_start = ref<Date[]>([]);
     const range_end = ref<Date[]>([]);
+    const current: boolean | undefined = inject('current');
     const search: FilterTravelers = reactive({
         name: undefined,
         sex: undefined,
@@ -69,9 +70,8 @@
         origin_country: undefined,
         nationality: undefined,
         coverage: undefined,
-        state: undefined,
+        state: current,
     });
-    const current: boolean | undefined = inject('current');
     const layout = {
         labelCol: { span: 8 },
         wrapperCol: { span: 22 },

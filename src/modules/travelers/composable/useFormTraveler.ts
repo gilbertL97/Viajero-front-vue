@@ -87,8 +87,7 @@ export default function useFormTraveler(id?: string) {
         return current < dayjs(traveler.start_date).endOf('day');
     };
 
-    const onFinish = (values: any) => {
-
+    const onFinish = () => {
         if (id) {
             try {
                 updateTraveler(traveler);
@@ -103,8 +102,7 @@ export default function useFormTraveler(id?: string) {
     const handleCancel = () => {
         router.push({ name: 'travelers' });
     };
-    const onFinishFailed = (values: any) => {
-    };
+    const onFinishFailed = () => {};
     const asignContract = (value: any) => {
         traveler.contractor = value;
     };

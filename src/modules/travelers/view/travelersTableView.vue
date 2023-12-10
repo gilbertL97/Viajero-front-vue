@@ -1,5 +1,5 @@
 <template>
-    <TableHeaderTraveler :current="false" @filter="filter" />
+    <TableHeaderTraveler @filter="filter" />
     <TableTraveler
         :loading="loading"
         :isOnlyRead="false"
@@ -36,18 +36,21 @@
 
     const props = defineProps<{
         idFile?: string;
+        current?: string;
     }>();
     const router = useRouter();
     const loading = ref(false);
     const totalTravelers = ref(0);
     const data = ref<TravelerResponse[]>([]);
-    provide('current', false);
-    const { searchTravel, eraseSearch } = useTravelersFilters();
+    props.current ? provide('current', true) : provide('current', false);
+    const { searchTravel, eraseSearch } = useTravelersFilters(Boolean(props.current));
     onMounted(async () => {
         eraseSearch();
+        if (!props.current && !props.idFile) await refresh();
+        props.current && (await getDataFiltered(searchTravel));
         if (props.idFile) {
             getfile(+props.idFile);
-        } else await refresh();
+        }
     });
     const refresh = async (pagination?: PaginationDto) => {
         loading.value = true;
@@ -82,17 +85,14 @@
         await getDataFiltered(searchTravel, page);
     };
     const onDelete = async (key: string) => {
-        console.log(key);
         await deleteTravelers(key).finally(refresh);
     };
 
     const editTraveler = (record?: string) => {
-        console.log(record);
         router.push('/travelers/edit-travelers/' + record);
     };
 
     const printPdf = async (record: string) => {
-        console.log(record);
         await getCertTravelers(record).then((response) => {
             if (response.status == 200) {
                 const blob = new Blob([response.data], { type: 'application/pdf' });
@@ -103,7 +103,6 @@
     const getfile = async (file: number) => {
         try {
             data.value = (await getTravelersByFile(file)).data;
-            console.log(data.value);
         } catch (error) {}
     };
 </script>

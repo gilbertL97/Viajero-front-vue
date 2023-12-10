@@ -16,6 +16,7 @@ const searchTravel: FilterTravelers = reactive({
     state: undefined,
 });
 export default function useTravelersFilters(current?: boolean) {
+    current && (searchTravel.state = true); //ver xq no coje con el state en true en la '
     const eraseSearch = () => {
         searchTravel.name = undefined;
         searchTravel.passport = undefined;
