@@ -1,10 +1,5 @@
 <template>
-    <a-form
-        layout="vertical"
-        :model="form"
-        @finish="login"
-        @finishFailed="handleFinishFailed"
-    >
+    <a-form layout="vertical" :model="form" @finish="login">
         <a-form-item>
             <a-input v-model:value="form.username" placeholder="Usuario">
                 <template #prefix
@@ -45,54 +40,56 @@
 </template>
 
 <script lang="ts" setup>
-    import { reactive, UnwrapRef, ref } from 'vue';
-    import { useRouter } from 'vue-router';
-    import type { FormProps } from 'ant-design-vue';
+    import useLogin from '@/modules/auth/composable/useLogin';
     import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
-    import { loginService } from '@/modules/auth/services/auth.service';
-    import { useAuthStore } from '@/modules/auth/store/auth.store';
-    import { UserLogin } from '../../types/authTypes';
-    const store = useAuthStore();
-    const router = useRouter();
-    const errors = ref(false);
-    const message = ref('');
-    const description = ref('');
+    const { form, loading, errors, message, description, login } = useLogin();
 
-    const form: UnwrapRef<UserLogin> = reactive({
-        username: '',
-        password: '',
-    });
-    const loading = ref(false);
+    // import { reactive, UnwrapRef, ref } from 'vue';
+    // import { useRouter } from 'vue-router';
+    // import type { FormProps } from 'ant-design-vue';
+    //
+    // import { loginService } from '@/modules/auth/services/auth.service';
+    // import { useAuthStore } from '@/modules/auth/store/auth.store';
+    // import { UserLogin } from '../../types/authTypes';
+    // const store = useAuthStore();
+    // const router = useRouter();
+    // const errors = ref(false);
+    // const message = ref('');
+    // const description = ref('');
 
-    const handleFinishFailed: FormProps['onFinishFailed'] = (errors) => {
-   
-    };
-    const login = async (): Promise<void> => {
-        loading.value = true;
-        try {
-            const token = await loginService(form.username, form.password);
+    // const form: UnwrapRef<UserLogin> = reactive({
+    //     username: '',
+    //     password: '',
+    // });
+    // const loading = ref(false);
 
-            if (token) {
-                store.setToken(token.data.access_token);
-                router.push('/home');
-            }
-            loading.value = false;
-        } catch (error: any) {
-            errors.value = true;
-            if (error.response.status == 401) {
-                message.value = 'ERROR USUARIO NO AUTORIZADO';
-                description.value =
-                    'Ha introducido incorrectamente el usuario y/o la contraseña';
-            } else {
-                message.value = 'HAY un problema con la API';
-                description.value = 'No se encuentra disponible la API';
-            }
-            setTimeout(() => {
-                errors.value = false;
-            }, 5000);
-        }
-        loading.value = false;
-    };
+    // const handleFinishFailed: FormProps['onFinishFailed'] = (errors) => {};
+    // const login = async (): Promise<void> => {
+    //     loading.value = true;
+    //     try {
+    //         const token = await loginService(form.username, form.password);
+
+    //         if (token) {
+    //             store.setToken(token.data.access_token);
+    //             router.push('/home');
+    //         }
+    //         loading.value = false;
+    //     } catch (error: any) {
+    //         errors.value = true;
+    //         if (error.response.status == 401) {
+    //             message.value = 'ERROR USUARIO NO AUTORIZADO';
+    //             description.value =
+    //                 'Ha introducido incorrectamente el usuario y/o la contraseña';
+    //         } else {
+    //             message.value = 'HAY un problema con la API';
+    //             description.value = 'No se encuentra disponible la API';
+    //         }
+    //         setTimeout(() => {
+    //             errors.value = false;
+    //         }, 5000);
+    //     }
+    //     loading.value = false;
+    // };
 </script>
 
 <style scoped>
