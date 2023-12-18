@@ -21,8 +21,10 @@
 <script setup lang="ts">
     import TableContractorFact from '../components/table/tableContractorFact.vue';
     import DropdownExport from '@/common/components/export/dropdownExport.vue';
-    import { getInvoicing } from '../services/contractor.service';
+
     import { ContractorsAndTotals } from '../types/contractor.types';
+    import useHttpMethods from '@/service/useHttpMethods';
+    const { get } = useHttpMethods();
 
     const dateInvoicing = ref<string>();
     const filter = ref<string>();
@@ -40,10 +42,10 @@
         filter.value = new Date().toISOString();
         getData();
     });
-    const getData = async (date?: string) => {
+    const getData = async (dateInvoicing?: string) => {
         try {
             loading.value = true;
-            data.value = (await getInvoicing(date)).data;
+            data.value = (await get('/contractor/invoicing', { dateInvoicing })).data;
         } catch (error) {}
         loading.value = false;
     };

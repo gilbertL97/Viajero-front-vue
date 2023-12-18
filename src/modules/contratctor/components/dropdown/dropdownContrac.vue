@@ -13,10 +13,10 @@
 </template>
 <script lang="ts" setup>
     import { onMounted, ref, reactive, watch } from 'vue';
-    import { getContractors } from '../../services/contractor.service';
     import { Contractor } from '../../types/contractor.types';
     import type { SelectProps } from 'ant-design-vue';
-
+    import useHttpMethods from '@/service/useHttpMethods';
+    const { get } = useHttpMethods();
     type select = {
         label: string | undefined;
         value: number | number[] | undefined;
@@ -55,7 +55,7 @@
     });
     const refresh = async () => {
         try {
-            data.value = (await getContractors()).data;
+            data.value = (await get('/contractor')).data;
         } catch (error) {}
     };
     const filterOption = (input: string, options: any) => {

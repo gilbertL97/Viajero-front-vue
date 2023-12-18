@@ -20,10 +20,10 @@
     import DropdownExport from '@/common/components/export/dropdownExport.vue';
     import { useRouter } from 'vue-router';
     import manageError from '@/common/composable/manageError';
-
-    import { deleteContractors, getContractors } from '../services/contractor.service';
     import { Contractor } from '../types/contractor.types';
+    import useHttpMethods from '@/service/useHttpMethods';
     const { alertUndelete, alertForbidden } = manageError();
+    const { deleteOne, get } = useHttpMethods();
     const router = useRouter();
 
     const loading = ref(false);
@@ -39,7 +39,7 @@
     };
     const onDelete = async (key: number) => {
         try {
-            await deleteContractors(key);
+            await deleteOne(`/contractor/${key}`);
         } catch (error: any) {
             if (error.response.status == 403) {
                 alertForbidden();
@@ -51,7 +51,7 @@
     const refresh = async () => {
         loading.value = true;
         try {
-            data.value = (await getContractors()).data;
+            data.value = (await get('/contractor')).data;
             data.value.sort((a, b) =>
                 a.client.toLocaleLowerCase() < b.client.toLocaleLowerCase()
                     ? -1
