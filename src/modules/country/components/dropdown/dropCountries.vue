@@ -13,8 +13,9 @@
 <script lang="ts" setup>
     import type { SelectProps } from 'ant-design-vue';
     import { onBeforeMount } from 'vue';
-    import { getCountries } from '../../services/country.services';
     import { Country } from '../../types/country.type';
+    import useHttpMethods from '@/service/useHttpMethods';
+    const { get } = useHttpMethods();
 
     type select = {
         label: string;
@@ -46,7 +47,7 @@
     const refresh = async () => {
         loading.value = true;
         try {
-            data.value = (await getCountries()).data;
+            data.value = (await get('/country')).data;
         } catch (error) {}
         loading.value = false;
     };
