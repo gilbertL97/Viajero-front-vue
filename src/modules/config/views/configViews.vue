@@ -14,9 +14,10 @@
 
 <script setup lang="ts">
     import ConfigTable from '../component/table/configTable.vue';
-    import { editsConfigurations, getConfigurations } from '../services/config.services';
     import { Config } from '../types/config.types';
     import ConfigForm from '../component/form/configForm.vue';
+    import useHttpMethods from '@/service/useHttpMethods';
+    const { patch, get } = useHttpMethods();
     const data = ref<Config[]>([]);
     const loading = ref(false);
     const editableConfig = ref<Config>();
@@ -31,7 +32,7 @@
     const editConfig = async (config: Config) => {
         edit.value = false;
         try {
-            await editsConfigurations(config);
+            await patch(`/config/${config.id}`, config);
         } catch (error) {}
         await refresh();
     };
@@ -41,7 +42,7 @@
     const refresh = async () => {
         loading.value = true;
         try {
-            data.value = (await getConfigurations()).data;
+            data.value = (await get('/config')).data;
         } catch (error) {}
 
         loading.value = false;
