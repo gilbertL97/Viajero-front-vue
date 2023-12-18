@@ -104,17 +104,14 @@
 
 <script setup lang="ts">
     import { reactive, ref, onMounted } from 'vue';
-    import {
-        editContractors,
-        addContractors,
-        getContractor,
-    } from '../../services/contractor.service';
     import { Contractor } from '../../types/contractor.types';
     import { defaultValidateMessages } from '@/common/utils/validationMessages';
     import { useRouter } from 'vue-router';
     import manageError from '@/common/composable/manageError';
+    import useHttpMethods from '@/service/useHttpMethods';
     const router = useRouter();
     const { alertInactive, alertForbidden } = manageError();
+    const { get, patch, post } = useHttpMethods();
 
     const props = defineProps<{ id?: string }>();
     const id = ref(0);
@@ -152,7 +149,7 @@
     };
     const getContract = async () => {
         try {
-            const contractR = (await getContractor(id.value)).data;
+            const contractR = (await get(`/contractor/${id.value}`)).data;
             setContract(contractR);
         } catch (error: any) {
             handleError(error);
@@ -160,7 +157,7 @@
     };
     const editContractor = async () => {
         try {
-            await editContractors(contract);
+            await patch(`/contractor/${id.value}`, contract);
             router.push({ name: 'clients' });
         } catch (error: any) {
             handleError(error);
@@ -168,7 +165,7 @@
     };
     const addContractor = async () => {
         try {
-            await addContractors(contract);
+            await post(`/contractor/`, contract);
         } catch (error: any) {
             handleError(error);
         }
