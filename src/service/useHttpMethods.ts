@@ -2,6 +2,14 @@ import { Payload } from '@/common/types/generic.type';
 import API from './api';
 
 export default function useHttpMethods() {
+    const get = (path: string, query?: any) => {
+        return API.request({
+            method: 'GET',
+            url: path,
+            responseType: 'json',
+            params: query,
+        });
+    };
     const patch = (path: string, payload: Payload) => {
         return API.request({
             method: 'PATCH',
@@ -37,6 +45,7 @@ export default function useHttpMethods() {
         });
     };
     return {
+        get,
         patch,
         post,
         put,
