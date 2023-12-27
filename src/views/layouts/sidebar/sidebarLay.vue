@@ -75,7 +75,7 @@
     </a-layout-sider>
 </template>
 <script lang="ts" setup>
-    import { useAuthStore } from '@/modules/auth/store/auth.store';
+    import { useAuthStore } from '@/modules/auth/store/auth.store.c';
     import {
         SettingOutlined,
         LineChartOutlined,

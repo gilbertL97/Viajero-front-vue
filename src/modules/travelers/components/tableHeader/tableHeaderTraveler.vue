@@ -58,7 +58,7 @@
     import { FilterTravelers } from '../../types/type.traveler';
     import useTravelersFilters from '../../composable/useFilterTravelers';
     import { useRouter } from 'vue-router';
-    import { useAuthStore } from '@/modules/auth/store/auth.store';
+    import { useAuthStore } from '@/modules/auth/store/auth.store.c';
     const router = useRouter();
     const store = useAuthStore();
     const current: boolean | undefined = inject('current');

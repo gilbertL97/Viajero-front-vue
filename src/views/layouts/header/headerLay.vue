@@ -56,7 +56,7 @@
 <script setup lang="ts">
     import FormChangePass from '@/modules/auth/components/form/formChangePass.vue';
     import { ref } from 'vue';
-    import { useAuthStore } from '@/modules/auth/store/auth.store';
+    import { useAuthStore } from '@/modules/auth/store/auth.store.c';
     import { useRouter } from 'vue-router';
     const router = useRouter();
     const store = useAuthStore();

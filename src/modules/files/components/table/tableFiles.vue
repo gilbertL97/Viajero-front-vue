@@ -50,7 +50,7 @@
     import { DeleteOutlined, UsergroupAddOutlined } from '@ant-design/icons-vue';
     import { FileD } from '../../type/file.type';
     import dayjs from 'dayjs';
-    import { useAuthStore } from '@/modules/auth/store/auth.store';
+    import { useAuthStore } from '@/modules/auth/store/auth.store.c';
     const store = useAuthStore();
     defineProps<{
         data: FileD[];

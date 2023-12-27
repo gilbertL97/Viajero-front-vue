@@ -54,7 +54,7 @@
     import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
     import { getUsers, deleteUsers } from '../../services/user.service';
     import { UserRole, rolKeyvalue, UserResponse } from '@/modules/user/types/user.types';
-    import { useAuthStore } from '@/modules/auth/store/auth.store';
+    import { useAuthStore } from '@/modules/auth/store/auth.store.c';
     import { useRouter } from 'vue-router';
     const store = useAuthStore();
     //const selectedRowKey = ref<UserResponse['id'][]>([]);
@@ -123,7 +123,7 @@
         refresh();
     };
     const onDeleteAdmin = async () => {
-        const user1 = store.getUserInfo;
+        const user1 = store.userInfo;
         // para q funcione en los navegadores viejos
         if (user1 != null) {
             if (user1.rol == UserRole.ADMIN)

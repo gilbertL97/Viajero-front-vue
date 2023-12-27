@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router';
-import { useAuthStore } from '@/modules/auth/store/auth.store';
+// import { useAuthStore } from '@/modules/auth/store/auth.store';
 import travelersRoutes from '@/modules/travelers/routes/travelerRoutes';
 import userRoutes from '@/modules/user/routes/userRoutes';
 import plainsRoutes from '@/modules/plains/routes/plainsRoutes';
@@ -7,13 +7,13 @@ import contractorsRoutes from '@/modules/contratctor/routes/contractorRoutes';
 import { UserRole } from '@/helpers/helpers/role.helper';
 import filesRoutes from '@/modules/files/router/file.router';
 import configRoutes from '@/modules/config/routes/config.routes';
-const store = useAuthStore();
+// const store = useAuthStore();
 const beforeEnter = (to: any, _from: any, next: any) => {
     const requiresAuth = to.matched.some(
         (record: { meta: { requiresAuth: any } }) => record.meta.requiresAuth,
     );
-    const isloggedIn = store.isloggedIn;
-    if (isloggedIn && requiresAuth) {
+    // const isloggedIn = store.isloggedIn;
+    if (requiresAuth) {
         next();
     } else {
         next({ name: 'login' });

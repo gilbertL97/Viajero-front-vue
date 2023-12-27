@@ -86,7 +86,7 @@
 </template>
 <script lang="ts" setup>
     //import { computed, ref, onMounted, reactive } from 'vue';
-    import { useAuthStore } from '@/modules/auth/store/auth.store';
+    import { useAuthStore } from '@/modules/auth/store/auth.store.c';
     import { DeleteOutlined, EditOutlined, PrinterOutlined } from '@ant-design/icons-vue';
     import dayjs from 'dayjs';
     import { TravelerResponse } from '../../types/type.traveler';
