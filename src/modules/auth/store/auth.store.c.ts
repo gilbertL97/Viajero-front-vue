@@ -1,58 +1,70 @@
-import { extract_user_data } from '@/common/jwt/util.jwt';
 import { defineStore } from 'pinia';
+import { extract_user_data } from '@/common/jwt/util.jwt';
 import { AccesControl, UserAuth } from '../types/authTypes';
 import accesRole from '@/helpers/helpers/routes.role.json';
+import SimpleCrypto from 'simple-crypto-js';
 
-interface UserState {
-    token?: string | null;
-    userInfo: UserAuth | null;
-    time: Date | null;
-}
-export const useVideoPlayer = defineStore('auth-store', () => {
-    const userState = reactive<UserState>({
-        token: '',
-        userInfo: null,
-        time: null,
+const simpleCrypto = new SimpleCrypto(import.meta.env.VITE_SECRET_SALT as string);
+
+export const useAuthStore = defineStore('app-user', () => {
+    const accesToken = ref<string | null>();
+    const refreshToken = ref<string | null>();
+    const isloggedIn = ref(false);
+    const time = ref(null);
+    const userInfo = reactive<UserAuth>({
+        username: '',
+        id: undefined,
+        rol: '',
+        views: undefined,
     });
-    const getToken = () => {
-        if (userState.token) return userState.token;
-        userState.token = localStorage.getItem('token');
-        assignUserInfo;
-        return userState.token;
+    const getRefresh_token = () => {
+        if (refreshToken.value) return refreshToken.value;
+        const value = localStorage.getItem('refresh_token');
+        refreshToken.value = value && simpleCrypto.decrypt(value).toString();
+        return refreshToken.value;
     };
-    const isloggedIn = (): boolean => {
-        return getToken() ? true : false;
-    };
-    const assignUserInfo = () => {
-        if (!userState.userInfo) {
-            if (userState.token) {
-                setInfo(userState.token);
-            }
-        }
-        return userState.userInfo;
-    };
-    const setInfo = (token: string) => {
-        const { username, id, role, iat } = extract_user_data('user', token);
-        userState.userInfo = {} as UserAuth;
-        userState.userInfo!.id = id;
-        userState.userInfo!.rol = role;
-        userState.userInfo!.username = username;
-        userState.time = iat;
+    const setInfo = ({
+        access_token,
+        refresh_token,
+    }: {
+        access_token: string;
+        refresh_token: string;
+    }) => {
+        accesToken.value = access_token;
+        setRefresh_token(refresh_token);
+        const { username, id, role } = extract_user_data('user', access_token);
+        userInfo.id = id;
+        userInfo.rol = role;
+        userInfo.username = username;
         const rolesAcces = <AccesControl[]>accesRole;
-        const access = rolesAcces.find((roles) => userState.userInfo?.rol == roles.role);
-        userState.userInfo.views = access;
+        const access = rolesAcces.find((roles) => userInfo.rol == roles.role);
+        userInfo.views = access;
     };
-
-    const setToken = (value: string) => {
-        userState.token = value;
-        localStorage.setItem('token', value);
-        setInfo(value);
-        //setToken(token)
+    const setRefresh_token = (value: string) => {
+        refreshToken.value = value;
+        localStorage.setItem('refresh_token', simpleCrypto.encrypt(value));
+        //setacces_token(acces_token)
+    };
+    const canAccess = (view: string): boolean => {
+        const can = userInfo?.views?.acces.some((ac) => ac == view);
+        if (can) return true;
+        return false;
     };
     const logout = () => {
-        userState.token = null;
-        userState.time = null;
-        localStorage.removeItem('token');
+        accesToken.value = null;
+        localStorage.removeItem('refresh_token');
     };
-    return { isloggedIn, setToken, logout };
+
+    return {
+        acces_token: accesToken,
+        refresh_token: refreshToken,
+        userInfo,
+        isloggedIn,
+        time,
+
+        getRefresh_token,
+        setInfo,
+        logout,
+        canAccess,
+    };
 });
