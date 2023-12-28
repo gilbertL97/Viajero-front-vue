@@ -72,7 +72,8 @@
         defaultValidateMessages,
         //repeatMessage,
     } from '@/common/utils/validationMessages';
-    import { editPassword } from '../../../user/services/user.service';
+    import useHttpMethods from '@/service/useHttpMethods';
+    const { patch } = useHttpMethods();
 
     const layout = {
         labelCol: { span: 10 },
@@ -84,7 +85,7 @@
         passwordNew2: '',
     });
     const handleOk = async () => {
-        await editPassword(userPass)
+        await patch('/user/change_password', userPass)
             .then((response) => {
                 if (response.status == 200) {
                     Swal.fire({
