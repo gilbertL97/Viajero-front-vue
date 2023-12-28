@@ -7,7 +7,8 @@ import SimpleCrypto from 'simple-crypto-js';
 const store = createPinia();
 const simpleCrypto = new SimpleCrypto(import.meta.env.VITE_SECRET_SALT as string);
 interface UserState {
-    token?: string | null;
+    acces_token?: string | null;
+    refresh_token?: string | null;
     userInfo: UserAuth | null;
     isloggedIn: boolean;
     time: Date | null;
@@ -15,7 +16,8 @@ interface UserState {
 
 export const authStore = defineStore('app-user', {
     state: (): UserState => ({
-        token: '',
+        acces_token: '',
+        refresh_token: '',
         userInfo: null,
         isloggedIn: false,
         time: null,
@@ -23,10 +25,10 @@ export const authStore = defineStore('app-user', {
     getters: {
         getUserInfo(): UserAuth | null {
             if (!this.userInfo) {
-                if (this.token) {
+                if (this.acces_token) {
                     const { username, id, role, iat } = extract_user_data(
                         'user',
-                        this.token,
+                        this.acces_token,
                     );
                     this.userInfo = {} as UserAuth;
                     this.userInfo!.id = id;
@@ -43,21 +45,25 @@ export const authStore = defineStore('app-user', {
             return this.userInfo;
         },
         getToken(): string | null | undefined {
-            if (this.token) return this.token;
-            const tok = localStorage.getItem('token');
-            this.token = tok ? simpleCrypto.decrypt(tok).toString() : 'No token found';
+            if (this.acces_token) return this.acces_token;
+        },
+        getRefreshToken(): string | null | undefined {
+            if (this.refresh_token) return this.refresh_token;
+            const tok = localStorage.getItem('refresh');
+            this.refresh_token = tok ? simpleCrypto.decrypt(tok).toString() : '';
             this.getUserInfo;
-            return this.token;
+            return this.refresh_token;
         },
         isloggedIn(): boolean {
             return this.getToken ? true : false;
         },
     },
     actions: {
-        setToken(value: string) {
-            this.token = value;
-            localStorage.setItem('token', simpleCrypto.encrypt(value));
-            this.setUserInfo(value);
+        setToken(acces: string, refresh: string) {
+            this.acces_token = acces;
+            this.refresh_token = refresh;
+            localStorage.setItem('refresh', simpleCrypto.encrypt(refresh));
+            this.setUserInfo(acces);
             //setToken(token)
         },
         setUserInfo(token: string) {
@@ -71,13 +77,13 @@ export const authStore = defineStore('app-user', {
             this.userInfo.views = access;
         },
         clearToken() {
-            this.token = null;
+            this.acces_token = null;
             this.time = null;
             localStorage.removeItem('token');
         },
         logout() {
             localStorage.removeItem('token');
-            this.token = '';
+            this.acces_token = '';
         },
         setLogged() {
             if (typeof this.getToken === 'string' && this.getToken != '') {
@@ -85,7 +91,7 @@ export const authStore = defineStore('app-user', {
             }
         },
         resetState() {
-            this.token = '';
+            this.acces_token = '';
             this.userInfo = null;
         },
         canAccess(view: string): boolean {

@@ -6,9 +6,9 @@ export interface UserLogin {
     password: string;
 }
 export interface UserAuth {
-    views: AccesControl | undefined;
+    views?: AccesControl;
     username: string;
-    id: number;
+    id?: number;
     rol: string;
 }
 
