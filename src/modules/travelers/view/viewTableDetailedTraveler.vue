@@ -62,12 +62,15 @@
             : new Date().toISOString();/*/
     });
     onMounted(async () => {
+        await refresh();
+    });
+    const refresh = async () => {
         date.value = new Date().toISOString();
         const { end, init } = DateHelper.convertToRange(date.value);
         filter.start_date_end = end;
         filter.start_date_init = init;
-        getDetailedData(filter);
-    });
+        await getDetailedData(filter);
+    };
     const getSelected = (id: number | number[] | undefined) => {
         filter.idContractors = id as number[];
     };
@@ -88,9 +91,10 @@
     const paginate = async (page: PaginationDto) => {
         await getDetailedData(filter, page);
     };
-    const deleteFilter = () => {
+    const deleteFilter = async () => {
         filter.idContractors = undefined;
         date.value = '';
+        await refresh();
     };
 </script>
 
