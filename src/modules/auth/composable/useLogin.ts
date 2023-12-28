@@ -1,5 +1,5 @@
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '../store/auth.store';
+import { useAuthStore } from '../store/auth.store.c';
 import { UserLogin } from '../types/authTypes';
 import useHttpMethods from '@/service/useHttpMethods';
 import { getError } from '@/common/helper/errorHandler';
@@ -17,16 +17,16 @@ export default function useLogin() {
         password: '',
     });
     const loading = ref(false);
-
+    const { setInfo } = store;
     const login = async (): Promise<void> => {
         loading.value = true;
         try {
             const { username, password } = form;
-            const token = (await post('/auth/login', { username, password })).data;
+            const data = (await post('/auth/login', { username, password })).data;
 
-            if (token) {
-                store.setToken(token.access_token);
-                router.push('/home');
+            if (data) {
+                setInfo(data); //cambie para el refresh
+                router.push('/hom');
             }
             loading.value = false;
         } catch (error: any) {
