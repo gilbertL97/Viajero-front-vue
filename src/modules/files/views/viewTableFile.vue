@@ -28,7 +28,7 @@
         width="50%"
         @ok="delet"
     >
-        <TableCurrentTravelers :loading="loading" :data="travlers"
+        <TableTravelers :loading="loading" :data="travlers" :is-only-read="true"
     /></a-modal>
 </template>
 
@@ -45,7 +45,7 @@
     import { useRouter } from 'vue-router';
     import { getTravelersByFile } from '@/modules/travelers/services/traveler.service';
     import { TravelerResponse } from '@/modules/travelers/types/type.traveler';
-    import TableCurrentTravelers from '@/modules/travelers/components/table/tableCurrentTravelers.vue';
+    import TableTravelers from '@/modules/travelers/components/table/tableTraveler.vue';
     import PaginationTable from '@/common/components/pagination/paginationTable.vue';
     import { PaginationDto } from '@/common/types/pagination.type';
     import useFileFilter from '../composable/useFileFilter';
