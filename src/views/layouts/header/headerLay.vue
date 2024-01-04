@@ -56,16 +56,19 @@
 <script setup lang="ts">
     import FormChangePass from '@/modules/auth/components/form/formChangePass.vue';
     import { ref } from 'vue';
-    import { useAuthStore } from '@/modules/auth/store/auth.store.c';
+    import useRefreshTokenService from '@/modules/auth/composable/useRefreshTokenService';
     import { useRouter } from 'vue-router';
+    import useHttpMethods from '@/service/useHttpMethods';
     const router = useRouter();
-    const store = useAuthStore();
+    const { cancelInterceptor } = useHttpMethods();
+    const { logout2 } = useRefreshTokenService();
     const visible = ref(false);
     const setVisible = (set: boolean) => {
         visible.value = set;
     };
-    const logout = () => {
-        store.logout;
+    const logout = async () => {
+        await logout2();
+        //cancelInterceptor();
         router.push({ name: 'login' });
     };
 </script>

@@ -39,6 +39,7 @@ export const useAuthStore = defineStore('app-user', () => {
         const rolesAcces = <AccesControl[]>accesRole;
         const access = rolesAcces.find((roles) => userInfo.rol == roles.role);
         userInfo.views = access;
+        isloggedIn.value = true;
     };
     const setRefresh_token = (value: string) => {
         refreshToken.value = value;
@@ -53,6 +54,7 @@ export const useAuthStore = defineStore('app-user', () => {
     const logout = () => {
         accesToken.value = null;
         localStorage.removeItem('refresh_token');
+        isloggedIn.value = false;
     };
 
     return {

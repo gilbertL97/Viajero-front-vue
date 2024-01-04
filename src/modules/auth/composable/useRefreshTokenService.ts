@@ -5,19 +5,29 @@ const { post } = useHttpMethods();
 
 export default function useRefreshTokenService() {
     const postRfresh = async () => {
-        const token = await getRefresh_token();
+        const token = getRefresh_token();
+        console.log(token);
         if (token) {
-            console.log('llego aquie , este es ek tokem', token);
             try {
                 const data = (await post('/auth/refresh', { refresh_token: token })).data;
                 setInfo(data);
+                return data;
             } catch (error) {
                 throw error;
             }
-        } else logout();
+        }
     };
-
+    const logout2 = async () => {
+        try {
+            const token = getRefresh_token();
+            const status = (await post('/auth/logout', { refresh_token: token })).status;
+            if (status == 201) {
+                logout();
+            }
+        } catch (error) {}
+    };
     return {
+        logout2,
         postRfresh,
     };
 }
