@@ -3,7 +3,6 @@ export default function useZipFile() {
     const downloadZipFile = async () => {
         await autoImportFiles().then((response) => {
             if (response.status == 201) {
-                console.log(response.data);
                 const blob = new Blob([response.data], {
                     type: 'application/zip',
                 });

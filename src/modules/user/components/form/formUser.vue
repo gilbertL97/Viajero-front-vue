@@ -5,7 +5,6 @@
             :validate-messages="defaultValidateMessages"
             v-bind="layout"
             @finish="handleOk"
-            @finishFailed="onFinishFailed"
         >
             <a-form-item
                 has-feedback
@@ -192,12 +191,9 @@
         user.password = password;
         window.alert('la contraseña momentania sera esta ' + password);
     };*/
-    const onFinishFailed = (values: any) => {
-    };
     const charge = async () => {
         if (props.id) {
             const userR = (await getUser(id.value)).data;
-            console.log(userR);
             initializateUser(userR);
         }
     };

@@ -71,7 +71,6 @@ export default function useHttpMethods() {
         async (error: AxiosError) => {
             const originalConfig: AxiosRequestConfigRetry = error.config;
             if (error.response && originalConfig.url !== '/auth/login') {
-                console.log(originalConfig._retry);
                 if (error.response.status == 401 && !originalConfig._retry) {
                     originalConfig._retry = true;
                     try {

@@ -5,7 +5,6 @@
             v-bind="layout"
             :validate-messages="defaultValidateMessages"
             @finish="handleOk"
-            @finishFailed="onFinishFailed"
         >
             <a-form-item
                 has-feedback
@@ -169,9 +168,6 @@
         } catch (error: any) {
             handleError(error);
         }
-    };
-    const onFinishFailed = (values: any) => {
-        console.log('tiht', values);
     };
     const setContract = (contractR: Contractor) => {
         contract.id = contractR.id;

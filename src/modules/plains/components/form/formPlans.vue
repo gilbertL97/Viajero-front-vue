@@ -5,7 +5,6 @@
             v-bind="layout"
             :validate-messages="defaultValidateMessages"
             @finish="handleOk"
-            @finishFailed="onFinishFailed"
         >
             <a-form-item
                 has-feedback
@@ -147,7 +146,6 @@
         router.push('/plains');
     };
     const handleCancel = () => {
-
         router.push('/plains');
     };
     const getPlan = async () => {
@@ -172,9 +170,7 @@
             handleError(error);
         }
     };
-    const onFinishFailed = (values: any) => {
-        console.log('tiht', values);
-    };
+
     const handleError = (error: any) => {
         if (error.response.status == 403) {
             alertForbidden();
