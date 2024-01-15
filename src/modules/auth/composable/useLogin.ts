@@ -3,12 +3,9 @@ import { useAuthStore } from '../store/auth.store.c';
 import { UserLogin } from '../types/authTypes';
 import useHttpMethods from '@/service/useHttpMethods';
 import { getError } from '@/common/helper/errorHandler';
-import useRefreshTokenService from './useRefreshTokenService';
-import { storeToRefs } from 'pinia';
 
 export default function useLogin() {
     const { post } = useHttpMethods();
-    const { postRfresh } = useRefreshTokenService();
     const store = useAuthStore();
     const router = useRouter();
     const errors = ref(false);
@@ -19,16 +16,21 @@ export default function useLogin() {
         password: '',
     });
     const loading = ref(false);
-    const { setInfo } = store;
-    const { isloggedIn } = storeToRefs(store);
+    const { setInfo, getRefresh_token } = store;
 
     onMounted(async () => {
-        loading.value = true;
-        await postRfresh();
-        loading.value = false;
-        console.log(isloggedIn.value);
-        if (isloggedIn.value) router.push('/hom');
+        if (getRefresh_token()) router.push('/hom');
     });
+    const handleError = (error: any) => {
+        errors.value = true;
+        const { title, desc } = getError(error);
+        message.value = title;
+        description.value = desc;
+
+        setTimeout(() => {
+            errors.value = false;
+        }, 5000);
+    };
     const login = async (): Promise<void> => {
         loading.value = true;
         try {
@@ -41,14 +43,7 @@ export default function useLogin() {
             }
             loading.value = false;
         } catch (error: any) {
-            errors.value = true;
-            const { title, desc } = getError(error);
-            message.value = title;
-            description.value = desc;
-
-            setTimeout(() => {
-                errors.value = false;
-            }, 5000);
+            handleError(error);
         } finally {
             loading.value = false;
         }
