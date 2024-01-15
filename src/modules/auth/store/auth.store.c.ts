@@ -53,6 +53,7 @@ export const useAuthStore = defineStore('app-user', () => {
     };
     const logout = () => {
         accesToken.value = null;
+        refreshToken.value = null;
         localStorage.removeItem('refresh_token');
         isloggedIn.value = false;
     };
