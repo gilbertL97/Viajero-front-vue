@@ -1,4 +1,5 @@
 export const getError = (error: any) => {
+    console.log(error);
     let title = '';
     let desc = '';
     if (!error.response) {
