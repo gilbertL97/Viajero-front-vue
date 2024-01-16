@@ -58,9 +58,7 @@
     import { ref } from 'vue';
     import useRefreshTokenService from '@/modules/auth/composable/useRefreshTokenService';
     import { useRouter } from 'vue-router';
-    import useHttpMethods from '@/service/useHttpMethods';
     const router = useRouter();
-    const { cancelInterceptor } = useHttpMethods();
     const { logout2 } = useRefreshTokenService();
     const visible = ref(false);
     const setVisible = (set: boolean) => {
