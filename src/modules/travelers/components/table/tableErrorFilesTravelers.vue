@@ -1,11 +1,22 @@
 <template>
     <a-table
         :columns="columns"
-        size="small"
         :data-source="data"
         :loading="loading"
-        :scroll="{ x: 1300, y: 180 }"
-    />
+        :scroll="{
+            x: 2000,
+            y: 300,
+        }"
+        ><template #bodyCell="{ column, record }">
+            <template v-if="column.dataIndex === 'duplicate'">
+                <span>
+                    <a-tag :color="record.duplicate && 'red'">
+                        {{ record.duplicate && 'duplicado' }}
+                    </a-tag>
+                </span>
+            </template>
+        </template>
+    </a-table>
 </template>
 <script setup lang="ts">
     import type { TableColumnsType } from 'ant-design-vue';

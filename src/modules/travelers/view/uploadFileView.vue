@@ -21,7 +21,6 @@
     import TableGenericErrorsTravelers from '../components/table/tableErrorFilesTravelers.vue';
     import { FileErrorsDto, FilterTravelers } from '../types/type.traveler';
     import manageError from '@/common/composable/manageError';
-    import { ColumnType } from 'ant-design-vue/lib/table';
     import { useRouter } from 'vue-router';
     const router = useRouter();
     const { warningTraveler, errorWrongTraveler, sucessTraveler, genericError } =
@@ -37,7 +36,8 @@
             dataIndex: 'name',
             fixed: 'left',
         },
-        { title: 'Sexo', dataIndex: 'sex', width: 50 },
+        { title: 'Duplicado', dataIndex: 'duplicate' },
+        { title: 'Sexo', dataIndex: 'sex', width: 80 },
         { title: 'fecha de Nacimiento', dataIndex: 'born_date' },
         { title: 'Pasaporte', dataIndex: 'passport' },
         { title: 'Pais Origen', dataIndex: 'origin_country' },
@@ -51,22 +51,13 @@
         { title: 'Monto de dias Alto Riesgo', dataIndex: 'amount_days_high_risk' },
         { title: 'Monto de dias Cubiertos', dataIndex: 'amount_days_covered' },
         { title: 'Monto Total', dataIndex: 'total_amount' },
-        { title: 'Fila', width: 50, dataIndex: 'row', fixed: 'right', key: 'row' },
+        { title: 'Fila', width: 80, dataIndex: 'row', fixed: 'right', key: 'row' },
     ]);
     const asignContract = (value: any) => {
         contractor.value = value;
     };
 
     const error400 = (dataResp: FileErrorsDto[]) => {
-        if (!findRow()) {
-            const row: ColumnType<any> = {
-                title: 'Duplicado',
-                dataIndex: 'sex',
-                width: 50,
-            };
-            columns.value.push(row);
-        }
-
         showTable.value = true;
 
         data.value = dataResp;
@@ -98,9 +89,6 @@
                 router.push({ name: 'travelers' });
                 break;
         }
-    };
-    const findRow = () => {
-        return columns.value[columns.value.length - 1].key == 'row';
     };
 </script>
 

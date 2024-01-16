@@ -66,6 +66,7 @@
             })
             .then(async (response) => {
                 if (response) {
+                    console.log(response);
                     visible.value = true;
                 }
             });
