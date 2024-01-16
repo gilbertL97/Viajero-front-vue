@@ -3,14 +3,14 @@ import API from './api';
 import { useAuthStore } from '@/modules/auth/store/auth.store.c';
 import refreshTokens from '@/modules/auth/composable/useRefreshTokenService';
 import { AxiosError, AxiosRequestConfig } from 'axios';
-import { useRouter } from 'vue-router';
+// import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
 type AxiosRequestConfigRetry = AxiosRequestConfig & { _retry?: boolean }; //?extiendo la clase para agregarle una propiedad para saber si se reintento
 export default function useHttpMethods() {
-    const { logout } = useAuthStore();
+    // const { logout } = useAuthStore();
     const { acces_token } = storeToRefs(useAuthStore());
-    const router = useRouter();
+    // const router = useRouter();
     const { postRfresh } = refreshTokens();
     const get = (path: string, query?: any) => {
         return API.request({
@@ -29,13 +29,15 @@ export default function useHttpMethods() {
         });
     };
 
-    const post = (path: string, payload?: Payload) => {
-        return API.request({
+    const post = async (path: string, payload?: Payload) => {
+        return await API.request({
             method: 'POST',
             url: path,
             responseType: 'json',
             data: payload,
         });
+
+        // Devuelve la respuesta en caso de éxito
     };
 
     const put = (path: string, payload: Payload) => {
@@ -54,10 +56,10 @@ export default function useHttpMethods() {
             responseType: 'json',
         });
     };
-    const redirectLogin = () => {
-        logout();
-        router.push({ name: 'login' });
-    };
+    // const redirectLogin = () => {
+    //     logout();
+    //     router.push({ name: 'login' });
+    // };
     API.interceptors.request.use((config) => {
         if (acces_token.value) {
             config.headers!.Authorization = `Bearer ${acces_token.value}`;
@@ -71,16 +73,15 @@ export default function useHttpMethods() {
         async (error: AxiosError) => {
             const originalConfig: AxiosRequestConfigRetry = error.config;
             //que no me vuelva hcer una peticion a ningun endpoin t de auth
-            if (error.response && originalConfig.url?.includes('/auth/')) {
+            if (error.response && !originalConfig.url?.includes('/auth/')) {
                 if (error.response.status == 401 && !originalConfig._retry) {
                     originalConfig._retry = true;
-                    try {
-                        await postRfresh();
-                        return API(originalConfig);
-                    } catch (error) {}
+                    await postRfresh().catch();
+                    return API(originalConfig);
                 }
-                redirectLogin();
+                // redirectLogin();
             }
+            throw error;
         },
     );
 
