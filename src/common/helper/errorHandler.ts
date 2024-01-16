@@ -1,5 +1,4 @@
-export const getError = (error: any) => {
-    console.log(error);
+export const getErrorLogin = (error: any) => {
     let title = '';
     let desc = '';
     if (!error.response) {
