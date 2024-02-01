@@ -8,7 +8,7 @@ import { storeToRefs } from 'pinia';
 
 type AxiosRequestConfigRetry = AxiosRequestConfig & { _retry?: boolean }; //?extiendo la clase para agregarle una propiedad para saber si se reintento
 export default function useHttpMethods() {
-    // const { logout } = useAuthStore();
+    const { logout } = useAuthStore();
     const { acces_token } = storeToRefs(useAuthStore());
     // const router = useRouter();
     const { postRfresh } = refreshTokens();
@@ -72,11 +72,12 @@ export default function useHttpMethods() {
         },
         async (error: AxiosError) => {
             const originalConfig: AxiosRequestConfigRetry = error.config;
+            console.log(originalConfig.url?.includes('/auth/'));
             //que no me vuelva hcer una peticion a ningun endpoin t de auth
             if (error.response && !originalConfig.url?.includes('/auth/')) {
                 if (error.response.status == 401 && !originalConfig._retry) {
                     originalConfig._retry = true;
-                    await postRfresh().catch();
+                    await postRfresh().catch(() => logout());
                     return API(originalConfig);
                 }
                 // redirectLogin();

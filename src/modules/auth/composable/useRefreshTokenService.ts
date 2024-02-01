@@ -20,11 +20,12 @@ export default function useRefreshTokenService() {
         try {
             const token = getRefresh_token();
             const status = (await post('/auth/logout', { refresh_token: token })).status;
-            console.log(status);
             if (status == 201) {
                 logout();
             }
-        } catch (error) {}
+        } catch (error) {
+            throw error;
+        }
     };
     return {
         logout2,
