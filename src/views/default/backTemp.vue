@@ -16,8 +16,7 @@
         if (!token) await logoutHome();
     });
     const logoutHome = async () => {
-        await logout2().catch((err) => {
-            if (err.status == 403) console.log(err);
+        await logout2().catch(() => {
             logout();
         });
         //cancelInterceptor();
