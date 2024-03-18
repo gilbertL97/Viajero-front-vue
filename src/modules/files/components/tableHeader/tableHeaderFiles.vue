@@ -12,6 +12,7 @@
             size="small"
             v-model:value="dateFilter"
             value-format="YYYY-MM-DD"
+            format="DD/MM/YYYY"
         />
         <a-divider type="vertical" />
         <a-button type="primary" @click="deleteFilter"
