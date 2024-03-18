@@ -165,12 +165,12 @@
         },
 
         {
-            title: 'Monto Alto Riesgo',
+            title: 'Importe Alto Riesgo',
             dataIndex: 'amount_days_high_risk',
             width: 100,
         },
         {
-            title: 'Monto Dias Cubiertos',
+            title: 'Importe Dias Cubiertos',
             dataIndex: 'amount_days_covered',
             width: 100,
         },

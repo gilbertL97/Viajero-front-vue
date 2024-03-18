@@ -62,7 +62,7 @@
         labels: [],
         datasets: [
             {
-                label: 'Monto Total',
+                label: 'Importe Total',
                 data: [],
                 type: 'bar',
                 backgroundColor: 'rgb(8, 143, 143)',

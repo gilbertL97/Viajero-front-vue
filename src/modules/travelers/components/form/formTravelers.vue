@@ -152,18 +152,18 @@
                 :value="traveler.number_days"
             />
             <a-statistic
-                title="Monto Dias Cubiertos"
+                title="Importe Dias Cubiertos"
                 :precision="2"
                 :value="traveler.amount_days_covered"
             />
             <a-statistic
-                title="Monto Actividad Alto Riesgo"
+                title="Importe Actividad Alto Riesgo"
                 :precision="2"
                 :value="traveler.amount_days_high_risk"
             />
 
             <a-statistic
-                title="Monto Total"
+                title="Importe Total"
                 :precision="2"
                 :value="traveler.total_amount"
             />
