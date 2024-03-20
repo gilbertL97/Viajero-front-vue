@@ -203,27 +203,27 @@
         </a-col>
         <a-col :flex="4">
             <div class="price-traveler">
-                <h3>Campos Calculados</h3>
+                <h3 style="padding-top: 10px">Campos Calculados</h3>
                 <a-statistic
-                    title="Cantidad de Dias Cubiertos"
+                    title="Número de Dias Cubiertos :"
                     :value="traveler.number_days"
                 />
                 <a-statistic
-                    title="Importe Dias Cubiertos"
+                    title="Importe Dias Cubiertos :"
                     :precision="2"
                     :value="traveler.amount_days_covered"
                 >
                     <template #prefix> $ </template></a-statistic
                 >
                 <a-statistic
-                    title="Importe Actividad Alto Riesgo"
+                    title="Importe Actividad Alto Riesgo :"
                     :precision="2"
                     :value="traveler.amount_days_high_risk"
                 >
                     <template #prefix> $ </template></a-statistic
                 >
                 <a-statistic
-                    title="Importe Total"
+                    title="Importe Total :"
                     :precision="2"
                     :value="traveler.total_amount"
                 >
@@ -288,6 +288,7 @@
     }
     .price-traveler {
         margin-left: 2rem;
+        margin-right: 3rem;
     }
     .submit-buttons {
         display: flex;
