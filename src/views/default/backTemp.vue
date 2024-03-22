@@ -25,9 +25,6 @@
 </script>
 <style scoped>
     .imagen {
-        background: url(../images/icon-cart.png) no-repeat;
-    }
-    .imagen {
         width: 96%;
         margin: 0 auto;
     }
