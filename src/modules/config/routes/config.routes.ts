@@ -7,6 +7,7 @@ const configRoutes: RouteRecordRaw[] = [
         name: 'config',
         component: () => import('@/modules/config/views/configViews.vue'),
         meta: {
+            breadcrumbName: 'Configuración',
             requiresAuth: true,
             role: [UserRole.ADMIN, UserRole.COMAGENT],
         },

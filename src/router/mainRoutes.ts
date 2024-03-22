@@ -26,6 +26,7 @@ const mainRoutes: RouteRecordRaw[] = [
         component: () => import('@/views/home/indexHome.vue'),
         meta: {
             requiresAuth: true,
+            breadcrumbName: 'Inicio',
             role: [
                 UserRole.ADMIN,
                 UserRole.CLIENT,
@@ -41,6 +42,7 @@ const mainRoutes: RouteRecordRaw[] = [
                 name: 'users',
                 component: () => import('@/modules/user/components/table/tableUser.vue'),
                 meta: {
+                    breadcrumbName: 'Usuarios',
                     requiresAuth: true,
                     role: [UserRole.ADMIN],
                 },
@@ -51,6 +53,7 @@ const mainRoutes: RouteRecordRaw[] = [
                 component: () =>
                     import('@/modules/plains/components/table/tablePlans.vue'),
                 meta: {
+                    breadcrumbName: 'Planes',
                     requiresAuth: true,
                     role: [UserRole.ADMIN, UserRole.CLIENT, UserRole.MARKAGENT],
                 },
@@ -68,8 +71,10 @@ const mainRoutes: RouteRecordRaw[] = [
             {
                 path: '/home',
                 name: 'home',
+
                 component: () => import('@/views/default/backTemp.vue'),
                 meta: {
+                    breadcrumbName: 'Inicio',
                     requiresAuth: true,
                     role: [
                         UserRole.ADMIN,

@@ -7,6 +7,7 @@ const userRoutes: RouteRecordRaw[] = [
         name: 'create-user',
         component: () => import('@/modules/user/views/createOrEditUser.vue'),
         meta: {
+            breadcrumbName: 'Añadir Usuario',
             requiresAuth: true,
             role: [UserRole.ADMIN],
         },
@@ -17,6 +18,7 @@ const userRoutes: RouteRecordRaw[] = [
         component: () => import('@/modules/user/views/createOrEditUser.vue'),
         props: true,
         meta: {
+            breadcrumbName: 'Editar Usuario',
             requiresAuth: true,
             role: [UserRole.ADMIN],
         },

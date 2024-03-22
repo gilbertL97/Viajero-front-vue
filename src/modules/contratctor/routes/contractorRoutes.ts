@@ -8,6 +8,7 @@ const contractorsRoutes: RouteRecordRaw[] = [
         component: () =>
             import('@/modules/contratctor/views/createOrEditContractors.vue'),
         meta: {
+            breadcrumbName: 'Agregar Clientes',
             requiresAuth: true,
             role: [UserRole.ADMIN, UserRole.COMAGENT],
         },
@@ -19,6 +20,7 @@ const contractorsRoutes: RouteRecordRaw[] = [
             import('@/modules/contratctor/views/createOrEditContractors.vue'),
         props: true,
         meta: {
+            breadcrumbName: 'Editar Clientes',
             requiresAuth: true,
             role: [UserRole.ADMIN, UserRole.COMAGENT],
         },
@@ -28,6 +30,7 @@ const contractorsRoutes: RouteRecordRaw[] = [
         name: 'invoicing',
         component: () => import('@/modules/contratctor/views/viewTableFactView.vue'),
         meta: {
+            breadcrumbName: 'Facturación Mensual',
             requiresAuth: true,
             role: [UserRole.ADMIN, UserRole.COMAGENT],
         },
@@ -37,6 +40,7 @@ const contractorsRoutes: RouteRecordRaw[] = [
         name: 'clients',
         component: () => import('@/modules/contratctor/views/viewContractorTable.vue'),
         meta: {
+            breadcrumbName: 'Clientes',
             requiresAuth: true,
             role: [UserRole.ADMIN, UserRole.MARKAGENT],
         },
