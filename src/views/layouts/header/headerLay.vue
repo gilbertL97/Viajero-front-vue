@@ -22,12 +22,16 @@
         </div>
         <div class="breadc">
             <a-breadcrumb class="breadcrumb">
+                <template #separator
+                    ><span v-if="name != 'home'" style="color: white">/</span></template
+                >
                 <a-breadcrumb-item v-for="(item, index) in breadList" :key="item.name">
                     <router-link
                         v-if="item.name !== name && index !== 1"
                         :to="{ path: item.path === '' ? '/' : item.path }"
                         >{{ item.meta.breadcrumbName }}</router-link
                     >
+                    <span v-else-if="item.meta.breadcrumbName == 'Inicio'"></span>
                     <span v-else>{{ item.meta.breadcrumbName }}</span>
                 </a-breadcrumb-item>
             </a-breadcrumb>
@@ -94,27 +98,33 @@
         route.matched.forEach((item) => {
             breadList.value.push(item);
         });
-        console.log(...route.matched);
+        console.log(name.value);
     };
 
     watch(() => route, getBreadcrumb, { immediate: true });
 </script>
 
-<style scoped>
-  .ant-breadcrumb {
-        color: red;
+<style>
+    .ant-breadcrumb a {
+        color: gainsboro;
+        transition: color 0.3s;
+        font-size: larger;
     }
     .ant-breadcrumb > span:last-child {
-        color: yellow;
+        color: white;
+        font-size: larger;
     }
-  
+</style>
+
+<style scoped>
     .ant-layout-header {
         margin-bottom: 15px;
         padding-bottom: 6px;
         background: #1b1462;
         height: 5rem;
         display: flex;
-
+        color: gainsboro;
+        font-size: larger;
         align-items: center;
     }
     .sello {
@@ -123,5 +133,8 @@
     .profile {
         margin-left: auto;
         border-radius: 50%;
+    }
+    .breadc {
+        margin: auto;
     }
 </style>
