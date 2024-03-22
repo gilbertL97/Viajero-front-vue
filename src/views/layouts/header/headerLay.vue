@@ -20,6 +20,18 @@
                 />
             </router-link>
         </div>
+        <div class="breadc">
+            <a-breadcrumb class="breadcrumb">
+                <a-breadcrumb-item v-for="(item, index) in breadList" :key="item.name">
+                    <router-link
+                        v-if="item.name !== name && index !== 1"
+                        :to="{ path: item.path === '' ? '/' : item.path }"
+                        >{{ item.meta.breadcrumbName }}</router-link
+                    >
+                    <span v-else>{{ item.meta.breadcrumbName }}</span>
+                </a-breadcrumb-item>
+            </a-breadcrumb>
+        </div>
         <div class="profile">
             <a-dropdown placement="topLeft">
                 <a class="ant-dropdown-link" @click.prevent>
@@ -57,10 +69,15 @@
     import FormChangePass from '@/modules/auth/components/form/formChangePass.vue';
     import { ref } from 'vue';
     import useRefreshTokenService from '@/modules/auth/composable/useRefreshTokenService';
-    import { useRouter } from 'vue-router';
+    import { RouteLocationMatched, useRouter } from 'vue-router';
+    import { useRoute } from 'vue-router';
+
+    const route = useRoute();
     const router = useRouter();
     const { logout2 } = useRefreshTokenService();
     const visible = ref(false);
+    const name = ref<string>();
+    const breadList = ref<RouteLocationMatched[]>([]);
     const setVisible = (set: boolean) => {
         visible.value = set;
     };
@@ -69,9 +86,27 @@
         //cancelInterceptor();
         router.push({ name: 'login' });
     };
+
+    const getBreadcrumb = () => {
+        breadList.value = [];
+        name.value = route.name?.toString();
+        route.matched.forEach((item) => {
+            breadList.value.push(item);
+        });
+        console.log(...route.matched);
+    };
+
+    watch(() => route, getBreadcrumb, { immediate: true });
 </script>
 
 <style scoped>
+  .ant-breadcrumb {
+        color: red;
+    }
+    .ant-breadcrumb > span:last-child {
+        color: yellow;
+    }
+  
     .ant-layout-header {
         margin-bottom: 15px;
         padding-bottom: 6px;
@@ -83,8 +118,6 @@
     }
     .sello {
         margin-top: 0%;
-    }
-    .logo {
     }
     .profile {
         margin-left: auto;
