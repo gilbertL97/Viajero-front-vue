@@ -55,6 +55,15 @@
             <template v-if="column.dataIndex === 'coverage'"
                 >{{ record.coverage.name }}
             </template>
+            <template v-if="column.dataIndex === 'amount_days_high_risk'"
+                >{{ `$${parseFloat(record.amount_days_high_risk).toFixed(2)}` }}
+            </template>
+            <template v-if="column.dataIndex === 'amount_days_covered'"
+                >{{ `$${parseFloat(record.amount_days_covered).toFixed(2)}` }}
+            </template>
+            <template v-if="column.dataIndex === 'total_amount'"
+                >{{ `$${parseFloat(record.total_amount).toFixed(2)}` }}
+            </template>
             <template v-if="column.dataIndex === 'contractor'"
                 >{{ record.contractor.client }}
             </template>
