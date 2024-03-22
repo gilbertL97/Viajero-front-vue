@@ -9,7 +9,6 @@ export default function useRefreshTokenService() {
         if (token) {
             try {
                 const data = (await post('/auth/refresh', { refresh_token: token })).data;
-                console.log(data);
                 setInfo(data);
                 return data;
             } catch (error) {

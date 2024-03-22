@@ -82,9 +82,10 @@
         visible.value = set;
     };
     const logout = async () => {
-        await logout2();
+        await logout2()
+            .catch()
+            .finally(() => router.push({ name: 'login' }));
         //cancelInterceptor();
-        router.push({ name: 'login' });
     };
 
     const getBreadcrumb = () => {
