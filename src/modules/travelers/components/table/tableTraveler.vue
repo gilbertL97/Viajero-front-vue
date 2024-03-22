@@ -2,7 +2,7 @@
     <a-table
         :data-source="props.data"
         :columns="columns"
-        size="small"
+        size="middle"
         :loading="props.loading"
         :scroll="{ y: 400, x: 1200 }"
         :pagination="false"
@@ -113,7 +113,7 @@
         {
             title: 'Nombre',
             dataIndex: 'name',
-            width: 150,
+            width: 200,
             fixed: 'left',
         },
         {
@@ -237,7 +237,15 @@
         return store.canAccess(view);
     };
 </script>
-<style lscoped>
+<style>
+    .ant-table.ant-table-middle .ant-table-title,
+    .ant-table.ant-table-middle .ant-table-footer,
+    .ant-table.ant-table-middle .ant-table-thead > tr > th,
+    .ant-table.ant-table-middle .ant-table-tbody > tr > td,
+    .ant-table.ant-table-middle tfoot > tr > th,
+    .ant-table.ant-table-middle tfoot > tr > td {
+        padding: 2px 8px;
+    }
     #button {
         background-color: #2dc13dcf;
         color: whites !important;
