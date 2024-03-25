@@ -98,7 +98,6 @@
         route.matched.forEach((item) => {
             breadList.value.push(item);
         });
-        console.log(name.value);
     };
 
     watch(() => route, getBreadcrumb, { immediate: true });
@@ -106,13 +105,13 @@
 
 <style>
     .ant-breadcrumb a {
-        color: gainsboro;
         transition: color 0.3s;
-        font-size: larger;
     }
-    .ant-breadcrumb > span:last-child {
+
+    .ant-breadcrumb > span:last-child,
+    .ant-breadcrumb a {
         color: white;
-        font-size: larger;
+        font-size: 18px;
     }
 </style>
 
@@ -135,6 +134,7 @@
         border-radius: 50%;
     }
     .breadc {
-        margin: auto;
+        padding-top: 2%;
+        margin-left: auto;
     }
 </style>
