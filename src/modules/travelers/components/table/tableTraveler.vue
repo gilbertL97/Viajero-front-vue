@@ -70,6 +70,9 @@
             <template v-if="column.dataIndex === 'start_date'">
                 <h4>{{ dayjs(record.start_date).format('DD/MM/YYYY') }}</h4>
             </template>
+            <template v-if="column.dataIndex === 'born_date' && record.born_date">
+                <h4>{{ dayjs(record.born_date).format('DD/MM/YYYY') }}</h4>
+            </template>
             <template v-if="column.dataIndex === 'sale_date' && record.sale_date">
                 <h4>{{ dayjs(record.sale_date).format('DD/MM/YYYY') }}</h4>
             </template>
@@ -128,7 +131,7 @@
         {
             title: 'Pasaporte',
             dataIndex: 'passport',
-            width: 150,
+            width: 200,
         },
         {
             title: 'Sexo',
