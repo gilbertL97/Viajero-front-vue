@@ -77,7 +77,7 @@
                 warnings(response.response as FileErrorsDto[]);
                 warningTraveler();
                 break;
-            case 400:
+            case 409:
                 error400(response.response as FileErrorsDto[]);
                 errorWrongTraveler();
                 break;
