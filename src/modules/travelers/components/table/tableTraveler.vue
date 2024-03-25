@@ -197,7 +197,7 @@
         {
             title: 'Estado',
             dataIndex: 'state',
-            width: 75,
+            width: 80,
         },
         {
             title: 'Agencia',
