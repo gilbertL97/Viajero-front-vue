@@ -9,7 +9,7 @@
                     layout="vertical"
                     :validate-messages="defaultValidateMessages"
                     @finish="onFinish"
-                    @finishFailed="onFinishFailed"
+                    @finish-failed="onFinishFailed"
                     :loading="loading"
                     ><a-row type="flex">
                         <a-col :span="12">
@@ -275,7 +275,8 @@
         text-align: left;
         border-radius: 8px;
         background-color: white;
-        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+        box-shadow:
+            rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
             rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     }
     .ant-input,
@@ -292,8 +293,10 @@
     }
     .submit-buttons {
         display: flex;
-        position: relative;
-        justify-content: space-between;
+        gap: 3;
         align-items: bottom;
+    }
+    .ant-divider {
+        margin: 0 30px;
     }
 </style>
