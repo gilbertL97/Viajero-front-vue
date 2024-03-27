@@ -65,8 +65,4 @@
         country.value = newProps.countryId!;
     });
 </script>
-<style scoped>
-    .ant-select {
-        padding-left: 13px !important;
-    }
-</style>
+<style scoped></style>

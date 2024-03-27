@@ -15,6 +15,7 @@ export default function useRefreshTokenService() {
                 throw error;
             }
         }
+        throw new Error('no token');
     };
     const logout2 = async () => {
         try {

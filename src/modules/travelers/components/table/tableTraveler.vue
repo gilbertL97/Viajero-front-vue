@@ -2,7 +2,7 @@
     <a-table
         :data-source="props.data"
         :columns="columns"
-        size="small"
+        size="middle"
         :loading="props.loading"
         :scroll="{ y: 400, x: 1200 }"
         :pagination="false"
@@ -55,11 +55,23 @@
             <template v-if="column.dataIndex === 'coverage'"
                 >{{ record.coverage.name }}
             </template>
+            <template v-if="column.dataIndex === 'amount_days_high_risk'"
+                >{{ `$${parseFloat(record.amount_days_high_risk).toFixed(2)}` }}
+            </template>
+            <template v-if="column.dataIndex === 'amount_days_covered'"
+                >{{ `$${parseFloat(record.amount_days_covered).toFixed(2)}` }}
+            </template>
+            <template v-if="column.dataIndex === 'total_amount'"
+                >{{ `$${parseFloat(record.total_amount).toFixed(2)}` }}
+            </template>
             <template v-if="column.dataIndex === 'contractor'"
                 >{{ record.contractor.client }}
             </template>
             <template v-if="column.dataIndex === 'start_date'">
                 <h4>{{ dayjs(record.start_date).format('DD/MM/YYYY') }}</h4>
+            </template>
+            <template v-if="column.dataIndex === 'born_date' && record.born_date">
+                <h4>{{ dayjs(record.born_date).format('DD/MM/YYYY') }}</h4>
             </template>
             <template v-if="column.dataIndex === 'sale_date' && record.sale_date">
                 <h4>{{ dayjs(record.sale_date).format('DD/MM/YYYY') }}</h4>
@@ -113,13 +125,13 @@
         {
             title: 'Nombre',
             dataIndex: 'name',
-            width: 150,
+            width: 200,
             fixed: 'left',
         },
         {
             title: 'Pasaporte',
             dataIndex: 'passport',
-            width: 150,
+            width: 200,
         },
         {
             title: 'Sexo',
@@ -165,12 +177,12 @@
         },
 
         {
-            title: 'Monto Alto Riesgo',
+            title: 'Importe Alto Riesgo',
             dataIndex: 'amount_days_high_risk',
             width: 100,
         },
         {
-            title: 'Monto Dias Cubiertos',
+            title: 'Importe Dias Cubiertos',
             dataIndex: 'amount_days_covered',
             width: 100,
         },
@@ -188,7 +200,7 @@
         {
             title: 'Estado',
             dataIndex: 'state',
-            width: 75,
+            width: 80,
         },
         {
             title: 'Agencia',
@@ -237,7 +249,15 @@
         return store.canAccess(view);
     };
 </script>
-<style lscoped>
+<style>
+    .ant-table.ant-table-middle .ant-table-title,
+    .ant-table.ant-table-middle .ant-table-footer,
+    .ant-table.ant-table-middle .ant-table-thead > tr > th,
+    .ant-table.ant-table-middle .ant-table-tbody > tr > td,
+    .ant-table.ant-table-middle tfoot > tr > th,
+    .ant-table.ant-table-middle tfoot > tr > td {
+        padding: 2px 8px;
+    }
     #button {
         background-color: #2dc13dcf;
         color: whites !important;

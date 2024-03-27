@@ -151,7 +151,6 @@ export default function useFormTraveler(id?: string) {
         const start = dayjs(traveler.start_date);
         const end = dayjs(traveler.end_date_policy);
         traveler.number_days = end.diff(start, 'day') + 1;
-        console.log('dias de diferencia ' + end.diff(start, 'day'));
 
         traveler.amount_days_high_risk =
             traveler.number_high_risk_days != 0
@@ -213,7 +212,6 @@ export default function useFormTraveler(id?: string) {
         hasChanged.value = true;
     };
     const validateDateRang = (plans: Plans | undefined) => {
-        console.log(traveler);
         if (traveler.number_days > plans!.number_of_days!) {
             return Promise.reject('La fecha excede la cantidad de dias');
         } else {

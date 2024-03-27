@@ -12,6 +12,7 @@
             size="small"
             v-model:value="dateFilter"
             value-format="YYYY-MM-DD"
+            format="DD/MM/YYYY"
         />
         <a-divider type="vertical" />
         <a-button type="primary" @click="deleteFilter"
@@ -88,6 +89,7 @@
     };
 
     watch([dateFilter, filterContractor], () => {
+        console.log(dateFilter.value);
         if (dateFilter.value?.length > 1 || filterContractor.value) {
             eraseSearch();
             if (dateFilter.value?.length > 1) {

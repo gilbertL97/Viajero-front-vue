@@ -14,7 +14,7 @@ export type ContractorInv = Contractor & {
     total_import: number;
 };
 export type ContractorsAndTotals = {
-    contractors: Contractor[];
+    contractors: ContractorInv[];
     total_amount: number;
     total_travelers: number;
 };

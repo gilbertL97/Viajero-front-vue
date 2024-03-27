@@ -20,6 +20,22 @@
                 />
             </router-link>
         </div>
+        <div class="breadc">
+            <a-breadcrumb class="breadcrumb">
+                <template #separator
+                    ><span v-if="name != 'home'" style="color: white">></span></template
+                >
+                <a-breadcrumb-item v-for="(item, index) in breadList" :key="item.name">
+                    <router-link
+                        v-if="item.name !== name && index !== 1"
+                        :to="{ path: item.path === '' ? '/' : item.path }"
+                        >{{ item.meta.breadcrumbName }}</router-link
+                    >
+                    <span v-else-if="item.meta.breadcrumbName == 'Inicio'"></span>
+                    <span v-else>{{ item.meta.breadcrumbName }}</span>
+                </a-breadcrumb-item>
+            </a-breadcrumb>
+        </div>
         <div class="profile">
             <a-dropdown placement="topLeft">
                 <a class="ant-dropdown-link" @click.prevent>
@@ -57,19 +73,47 @@
     import FormChangePass from '@/modules/auth/components/form/formChangePass.vue';
     import { ref } from 'vue';
     import useRefreshTokenService from '@/modules/auth/composable/useRefreshTokenService';
-    import { useRouter } from 'vue-router';
+    import { RouteLocationMatched, useRouter } from 'vue-router';
+    import { useRoute } from 'vue-router';
+
+    const route = useRoute();
     const router = useRouter();
     const { logout2 } = useRefreshTokenService();
     const visible = ref(false);
+    const name = ref<string>();
+    const breadList = ref<RouteLocationMatched[]>([]);
     const setVisible = (set: boolean) => {
         visible.value = set;
     };
     const logout = async () => {
-        await logout2();
+        await logout2()
+            .catch()
+            .finally(() => router.push({ name: 'login' }));
         //cancelInterceptor();
-        router.push({ name: 'login' });
     };
+
+    const getBreadcrumb = () => {
+        breadList.value = [];
+        name.value = route.name?.toString();
+        route.matched.forEach((item) => {
+            breadList.value.push(item);
+        });
+    };
+
+    watch(() => route, getBreadcrumb, { immediate: true });
 </script>
+
+<style>
+    .ant-breadcrumb a {
+        transition: color 0.3s;
+    }
+
+    .ant-breadcrumb > span:last-child,
+    .ant-breadcrumb a {
+        color: white;
+        font-size: 18px;
+    }
+</style>
 
 <style scoped>
     .ant-layout-header {
@@ -78,16 +122,19 @@
         background: #1b1462;
         height: 5rem;
         display: flex;
-
+        color: gainsboro;
+        font-size: larger;
         align-items: center;
     }
     .sello {
         margin-top: 0%;
     }
-    .logo {
-    }
     .profile {
         margin-left: auto;
         border-radius: 50%;
+    }
+    .breadc {
+        padding-top: 2%;
+        margin-left: auto;
     }
 </style>

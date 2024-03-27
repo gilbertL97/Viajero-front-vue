@@ -48,9 +48,9 @@
         { title: 'Fecha de fin de Poliza', dataIndex: 'end_date_policy' },
         { title: 'Cant dias Alto Riesgo', dataIndex: 'number_high_risk_days' },
         { title: 'Cant dias Cubiertos', dataIndex: 'number_days' },
-        { title: 'Monto de dias Alto Riesgo', dataIndex: 'amount_days_high_risk' },
-        { title: 'Monto de dias Cubiertos', dataIndex: 'amount_days_covered' },
-        { title: 'Monto Total', dataIndex: 'total_amount' },
+        { title: 'Importe de dias Alto Riesgo', dataIndex: 'amount_days_high_risk' },
+        { title: 'Importe de dias Cubiertos', dataIndex: 'amount_days_covered' },
+        { title: 'Importe Total', dataIndex: 'total_amount' },
         { title: 'Fila', width: 80, dataIndex: 'row', fixed: 'right', key: 'row' },
     ]);
     const asignContract = (value: any) => {
@@ -77,7 +77,7 @@
                 warnings(response.response as FileErrorsDto[]);
                 warningTraveler();
                 break;
-            case 400:
+            case 409:
                 error400(response.response as FileErrorsDto[]);
                 errorWrongTraveler();
                 break;

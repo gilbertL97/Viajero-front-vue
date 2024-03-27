@@ -16,6 +16,9 @@
 </script>
 
 <style scoped>
+    h1 {
+        font-size: x-large;
+    }
     #upload {
         float: right;
     }

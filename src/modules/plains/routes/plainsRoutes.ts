@@ -7,6 +7,7 @@ const plainsRoutes: RouteRecordRaw[] = [
         name: 'create-plains',
         component: () => import('@/modules/plains/views/createOrEditPlains.vue'),
         meta: {
+            breadcrumbName: 'Agregar Plan',
             requiresAuth: true,
             role: [UserRole.ADMIN, UserRole.MARKAGENT],
         },
@@ -17,6 +18,7 @@ const plainsRoutes: RouteRecordRaw[] = [
         component: () => import('@/modules/plains/views/createOrEditPlains.vue'),
         props: true,
         meta: {
+            breadcrumbName: 'Editar Plan',
             requiresAuth: true,
             role: [UserRole.ADMIN, UserRole.MARKAGENT],
         },

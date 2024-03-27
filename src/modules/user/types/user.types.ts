@@ -49,8 +49,8 @@ export enum UserRoleEquivalen {
     ADMIN = 'Administrador',
     CLIENT = 'Cliente',
     CONSULT = 'Consultante',
-    MARKAGENT = 'Agente de Marketing',
-    COMAGENT = 'Agente Comercial',
+    MARKAGENT = 'Agente de Mercadotecnia',
+    COMAGENT = 'Comercial',
     CONSULTAGENT = 'Cliente Consultante',
 }
 const roles = ['admin', 'client', 'consult', 'marketing', 'comercial', 'consultagenci'];
