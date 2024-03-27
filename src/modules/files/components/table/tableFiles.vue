@@ -16,7 +16,7 @@
             <template v-if="column.dataIndex === 'actions'">
                 <a-tooltip v-if="acces('delete-files')">
                     <template #title>Eliminar</template>
-                    <a-button type="danger" @click="onDelete(record.id)"
+                    <a-button type="primary" danger @click="onDelete(record.id)"
                         ><template #icon> <DeleteOutlined /></template
                     ></a-button>
                 </a-tooltip>
@@ -28,7 +28,7 @@
                     <a-tooltip>
                         <template #title>Eliminar</template>
 
-                        <a-button type="danger"
+                        <a-button type="primary" danger
                             ><template #icon> <DeleteOutlined /></template
                         ></a-button>
                     </a-tooltip>

@@ -15,7 +15,7 @@
                     >
                         <a-tooltip>
                             <template #title>Eliminar</template>
-                            <a-button type="danger">
+                            <a-button type="primary" danger>
                                 <template #icon><DeleteOutlined /></template>
                             </a-button>
                         </a-tooltip>
@@ -35,7 +35,7 @@
     </div>
     <div style="margin-bottom: 16px">
         <!-- <a-button
-            type="danger"
+            type="primary" danger
             :disabled="!hasSelected"
             :loading="state.loading"
             @click="deleteusers"

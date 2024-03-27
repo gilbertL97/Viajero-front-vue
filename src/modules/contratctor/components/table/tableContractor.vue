@@ -16,7 +16,7 @@
                         <a-tooltip>
                             <template #title>Eliminar</template>
 
-                            <a-button type="danger"
+                            <a-button type="primary" danger
                                 ><template #icon> <DeleteOutlined /></template
                             ></a-button>
                         </a-tooltip>
