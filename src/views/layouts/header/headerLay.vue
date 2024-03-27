@@ -107,8 +107,10 @@
     .ant-breadcrumb a {
         transition: color 0.3s;
     }
-
-    .ant-breadcrumb > span:last-child,
+    .ant-breadcrumb a:hover {
+        color: gainsboro;
+    }
+    .ant-breadcrumb li:last-child,
     .ant-breadcrumb a {
         color: white;
         font-size: 18px;
