@@ -1,16 +1,14 @@
 <template>
     <ConfigTable :data="data" :loading="loading" @update="update" />
     <a-modal
-        v-model:visible="edit"
+        v-model:open="edit"
         title="Editar Configuracion"
         :destroyOnClose="true"
         :footer="null"
     >
-        <ConfigForm
-            :config="editableConfig"
-            @accept="editConfig"
-            @cancel="handleCancel" /></a-modal
-></template>
+        <ConfigForm :config="editableConfig" @accept="editConfig" @cancel="handleCancel"
+    /></a-modal>
+</template>
 
 <script setup lang="ts">
     import ConfigTable from '../component/table/configTable.vue';

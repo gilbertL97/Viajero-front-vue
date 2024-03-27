@@ -36,7 +36,7 @@
             >Busqueda avanzada <SearchOutlined
         /></a-button>
         <a-modal
-            v-model:visible="visible"
+            v-model:open="visible"
             title="Busqueda Avanzada"
             :destroyOnClose="true"
             :footer="null"

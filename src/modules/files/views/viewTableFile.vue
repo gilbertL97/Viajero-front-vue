@@ -22,7 +22,7 @@
     ></TableFiles>
     <PaginationTable :total="totalFiles" @page="paginate" />
     <a-modal
-        v-model:visible="visible"
+        v-model:open="visible"
         title="EL archivo contiene Viajeros. Desea Eliminar?"
         :destroyOnClose="true"
         width="50%"

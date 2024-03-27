@@ -13,7 +13,7 @@
         </a-button>
     </a-upload>
     <a-modal
-        v-model:visible="visible"
+        v-model:open="visible"
         title="El archivo ya existe desea reescribirlo"
         @ok="ok"
     />

@@ -44,7 +44,7 @@
         </div>
     </a-layout-header>
     <a-modal
-        v-model:visible="visible"
+        v-model:open="visible"
         title="Cambio de Contraseña"
         :destroyOnClose="true"
         :footer="null"
