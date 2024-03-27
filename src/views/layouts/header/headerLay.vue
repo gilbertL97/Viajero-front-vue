@@ -121,7 +121,7 @@
     .ant-layout-header {
         margin-bottom: 15px;
         padding-bottom: 6px;
-        background: #1b1462;
+        background: var(--primary-color); /*#1b1462;*/
         height: 5rem;
         display: flex;
         color: gainsboro;

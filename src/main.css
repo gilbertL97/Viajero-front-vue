@@ -1,0 +1,21 @@
+.ant-btn-primary.ant-btn-dangerous {
+    margin-right: 2px;
+}
+
+:root {
+    --primary-color: #102b72;
+    --secondary-color: #405580;
+  }
+.ant-btn-primary{
+    background-color: var(--primary-color);
+}
+
+
+
+.ant-table-wrapper .ant-table.ant-table-middle .ant-table-thead > tr > th,
+.ant-table-wrapper .ant-table.ant-table-middle .ant-table-tbody > tr > td,
+.ant-table-wrapper .ant-table.ant-table-middle tfoot > tr > th, 
+.ant-table-wrapper .ant-table.ant-table-middle tfoot > tr > td {
+    padding: 2px 8px;
+}
+

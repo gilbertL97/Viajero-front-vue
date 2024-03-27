@@ -4,6 +4,7 @@
     import { ConfigProvider } from 'ant-design-vue';
     import 'dayjs/locale/es';
     import locale from 'ant-design-vue/es/locale/es_ES';
+    import './main.css';
 
     // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 </script>
