@@ -95,6 +95,7 @@
         background: #ffffff !important;
         border-right: 1px solid #f0f0f0 !important;
         transition: all 0.2s;
+        text-align: left;
     }
     .ant-menu .ant-menu-item,
     .ant-menu .ant-menu-submenu-title {
