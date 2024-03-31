@@ -1,11 +1,18 @@
 <template>
     <div class="table-header">
         <h4> Agencias</h4>
-        <dropdownContrac
+        <DropdownGeneric 
+        :data="data" 
+        :property-search="{value:'id', label:'client'}" 
+        v-model:model-value="filterContractor" 
+        :show-search="true"
+        />
+
+        <!-- <dropdownContracs
             @selected="getSelected"
             :activeSelect="true"
             :contractorId="filterContractor"
-        />
+        /> -->
         <a-divider type="vertical" />
         <h4> Fecha Inicio </h4>
         <a-range-picker
@@ -48,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-    import dropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
+    //import dropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
     import {
         SearchOutlined,
         DeleteOutlined,
@@ -60,16 +67,17 @@
     import useTravelersFilters from '../../composable/useFilterTravelers';
     import { useRouter } from 'vue-router';
     import { useAuthStore } from '@/modules/auth/store/auth.store.c';
+    import DropdownGeneric from '@/common/components/dropdown/dropdownGeneric.vue';
+import { Contractor } from '@/modules/contratctor/types/contractor.types';
     const router = useRouter();
     const store = useAuthStore();
+
+    //TODO refactorizar para llevar todo esto a un composable y ademas quitar el composable useTravelersFilters
     const current: boolean | undefined = inject('current');
     const { searchTravel, eraseSearch, assignFilter } = useTravelersFilters(current);
-    const filterContractor = ref<number | undefined>(undefined);
+    const filterContractor = ref<Contractor|undefined>();
     const visible = ref(false);
     const dateFilter = ref<Date[]>([]);
-    const getSelected = (value: any) => {
-        filterContractor.value = value as number;
-    };
     const closemodal = () => {
         visible.value = false;
     };
@@ -87,16 +95,17 @@
         filterContractor.value = undefined;
         emit('filter', searchTravel);
     };
-
+    defineProps<{
+        data:Contractor[];
+    }>()
     watch([dateFilter, filterContractor], () => {
-        console.log(dateFilter.value);
         if (dateFilter.value?.length > 1 || filterContractor.value) {
             eraseSearch();
             if (dateFilter.value?.length > 1) {
                 searchTravel.start_date_init = dateFilter.value[0];
                 searchTravel.start_date_end = dateFilter.value[1];
             }
-            searchTravel.contractor = filterContractor.value;
+            searchTravel.contractor = filterContractor.value?.id;
             if (current) searchTravel.state = true;
             emit('filter', searchTravel);
         }

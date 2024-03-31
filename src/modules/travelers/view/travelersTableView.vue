@@ -1,5 +1,5 @@
 <template>
-    <TableHeaderTraveler @filter="filter" />
+    <TableHeaderTraveler @filter="filter" :data="contractDAta"/>
     <TableTraveler
         :loading="loading"
         :isOnlyRead="false"
@@ -33,6 +33,9 @@
     import useTravelersFilters from '../composable/useFilterTravelers';
     import PaginationTable from '@/common/components/pagination/paginationTable.vue';
     import { PaginationDto } from '@/common/types/pagination.type';
+    import { Contractor } from '@/modules/contratctor/types/contractor.types';
+    import useHttpMethods from '@/service/useHttpMethods';
+    const {  get } = useHttpMethods();
 
     const props = defineProps<{
         idFile?: string;
@@ -42,6 +45,7 @@
     const loading = ref(false);
     const totalTravelers = ref(0);
     const data = ref<TravelerResponse[]>([]);
+    const contractDAta = ref<Contractor[]>([]);
     props.current ? provide('current', true) : provide('current', false);
     const { searchTravel, eraseSearch } = useTravelersFilters(Boolean(props.current));
     onMounted(async () => {
@@ -51,6 +55,7 @@
         if (props.idFile) {
             getfile(+props.idFile);
         }
+        contractDAta.value = (await get('/contractor')).data;
     });
     const refresh = async (pagination?: PaginationDto) => {
         loading.value = true;
