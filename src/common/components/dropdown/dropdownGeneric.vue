@@ -20,8 +20,8 @@ import type { SelectProps } from 'ant-design-vue';
         label: string, value: string, options?: string,disabled?: string
     }
     type Select = {
-        label: string;
-        value: number | number[] | string;
+        label: string | undefined|null;
+        value: number | number[] | undefined;
     };
     const props = defineProps<{
         data?: any[]; //arreglo completo de datos
@@ -31,13 +31,13 @@ import type { SelectProps } from 'ant-design-vue';
         modelValue?: any// | string | number; //el valor seleccionado
     }>();
     const value = reactive<Select>({
-        label:'',
-        value:'',
+        label:undefined,
+        value:undefined,
     });
 //TODO terminarn el filter option
     const filterOption = (input: string, option: any) => {
         return (
-            option[props.propertySearch.label].indexOf(input.toLowerCase()) >= 0
+            option[props.propertySearch.label].toLowerCase().indexOf(input.toLowerCase()) >= 0
         );
     };
     const emit = defineEmits<{
@@ -48,15 +48,16 @@ import type { SelectProps } from 'ant-design-vue';
     // };
 
     watch(
-       [ () => props.modelValue,value],
-        () => {
+       () => props.modelValue,
+        (newVal) => {
             if(props.modelValue){
-            value.label = props.modelValue[props.propertySearch.label];
-            value.value = props.modelValue[props.propertySearch.value];}
+            value.label = newVal[props.propertySearch.label];
+            value.value = newVal[props.propertySearch.value];}
             else {
-                value.label = '';
-                value.value ='';
+                value.label = undefined;
+                value.value =undefined;
             }
+            console.log(value)
         },
     );
     const handleChange: SelectProps['onChange'] = (value2: any) => {
