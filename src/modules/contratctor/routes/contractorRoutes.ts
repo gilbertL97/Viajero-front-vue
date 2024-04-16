@@ -36,6 +36,16 @@ const contractorsRoutes: RouteRecordRaw[] = [
         },
     },
     {
+        path: '/clients/policies',
+        name: 'policies',
+        component: () => import('@/modules/contratctor/views/viewPolicyResume.vue'),
+        meta: {
+            breadcrumbName: 'Resumen de Pólizas',
+            requiresAuth: true,
+            role: [UserRole.ADMIN, UserRole.COMAGENT],
+        },
+    },
+    {
         path: '/clients',
         name: 'clients',
         component: () => import('@/modules/contratctor/views/viewContractorTable.vue'),

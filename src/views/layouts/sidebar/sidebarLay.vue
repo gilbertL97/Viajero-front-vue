@@ -70,6 +70,12 @@
                         >Viajeros Vigentes
                     </router-link></a-menu-item
                 >
+                <a-menu-item v-if="acces('current')"
+                    ><router-link
+                        :to="{ name: 'policies'}"
+                        >Resumen de Pólizas
+                    </router-link></a-menu-item
+                >
             </a-sub-menu>
         </a-menu>
     </a-layout-sider>

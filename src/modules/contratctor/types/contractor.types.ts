@@ -34,3 +34,14 @@ export type FilterContractor = {
     dateInvoicing?: Date | string;
     ids?: number[];
 };
+ type ContractorPolicy ={
+    client: string;
+    start_date: string;
+    total_travelers: number;
+    total_import: number;
+}
+export type ContractorPolicyTotal = {
+    policies:ContractorPolicy[]
+    totalAmount: number,
+	totalTravelers: number
+}
