@@ -174,6 +174,7 @@
                                 :rules="[{ required: true }]"
                             >
                                 <DropdownContrac
+                                    :data="contractors"
                                     :contractor="contract.client"
                                     :contractor-id="contract.id"
                                     @selected="asignContract"
@@ -239,9 +240,15 @@
     import DropdownPlans from '@/modules/plains/components/dropdowns/selectPlans.vue';
     import { defaultValidateMessages } from '@/common/utils/validationMessages';
     import useFormTraveler from '../../composable/useFormTraveler';
+import { Contractor } from '@/modules/contratctor/types/contractor.types';
+import { Country } from '@/modules/country/types/country.type';
+import { Plans } from '@/modules/plains/types/plains.types';
     const props = defineProps<{
         id?: string;
         isOnlyView?: boolean;
+        contractors: Contractor[];
+        countries: Country[];
+        plans: Plans[];
     }>();
     const {
         traveler,

@@ -10,7 +10,7 @@
         <a-divider type="vertical" />
         <a-checkbox v-model:checked="seeChart">visualizar Graficas</a-checkbox>
     </div>
-    <ChartInvoicing v-if="seeChart" :data="data" :loading="loading" />
+    <!-- <ChartInvoicing v-if="seeChart" :data="data" :loading="loading" /> -->
     <TableContractorFact :data="data" :loading="loading">
         <DropdownExport
             urlExcel="/contractor/invoicing/excel"
@@ -27,7 +27,7 @@
 
     import { ContractorsAndTotals } from '../types/contractor.types';
     import useHttpMethods from '@/service/useHttpMethods';
-    import ChartInvoicing from '../components/chartInvoiving/chartInvoicing.vue';
+    //import ChartInvoicing from '../components/chartInvoiving/chartInvoicing.vue';
     const { get } = useHttpMethods();
 
     const dateInvoicing = ref<string>();

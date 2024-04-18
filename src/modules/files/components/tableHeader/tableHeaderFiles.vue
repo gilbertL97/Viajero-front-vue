@@ -2,6 +2,7 @@
     <div class="table-header">
         <h4> Agencias</h4>
         <DropdownContrac
+            :data="contractors"
             @selected="getSelected"
             :activeSelect="true"
             :contractorId="filterContractor"
@@ -26,11 +27,20 @@
     import DropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
     import { FileD, FilterFileD } from '../../type/file.type';
     import useFileFilter from '../../composable/useFileFilter';
+    import { Contractor } from '@/modules/contratctor/types/contractor.types';
+    import useHttpMethods from '@/service/useHttpMethods';
+    const { get }= useHttpMethods();
+
     const { eraseSearch, assignFilter, filterFiler } = useFileFilter();
-    defineProps<{ data: FileD[]; title: string; columns: any[] }>();
+    defineProps<{ 
+        title: string;
+        columns: any[];
+        contractors:Contractor[]
+     }>();
 
     const filterContractor = ref<number | undefined>(undefined);
     const dateFilter = ref<Date[]>([]);
+
     const getSelected = (value: any) => {
         filterContractor.value = value as number;
     };

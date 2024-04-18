@@ -2,7 +2,10 @@
     <h2>Subir Archivos Excel o CSV</h2>
     <div class="header-page">
         <h4> Seleccione la Agencia :</h4>
-        <DropdownContrac @selected="asignContract" :active-select="true" />
+        <DropdownContrac 
+        :data="contractors"
+        @selected="asignContract"
+        :active-select="true" />
     </div>
     <div>
         <UploadFiles :contractor="contractor" @response="ProcessResponse" />
@@ -22,12 +25,17 @@
     import { FileErrorsDto, FilterTravelers } from '../types/type.traveler';
     import manageError from '@/common/composable/manageError';
     import { useRouter } from 'vue-router';
+    import { Contractor } from '@/modules/contratctor/types/contractor.types';
+    import useHttpMethods from '@/service/useHttpMethods';
+    
+    const { get } = useHttpMethods();
     const router = useRouter();
     const { warningTraveler, errorWrongTraveler, sucessTraveler, genericError } =
         manageError();
     const contractor = ref();
     const showTable = ref(false);
     const test = ref();
+    const contractors = ref<Contractor[]>([]);
     const data = ref<FileErrorsDto[] | FilterTravelers[]>();
     const columns = ref<TableColumnsType>([
         {
@@ -53,6 +61,9 @@
         { title: 'Importe Total', dataIndex: 'total_amount' },
         { title: 'Fila', width: 80, dataIndex: 'row', fixed: 'right', key: 'row' },
     ]);
+    onMounted(async ()=>{
+        contractors.value = (await get('/contractor')).data;
+    })
     const asignContract = (value: any) => {
         contractor.value = value;
     };

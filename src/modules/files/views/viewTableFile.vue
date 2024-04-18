@@ -2,8 +2,8 @@
     <h1>Tabla Ficheros</h1>
     <TableHeaderFiles
         @filter="filter"
-        :data="data"
         :columns="columns"
+        :contractors="contractors"
         title="Tabla Ficheros"
     />
     <TableFiles
@@ -49,9 +49,14 @@
     import PaginationTable from '@/common/components/pagination/paginationTable.vue';
     import { PaginationDto } from '@/common/types/pagination.type';
     import useFileFilter from '../composable/useFileFilter';
+    import { Contractor } from '@/modules/contratctor/types/contractor.types';
+    import useHttpMethods from '@/service/useHttpMethods';
     const route = useRouter();
     const { cantDelete } = manageError();
     const { filterFiler } = useFileFilter();
+    const { get }= useHttpMethods()
+
+    const contractors = ref<Contractor[]>([])
     const loading = ref(false);
     const idDelet = ref(0);
     const visible = ref(false);
@@ -86,6 +91,7 @@
     });
     const refresh = async () => {
         await getData();
+        contractors.value = (await get('/contractor')).data;
     };
     const getData = async (pag?: PaginationDto, file?: FilterFileD) => {
         try {
