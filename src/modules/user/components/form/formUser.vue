@@ -75,6 +75,7 @@
                     :rules="[{ required: true }]"
                 >
                     <DropdownContrac
+                        :data="contractors"
                         :contractor="contractor.client"
                         :contractor-id="contractor.id"
                         @selected="asignContract"
@@ -107,12 +108,15 @@
         repeatMessage,
     } from '@/common/utils/validationMessages';
     import Swal from 'sweetalert2';
+    import useHttpMethods from '@/service/useHttpMethods';
+    const { get }= useHttpMethods();
 
     const router = useRouter();
     const props = defineProps<{ id?: string }>();
     const id = ref(0);
     const client = ref(true);
     const loading = ref(false);
+    const contractors = ref<Contractor[]>([]);
     const contractor: Contractor = reactive<Contractor>({
         email: '',
         client: '',
@@ -182,6 +186,9 @@
             timer: 10000,
         });
     };
+    onMounted(async()=>{
+        contractors.value  = (await get('/contractor')).data;
+    })
     //generar una contraseña aleatoria
     /* const genPass = () => {
         const password = generator.generate({
