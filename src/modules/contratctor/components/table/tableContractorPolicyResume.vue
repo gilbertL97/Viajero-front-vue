@@ -8,7 +8,7 @@
         <template #customFilterIcon> <slot></slot></template>
         <template #bodyCell="{ column, record }">
                 <template v-if="column.dataIndex === 'start_date'">
-                <h3>{{ dayjs(record.start_date).format('DD/MM/YYYY') }}</h3>
+                {{ dayjs(record.start_date).format('DD/MM/YYYY') }}
             </template></template>
         <template #summary >
             <a-table-summary fixed>
