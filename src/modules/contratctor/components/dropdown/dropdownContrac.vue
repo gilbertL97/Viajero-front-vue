@@ -24,6 +24,7 @@
     const data = ref<Contractor[]>([]);
     const options = ref<SelectProps['options']>([]);
     const props = defineProps<{
+        data:Contractor[];
         contractorId?: number | number[];
         contractor?: string;
         mode?: string;
@@ -39,20 +40,25 @@
     const isloading = ref(false);
     onMounted(async () => {
         isloading.value = true;
-        await refresh();
+        // await refresh();
+        asignData();
+
+    });
+    const asignData=()=>{
+        data.value = props.data;
         options.value = data.value.map((client: Contractor) => ({
             label: client.client,
             value: client.id,
             disabled: !client.isActive,
         }));
         props.activeSelect &&
-            (options.value = options.value.filter((cl) => delete cl.disabled));
+            (options.value = options.value.filter((cl: { disabled: any; }) => delete cl.disabled));
 
         isloading.value = false;
         contractor.label = props.contractor!;
         contractor.value = props.contractorId!;
         if (props.mode) contractor.value = [];
-    });
+    };
     const refresh = async () => {
         try {
             data.value = (await get('/contractor')).data;
@@ -72,6 +78,9 @@
         contractor.value = newProps.contractorId; // terminar y probar  q no hace falta enviar el label solo coon el value
         // adema s q se actualize  las props ss
     });
+    watch([()=>props.data],()=>{
+        asignData();
+    })
 </script>
 <style scoped>
     .ant-select {
