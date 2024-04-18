@@ -41,7 +41,7 @@ export type FilterContractor = {
     total_import: number;
 }
 export type ContractorPolicyTotal = {
-    policies:ContractorPolicy[]
+    contractors:ContractorPolicy[]
     totalAmount: number,
 	totalTravelers: number
 }

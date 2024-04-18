@@ -13,7 +13,8 @@
         <DropdownExport
             urlExcel="/contractor/policy_overview/excel"
             urlPdf="/contractor/policy_overview/pdf"
-            title="Cliente"
+            title="Resumen Pólizas"
+            :filter="{dateInitFactRange:filter?.[0], dateEndFactRange:filter?.[1]}"
         />
     </TableContractorPolicyResume>
 </template>
