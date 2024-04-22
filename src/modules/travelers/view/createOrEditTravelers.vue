@@ -1,10 +1,10 @@
 <template>
     <h1>{{ props.id ? 'Editar Viajero' : 'Agregar Viajero' }}</h1>
     <form-travelers 
-    :id="props.id"
+    :trav="traveler"
     :contractors="contractors"
     :countries="countries"
-    :plans =plans />
+    :planss ="plans" />
 </template>
 
 <script setup lang="ts">
@@ -15,19 +15,22 @@
     import useHttpMethods from '@/service/useHttpMethods';
     import { Contractor } from '@/modules/contratctor/types/contractor.types';
     import { Country } from '@/modules/country/types/country.type';
-import { Plans } from '@/modules/plains/types/plains.types';
+    import { Plans } from '@/modules/plains/types/plains.types';
+import { TravelerResponse } from '../types/type.traveler';
     const { get }= useHttpMethods();
     const props = defineProps<{ id?: string }>();
     const store = usePlainStore();
     const contractors = ref<Contractor[]>([]);
     const countries= ref<Country[]>([]);
     const plans = ref<Plans[]>([]);
+    const traveler = ref<TravelerResponse>();
     
-    onBeforeMount(async () => {
+    onMounted(async () => {
         contractors.value  = (await get('/contractor')).data;
         countries.value  = (await get('/country')).data;
         plans.value  = (await get('/coverage')).data;
         store.setPlans((await getPlans()).data);
+        if(props.id)traveler.value =(await get(`/traveler/${props.id}`)).data;
     });
 </script>
 

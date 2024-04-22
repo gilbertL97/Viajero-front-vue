@@ -69,9 +69,10 @@
                             <a-form-item
                                 :name="['origin_country']"
                                 label="Pais Origen"
-                                v-if="(props.id && contract.id) || !props.id"
+                                v-if="(props.trav && contract.id) || !props.trav"
                             >
                                 <DropCountries
+                                    :data="countries"
                                     :country-id="origin.iso"
                                     :country="origin.name"
                                     @selected="asignOriginCountry"
@@ -83,6 +84,7 @@
                         <a-col :span="12">
                             <a-form-item :name="['nationality']" label="Nacionalidad">
                                 <DropCountries
+                                    :data="countries"
                                     :country-id="nationality.iso"
                                     :country="nationality.name"
                                     @selected="asignNationality"
@@ -96,6 +98,7 @@
                                 :rules="[{ required: true }]"
                             >
                                 <DropdownPlans
+                                    :data="planss"
                                     :plain="plans.name"
                                     :plainId="plans.id"
                                     :activeSelect="false"
@@ -240,15 +243,16 @@
     import DropdownPlans from '@/modules/plains/components/dropdowns/selectPlans.vue';
     import { defaultValidateMessages } from '@/common/utils/validationMessages';
     import useFormTraveler from '../../composable/useFormTraveler';
-import { Contractor } from '@/modules/contratctor/types/contractor.types';
-import { Country } from '@/modules/country/types/country.type';
-import { Plans } from '@/modules/plains/types/plains.types';
+    import { Contractor } from '@/modules/contratctor/types/contractor.types';
+    import { Country } from '@/modules/country/types/country.type';
+    import { Plans } from '@/modules/plains/types/plains.types';
+    import { TravelerResponse } from '../../types/type.traveler';
     const props = defineProps<{
-        id?: string;
+        trav?: TravelerResponse;
         isOnlyView?: boolean;
         contractors: Contractor[];
         countries: Country[];
-        plans: Plans[];
+        planss: Plans[];
     }>();
     const {
         traveler,
@@ -267,8 +271,13 @@ import { Plans } from '@/modules/plains/types/plains.types';
         onFinish,
         onFinishFailed,
         validateEndDateRangeDays,
-    } = useFormTraveler(props.id);
+        intializateTraveler,        
+    } = useFormTraveler(props.trav);
 
+    watch(()=>props.trav,()=>{
+    props.trav && intializateTraveler(props.trav);
+    console.log(props.planss)
+})
     const layout = {
         labelCol: { span: 13 },
         wrapperCol: { span: 22 },

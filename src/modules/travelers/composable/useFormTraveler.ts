@@ -10,7 +10,7 @@ import { usePlainStore } from '@/modules/plains/store/plans.store';
 import { useRouter } from 'vue-router';
 import { Plans } from '@/modules/plains/types/plains.types';
 
-export default function useFormTraveler(id?: string) {
+export default function useFormTraveler(trave?: TravelerResponse) {
     const router = useRouter();
     const store = usePlainStore();
 
@@ -66,13 +66,12 @@ export default function useFormTraveler(id?: string) {
     });
 
     const loading = ref(false);
-    onMounted(async () => {
-        if (id) {
+    onMounted(() => {
+        if (trave) {
             loading.value = true;
-            const travelerR = (await getTraveler(id)).data;
             hasChanged.value = false;
 
-            intializateTraveler(travelerR);
+            intializateTraveler(trave);
 
             loading.value = false;
         }
@@ -88,7 +87,7 @@ export default function useFormTraveler(id?: string) {
     };
 
     const onFinish = () => {
-        if (id) {
+        if (trave) {
             try {
                 updateTraveler(traveler);
             } catch (error) {}
@@ -187,6 +186,10 @@ export default function useFormTraveler(id?: string) {
             hasChanged.value = true;
         },
     );
+    watch(()=>trave,()=>{
+        console.log(trave)
+        if(trave)intializateTraveler(trave);
+    })
     // watch([() => traveler.number_days], () => {
     //     const plans = store.getPlans.find((e) => e.id == traveler.coverage);
     //     if (!plans?.daily) {
@@ -237,5 +240,6 @@ export default function useFormTraveler(id?: string) {
         asignNationality,
         tets,
         validateEndDateRangeDays,
+        intializateTraveler,
     };
 }
