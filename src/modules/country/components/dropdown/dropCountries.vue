@@ -24,6 +24,7 @@
     const data = ref<Country[]>([]);
     const options = ref<SelectProps['options']>([]);
     const props = defineProps<{
+        data:Country[];
         countryId?: string;
         country?: string;
     }>();
@@ -32,25 +33,19 @@
         value: '', //props.country?.iso,
     });
     onBeforeMount(async () => {
-        await refresh();
+       asignData();
 
+    });
+    const asignData=()=>{
+        data.value = props.data;
         options.value = data.value.map((country: Country) => ({
             label: country.comun_name,
             value: country.iso,
         }));
         country.value = props.countryId!;
         country.label = props.country!;
-    });
+    }
 
-    const loading = ref(false);
-
-    const refresh = async () => {
-        loading.value = true;
-        try {
-            data.value = (await get('/country')).data;
-        } catch (error) {}
-        loading.value = false;
-    };
     const filterOption = (input: string, options: any) => {
         return options.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
     };
@@ -64,5 +59,8 @@
         country.label = newProps.country!;
         country.value = newProps.countryId!;
     });
+    watch(()=>props.data,()=>{
+        asignData();
+    })
 </script>
 <style scoped></style>

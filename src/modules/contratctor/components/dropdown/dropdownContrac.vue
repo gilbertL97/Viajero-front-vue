@@ -59,11 +59,6 @@
         contractor.value = props.contractorId!;
         if (props.mode) contractor.value = [];
     };
-    const refresh = async () => {
-        try {
-            data.value = (await get('/contractor')).data;
-        } catch (error) {}
-    };
     const filterOption = (input: string, options: any) => {
         return options.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
     };

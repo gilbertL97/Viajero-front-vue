@@ -20,9 +20,9 @@
         label: string;
         value: number;
     };
-    const data = ref<Plans[]>([]);
     const options = ref<SelectProps['options']>([]);
     const props = defineProps<{
+        data:Plans[]
         plainId?: number;
         plain?: string;
         activeSelect: boolean; // esto es para seleccionar los activos
@@ -33,29 +33,26 @@
         value: 0,
     });
     const isLoading = ref(false);
-    onBeforeMount(async () => {
+    onMounted(() => {
+        asignData()
+    });
+
+    
+    const asignData=()=>{  
+        options.value = props.data;
         isLoading.value = true;
-        await refresh();
-        options.value = data.value.map((plain: Plans) => ({
+        options.value = props.data.map((plain: Plans) => ({
             label: plain.name,
             value: plain.id,
             disabled: !plain.isActive,
         }));
         props.activeSelect ??
-            (options.value = options.value.filter((plain) => delete plain.disabled));
+            (options.value = options.value.filter((pla: { disabled: any; }) => delete pla.disabled));
 
         isLoading.value = false;
         plain.label = props.plain!;
         plain.value = props.plainId!;
-    });
-
-    const refresh = async () => {
-        isLoading.value = true;
-        try {
-            data.value = (await getPlans()).data;
-        } catch (error) {}
-    };
-
+    }
     const filterOption = (input: string, options: any) => {
         return options.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
     };
@@ -69,5 +66,9 @@
         plain.label = newProps.plain!;
         plain.value = newProps.plainId!;
     });
+    watch(()=>props.data,()=>{
+        console.log(props.data)
+        asignData();
+    })
 </script>
 <style scoped></style>
