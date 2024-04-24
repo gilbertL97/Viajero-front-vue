@@ -16,7 +16,7 @@ const searchTravel: FilterTravelers = reactive({
     state: undefined,
 });
 export default function useTravelersFilters(current?: boolean) {
-    current && (searchTravel.state = true); //ver xq no coje con el state en true en la '
+    //current && (searchTravel.state = true); //ver xq no coje con el state en true en la '
     const eraseSearch = () => {
         searchTravel.name = undefined;
         searchTravel.passport = undefined;
@@ -29,7 +29,7 @@ export default function useTravelersFilters(current?: boolean) {
         searchTravel.nationality = undefined;
         searchTravel.coverage = undefined;
         //se pone esto por si solo quiere los vigentes
-        current ? (searchTravel.state = true) : (searchTravel.state = undefined);
+        current ? (searchTravel.effective_date = new Date().toISOString()) : (searchTravel.effective_date = undefined);
     };
     const assignFilter = (filter: FilterTravelers) => {
         searchTravel.name = filter.name;
@@ -43,7 +43,8 @@ export default function useTravelersFilters(current?: boolean) {
         searchTravel.nationality = filter.nationality;
         searchTravel.coverage = filter.coverage;
         //se pone esto por si solo quiere los vigentes
-        current ? (searchTravel.state = true) : (searchTravel.state = filter.state);
+        //current ? (searchTravel.state = true) : (searchTravel.state = filter.state);
+        searchTravel.effective_date = filter.effective_date;
     };
 
     return {

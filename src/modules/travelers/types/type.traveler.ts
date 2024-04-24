@@ -64,6 +64,7 @@ export type FilterTravelers = {
     nationality?: string;
     coverage?: number;
     state?: boolean;
+    effective_date?:string;
 };
 export type FilterTravelerDetailedReport = {
     start_date_init?: string;

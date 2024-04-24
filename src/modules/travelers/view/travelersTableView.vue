@@ -1,5 +1,10 @@
 <template>
-    <TableHeaderTraveler @filter="filter" :data="contractDAta"/>
+    <TableHeaderTraveler 
+        @filter="filter" 
+        :data="contractDAta" 
+        :countries="countries" 
+        :plans="planss"
+    />
     <TableTraveler
         :loading="loading"
         :isOnlyRead="false"
@@ -35,6 +40,8 @@
     import { PaginationDto } from '@/common/types/pagination.type';
     import { Contractor } from '@/modules/contratctor/types/contractor.types';
     import useHttpMethods from '@/service/useHttpMethods';
+import { Country } from '@/modules/country/types/country.type';
+import { Plans } from '@/modules/plains/types/plains.types';
     const {  get } = useHttpMethods();
 
     const props = defineProps<{
@@ -46,6 +53,8 @@
     const totalTravelers = ref(0);
     const data = ref<TravelerResponse[]>([]);
     const contractDAta = ref<Contractor[]>([]);
+    const countries= ref<Country[]>([]);
+    const planss = ref<Plans[]>([]);
     props.current ? provide('current', true) : provide('current', false);
     const { searchTravel, eraseSearch } = useTravelersFilters(Boolean(props.current));
     onMounted(async () => {
@@ -56,6 +65,8 @@
             getfile(+props.idFile);
         }
         contractDAta.value = (await get('/contractor')).data;
+        countries.value  = (await get('/country')).data;
+        planss.value  = (await get('/coverage')).data;
     });
     const refresh = async (pagination?: PaginationDto) => {
         loading.value = true;
