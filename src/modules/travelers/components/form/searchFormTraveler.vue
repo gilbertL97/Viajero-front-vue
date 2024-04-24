@@ -6,14 +6,14 @@
         <a-input v-model:value="search.passport" />
     </a-form-item>
     <a-form-item :name="['origin_country']" label="Pais Origen">
-        <DropCountries @selected="asignOriginCountry" />
+        <DropCountries :data="countries" @selected="asignOriginCountry" />
     </a-form-item>
 
     <a-form-item :name="['nationality']" label="Nacionalidad">
-        <DropCountries @selected="asignNationality" />
+        <DropCountries :data="countries" @selected="asignNationality" />
     </a-form-item>
     <a-form-item :name="['coverage']" label="Tipo de Cobertura">
-        <DropdownPlans @selected="asignPlans" :active-select="true" />
+        <DropdownPlans :data="planss" @selected="asignPlans" :active-select="true" />
     </a-form-item>
     <a-form-item :name="['start_date']" label="Fecha de Inicio de Viaje">
         <a-range-picker
@@ -35,11 +35,15 @@
             valueFormat="YYYY-MM-DD"
         />
     </a-form-item>
-    <a-form-item v-if="!current" :name="['state']" label="Vigente">
-        <a-checkbox v-model:checked="search.state" /> />
+    <a-form-item :name="['effective_date']" label="Vigente">
+        <a-date-picker
+            v-model:value="search.effective_date"
+            format="DD/MM/YYYY"
+            valueFormat="YYYY-MM-DD"
+                    />
     </a-form-item>
     <a-form-item :name="['contractor']" label="Agencia">
-        <DropdownContrac @selected="asignContract" :active-select="true" />
+        <DropdownContrac :data="contractors" @selected="asignContract" :active-select="true" />
     </a-form-item>
     <a-form-item :wrapper-col="{ ...layout.wrapperCol, offset: 13 }">
         <a-button type="primary" @click="searchTraveler">Aceptar</a-button>
@@ -54,6 +58,9 @@
     import DropdownContrac from '@/modules/contratctor/components/dropdown/dropdownContrac.vue';
     import DropCountries from '@/modules/country/components/dropdown/dropCountries.vue';
     import DropdownPlans from '@/modules/plains/components/dropdowns/selectPlans.vue';
+    import { Contractor } from '@/modules/contratctor/types/contractor.types';
+    import { Country } from '@/modules/country/types/country.type';
+    import { Plans } from '@/modules/plains/types/plains.types';
     const range_start = ref<Date[]>([]);
     const range_end = ref<Date[]>([]);
     const current: boolean | undefined = inject('current');
@@ -70,12 +77,17 @@
         origin_country: undefined,
         nationality: undefined,
         coverage: undefined,
-        state: current,
+        effective_date: new Date().toISOString(),
     });
     const layout = {
         labelCol: { span: 8 },
         wrapperCol: { span: 22 },
     };
+    const props = defineProps<{
+        contractors: Contractor[];
+        countries: Country[];
+        planss: Plans[];
+    }>();
 
     /* const disabledDateInit = (current: Dayjs) => {
         // Debe seleccionar un dia mayor q la fecah fin
