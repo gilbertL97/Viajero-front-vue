@@ -77,7 +77,7 @@
         origin_country: undefined,
         nationality: undefined,
         coverage: undefined,
-        effective_date: new Date().toISOString(),
+        effective_date: undefined,
     });
     const layout = {
         labelCol: { span: 8 },
@@ -88,6 +88,9 @@
         countries: Country[];
         planss: Plans[];
     }>();
+    onMounted(() => { 
+       current && (search.effective_date = new Date().toISOString());
+    });
 
     /* const disabledDateInit = (current: Dayjs) => {
         // Debe seleccionar un dia mayor q la fecah fin
