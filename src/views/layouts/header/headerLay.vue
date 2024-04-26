@@ -57,6 +57,7 @@
                     </a-menu>
                 </template>
             </a-dropdown>
+            <a-typography-text>{{userInfo.username[0].toUpperCase() + userInfo.username.slice(1)}}</a-typography-text>
         </div>
     </a-layout-header>
     <a-modal
@@ -75,9 +76,11 @@
     import useRefreshTokenService from '@/modules/auth/composable/useRefreshTokenService';
     import { RouteLocationMatched, useRouter } from 'vue-router';
     import { useRoute } from 'vue-router';
+    import { useAuthStore } from '@/modules/auth/store/auth.store.c';
 
     const route = useRoute();
     const router = useRouter();
+    const { userInfo }= useAuthStore()
     const { logout2 } = useRefreshTokenService();
     const visible = ref(false);
     const name = ref<string>();
@@ -118,6 +121,11 @@
 </style>
 
 <style scoped>
+    .ant-typography {
+        color:ghostwhite;
+        margin-left: 1rem;
+        font-weight: 600
+    }
     .ant-layout-header {
         margin-bottom: 15px;
         padding-bottom: 6px;
