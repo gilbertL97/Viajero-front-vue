@@ -8,7 +8,6 @@
             valueFormat="YYYY-MM-DD"
         />
         <a-divider type="vertical" />
-        <a-checkbox v-model:checked="seeChart">visualizar Graficas</a-checkbox>
     </div>
     <!-- <ChartInvoicing v-if="seeChart" :data="data" :loading="loading" /> -->
     <TableContractorFact :data="data" :loading="loading">
@@ -60,5 +59,8 @@
     .table-header {
         display: inline-flex;
         gap: 1;
+    }
+    h4{
+        padding: 0.4rem  1rem ;
     }
 </style>

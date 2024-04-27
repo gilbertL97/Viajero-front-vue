@@ -1,12 +1,14 @@
 <template>
     <div class="table-header">
+        <h4>Agencia:</h4>
         <DropdownContrac
+            :data="contractor"
             @selected="getSelected"
             mode="multiple"
             :max-tag-count="1"
             :activeSelect="true"
             :contractor-id="filter.idContractors"
-        /><h4 style="padding-right: 5px"> MES </h4>
+        /><h4 style="padding-right: 5px"> Mes :</h4>
         <a-date-picker
             v-model:value="date"
             picker="month"
@@ -42,11 +44,17 @@
     import TableTraveler from '../components/table/tableTraveler.vue';
     import { PaginationDto } from '@/common/types/pagination.type';
     import { DateHelper } from '@/common/helper/dateHelper';
+    import useHttpMethods from '@/service/useHttpMethods';
+    import { Contractor } from '@/modules/contratctor/types/contractor.types';
 
+    
+
+    const { get } = useHttpMethods()
     const loading = ref(false);
     const totalDetail = ref(0);
     const date = ref<string>('');
     const data = ref<TravelerResponse[]>([]);
+    const contractor = ref<Contractor[]>([]);
     const filter = reactive<FilterTravelerDetailedReport>({
         start_date_init: undefined,
         start_date_end: undefined,
@@ -63,6 +71,7 @@
     });
     onMounted(async () => {
         await refresh();
+        contractor.value = (await get('/contractor')).data;
     });
     const refresh = async () => {
         date.value = new Date().toISOString();
@@ -101,6 +110,9 @@
 <style scoped>
     .table-header {
         display: inline-flex;
-        gap: 1;
     }
+    h4{
+        padding: 0.4rem  1rem ;
+    }
+    
 </style>

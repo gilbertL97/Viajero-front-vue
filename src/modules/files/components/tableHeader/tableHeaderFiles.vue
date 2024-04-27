@@ -1,6 +1,6 @@
 <template>
     <div class="table-header">
-        <h4> Agencias</h4>
+        <h4> Agencias:</h4>
         <DropdownContrac
             :data="contractors"
             @selected="getSelected"
@@ -69,5 +69,8 @@
 <style scoped>
     .table-header {
         display: inline-flex;
+    }
+    h4{
+        padding: 0.4rem  1rem ;
     }
 </style>

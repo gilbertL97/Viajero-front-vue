@@ -15,7 +15,7 @@
         /> -->
         <a-divider type="vertical" />
         <div v-if="!current">
-            <h4> Fecha Inicio </h4>
+            <h4>F. Inicio :</h4>
                 <a-range-picker
                 size="small"
                 v-model:value="dateFilter"
@@ -158,5 +158,8 @@
 <style lang="scss" scoped>
     .table-header, div {
         display: inline-flex;
+    }
+    h4{
+        padding: 0.4rem  0.5rem ;
     }
 </style>

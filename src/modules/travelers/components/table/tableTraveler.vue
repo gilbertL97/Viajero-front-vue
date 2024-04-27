@@ -146,7 +146,7 @@
         {
             title: 'Correo',
             dataIndex: 'email',
-            width: 100,
+            width: 200,
         },
         {
             title: 'Fecha de Venta',

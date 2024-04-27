@@ -1,5 +1,4 @@
 <template>
-    <h1>Tabla Ficheros</h1>
     <TableHeaderFiles
         @filter="filter"
         :columns="columns"

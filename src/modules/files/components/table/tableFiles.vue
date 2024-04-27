@@ -5,13 +5,13 @@
         </template>
         <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'created_at'">
-                <h4>{{ dayjs(record.created_at).format('DD/MM/YYYY') }}</h4>
+                {{ dayjs(record.created_at).format('DD/MM/YYYY') }}
             </template>
             <template v-if="column.dataIndex === 'contractor'">
-                <h4>{{ record.contractor.client }}</h4>
+                {{ record.contractor.client }}
             </template>
             <template v-if="column.dataIndex === 'user'">
-                <h4>{{ record.user ? record.user.name : '-' }}</h4>
+                {{ record.user ? record.user.name : '-' }}
             </template>
             <template v-if="column.dataIndex === 'actions'">
                 <a-tooltip v-if="acces('delete-files')">
@@ -20,19 +20,6 @@
                         ><template #icon> <DeleteOutlined /></template
                     ></a-button>
                 </a-tooltip>
-
-                <!-- <a-popconfirm
-                    :title="`Desea eliminar al Fichero ${record.name} ?`"
-                    @confirm="onDelete(record.id)"
-                >
-                    <a-tooltip>
-                        <template #title>Eliminar</template>
-
-                        <a-button type="primary" danger
-                            ><template #icon> <DeleteOutlined /></template
-                        ></a-button>
-                    </a-tooltip>
-                </a-popconfirm> -->
                 <a-tooltip>
                     <template #title>ver Viajeros</template>
                     <a-button type="primary" @click="viewTraveler(record.id)">
