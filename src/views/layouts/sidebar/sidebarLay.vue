@@ -1,7 +1,7 @@
 <template>
     <a-layout-sider>
         <a-menu mode="vertical">
-            <a-sub-menu key="sub1">
+            <a-sub-menu key="sub1" v-if="acces('massive-import')">
                 <template #icon>
                     <SettingOutlined />
                 </template>
