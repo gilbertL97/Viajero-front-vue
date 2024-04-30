@@ -17,7 +17,7 @@
                         Configuración
                     </router-link></a-menu-item
                 >
-                <a-menu-item v-if="acces('import')" @click="downloadZipFile()"
+                <a-menu-item v-if="acces('massive-import')" @click="downloadZipFile()"
                     >Ejecución de Importación Automática
                 </a-menu-item>
             </a-sub-menu>
