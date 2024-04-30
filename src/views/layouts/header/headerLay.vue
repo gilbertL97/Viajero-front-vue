@@ -57,6 +57,7 @@
                     </a-menu>
                 </template>
             </a-dropdown>
+            <h5 style="padding-left: 0.5rem; pa">{{ userInfo.username[0].toLocaleUpperCase()+userInfo.username.slice(1) }}</h5>
         </div>
     </a-layout-header>
     <a-modal
@@ -75,7 +76,9 @@
     import useRefreshTokenService from '@/modules/auth/composable/useRefreshTokenService';
     import { RouteLocationMatched, useRouter } from 'vue-router';
     import { useRoute } from 'vue-router';
-
+    import { useAuthStore } from '@/modules/auth/store/auth.store.c';
+    
+    const { userInfo }=useAuthStore();
     const route = useRoute();
     const router = useRouter();
     const { logout2 } = useRefreshTokenService();
@@ -112,8 +115,10 @@
     }
     .ant-breadcrumb li:last-child,
     .ant-breadcrumb a {
+        padding-bottom: 6px;
         color: white;
         font-size: 18px;
+        margin-bottom: 15px;
     }
 </style>
 
@@ -134,6 +139,7 @@
     .profile {
         margin-left: auto;
         border-radius: 50%;
+        display: inline-flex;
     }
     .breadc {
         padding-top: 2%;
