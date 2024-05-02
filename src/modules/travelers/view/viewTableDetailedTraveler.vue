@@ -15,6 +15,7 @@
             format="MM/YYYY"
             valueFormat="YYYY-MM-DD"
         />
+        <a-divider type="vertical" />
         <a-button type="primary" @click="deleteFilter"
             >Borrar Filtros <DeleteOutlined
         /></a-button>

@@ -22,7 +22,8 @@
           "current",
           "detailed",
           "fact",
-          "import"
+          "import",
+          "massive-import"
 
        ]
     },
