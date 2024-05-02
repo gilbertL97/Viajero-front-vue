@@ -13,6 +13,16 @@
                     </router-link></a-menu-item
                 >
                 <a-menu-item v-if="acces('users')">
+                    <router-link :to="{ name: 'users' }">
+                        Exportar fichero insertados manualmente
+                    </router-link></a-menu-item
+                >
+                <a-menu-item v-if="acces('users')">
+                    <router-link :to="{ name: 'view-logs' }">
+                      Ver Registros del Sistema
+                    </router-link></a-menu-item
+                >
+                <a-menu-item v-if="acces('users')">
                     <router-link :to="{ name: 'config' }">
                         Configuración
                     </router-link></a-menu-item
