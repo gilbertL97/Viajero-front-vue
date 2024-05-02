@@ -57,7 +57,7 @@
                     </a-menu>
                 </template>
             </a-dropdown>
-            <a-typography-text>{{userInfo.username[0].toUpperCase() + userInfo.username.slice(1)}}</a-typography-text>
+            <h5 v-if="userInfo.username" style="padding-left: 0.5rem; pa">{{ userInfo.username[0].toLocaleUpperCase()+userInfo.username.slice(1) }}</h5>
         </div>
     </a-layout-header>
     <a-modal
