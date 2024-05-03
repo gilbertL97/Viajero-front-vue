@@ -13,13 +13,8 @@
                     </router-link></a-menu-item
                 >
                 <a-menu-item v-if="acces('users')">
-                    <router-link :to="{ name: 'users' }">
-                        Exportar fichero insertados manualmente
-                    </router-link></a-menu-item
-                >
-                <a-menu-item v-if="acces('users')">
                     <router-link :to="{ name: 'view-logs' }">
-                      Ver Registros del Sistema
+                      Ver Registros del Sistema (En Desarollo)
                     </router-link></a-menu-item
                 >
                 <a-menu-item v-if="acces('users')">
@@ -86,6 +81,11 @@
                         >Resumen de Pólizas
                     </router-link></a-menu-item
                 >
+                <a-menu-item v-if="acces('manually_import')"
+                         @click="downloadExcel('traveler/manually_import',undefined,'Viajeros Importados Manualmente')"
+                         > Exportar fichero de viajeros  insertados manualmente 
+                    </a-menu-item
+                >
             </a-sub-menu>
         </a-menu>
     </a-layout-sider>
@@ -99,11 +99,13 @@
     } from '@ant-design/icons-vue';
     import { RouterLink } from 'vue-router';
     import useZipFile from '@/common/composable/exportZipFile';
+import useExcelBack from '@/common/composable/exportToExcelBack';
     const store = useAuthStore();
     const acces = (view: string) => {
         return store.canAccess(view);
     };
     const { downloadZipFile } = useZipFile();
+    const { downloadExcel }= useExcelBack();
 </script>
 <style scoped>
     .ant-layout-sider {

@@ -23,7 +23,8 @@
           "detailed",
           "fact",
           "import",
-          "massive-import"
+          "massive-import",
+          "manually_import"
 
        ]
     },
@@ -41,7 +42,8 @@
         "detailed",
         "current",
         "fact",
-        "import"
+        "import",
+        "manually_import"
      ]
     },
     {
@@ -53,7 +55,8 @@
           "files",        
           "current",
           "detailed",
-          "fact"
+          "fact",
+          "manually_import"
        ]
     },
     {"role":"marketing",
@@ -87,7 +90,8 @@
           "files",
           "current",
           "detailed",
-          "fact"
+          "fact",
+          "manually_import"
 ]
     },    {"role":"consultagenci",
     "acces":[
@@ -96,7 +100,8 @@
       "current",
       "fact",          
       "files",
-      "detailed"
+      "detailed",
+      "manually_import"
 
 ]
     }
