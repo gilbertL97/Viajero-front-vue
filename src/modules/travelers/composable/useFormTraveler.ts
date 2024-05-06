@@ -9,8 +9,12 @@ import {
 import { usePlainStore } from '@/modules/plains/store/plans.store';
 import { useRouter } from 'vue-router';
 import { Plans } from '@/modules/plains/types/plains.types';
+import manageError from '@/common/composable/manageError';
+import { ApiErrorCustomResponse } from '@/common/types/generic.type';
 
 export default function useFormTraveler(trave?: TravelerResponse) {
+    const { genericErrorApi } = manageError();
+    const isEditing = ref<boolean>(false);
     const router = useRouter();
     const store = usePlainStore();
 
@@ -68,33 +72,39 @@ export default function useFormTraveler(trave?: TravelerResponse) {
     const loading = ref(false);
     onMounted(() => {
         if (trave) {
+            isEditing.value = true;
             loading.value = true;
             hasChanged.value = false;
 
-            intializateTraveler(trave);
+            //intializateTraveler(trave);
 
             loading.value = false;
         }
     });
     const disabledDateInit = (current: Dayjs) => {
         // Debe seleccionar un dia mayor q la fecah fin
-        return current > dayjs(traveler.end_date_policy).endOf('day');
+        return current >= dayjs(traveler.end_date_policy).endOf('day');
     };
     const disabledDateEnd = (current: Dayjs) => {
         // Debe seleccionar mayor q la fecha inicio
 
-        return current < dayjs(traveler.start_date).endOf('day');
+        return current <= dayjs(traveler.start_date).endOf('day');
     };
 
     const onFinish = () => {
-        if (trave) {
+        if (isEditing.value) {
+
             try {
                 updateTraveler(traveler);
-            } catch (error) {}
+            } catch (error) {
+                genericErrorApi(error as ApiErrorCustomResponse);
+            }
         } else {
             try {
                 insertTraveler(traveler);
-            } catch (error) {}
+            } catch (error) {
+                genericErrorApi(error as ApiErrorCustomResponse);
+            }
         }
         router.push({ name: 'travelers' });
     };
@@ -144,6 +154,7 @@ export default function useFormTraveler(trave?: TravelerResponse) {
         origin.name = travelerR.origin_country?.comun_name;
         plans.id = travelerR.coverage?.id;
         plans.name = travelerR.coverage?.name;
+        isEditing.value = true;
     };
     const calculate = () => {
         const plans = store.getPlans.find((e) => e.id == traveler.coverage);
@@ -186,22 +197,6 @@ export default function useFormTraveler(trave?: TravelerResponse) {
             hasChanged.value = true;
         },
     );
-    watch(()=>trave,()=>{
-        console.log(trave)
-        if(trave)intializateTraveler(trave);
-    })
-    // watch([() => traveler.number_days], () => {
-    //     const plans = store.getPlans.find((e) => e.id == traveler.coverage);
-    //     if (!plans?.daily) {
-    //         if (traveler.number_days > plans!.number_of_days! + 1) {
-    //             traveler.start_date = null;
-    //             traveler.end_date_policy = null;
-    //             console.log(
-    //                 'Puso null las fechas xq el numero de dias es mayor q la cant d dias del plan',
-    //             );
-    //         }
-    //     }
-    // });
 
     const validateEndDateRangeDays = () => {
         const plans = store.getPlans.find((e) => e.id == traveler.coverage);

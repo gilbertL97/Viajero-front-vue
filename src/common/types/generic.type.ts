@@ -17,6 +17,14 @@ export interface JSONObject {
 }
 export type JSONArray = Array<JSONValue>;
 
+export  interface ApiErrorCustomResponse {
+    statusCode: number;
+    timestamp: string;
+    path: string;
+    message: string;
+}
+
+
 /*
   const obj3: JSONObject = { a: 1 }; // Works
   const obj5: JSONObject = { a: { b: 1 } }; // Works

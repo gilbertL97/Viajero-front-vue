@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2';
 import { deleteMessage, repeatMessage } from '../utils/validationMessages';
+import { ApiErrorCustomResponse } from '../types/generic.type';
 export default () => {
     const alertInactive = (message1: string, message2?: string) => {
         Swal.fire({
@@ -82,6 +83,16 @@ export default () => {
             timer: 3000,
         });
     };
+    const genericErrorApi = (error: ApiErrorCustomResponse) => {
+        Swal.fire({
+            position: 'top',
+            icon: 'error',
+            title: 'Error',
+            text: error.message,
+            showConfirmButton: false,
+            timer: 3000,
+        });
+    };
     return {
         alertInactive,
         alertForbidden,
@@ -92,5 +103,6 @@ export default () => {
         cantDelete,
         genericError,
         warningTraveler,
+        genericErrorApi,
     };
 };
