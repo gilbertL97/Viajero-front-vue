@@ -11,6 +11,7 @@ import { useRouter } from 'vue-router';
 import { Plans } from '@/modules/plains/types/plains.types';
 import manageError from '@/common/composable/manageError';
 import { ApiErrorCustomResponse } from '@/common/types/generic.type';
+import { AxiosError } from 'axios';
 
 export default function useFormTraveler(trave?: TravelerResponse) {
     const { genericErrorApi } = manageError();
@@ -91,19 +92,21 @@ export default function useFormTraveler(trave?: TravelerResponse) {
         return current <= dayjs(traveler.start_date).endOf('day');
     };
 
-    const onFinish = () => {
+    const onFinish = async () => {
         if (isEditing.value) {
 
             try {
-                updateTraveler(traveler);
+               await updateTraveler(traveler);
             } catch (error) {
-                genericErrorApi(error as ApiErrorCustomResponse);
+                const axiosError = error as AxiosError;
+                genericErrorApi(axiosError.response?.data as ApiErrorCustomResponse);
             }
         } else {
             try {
-                insertTraveler(traveler);
+               await insertTraveler(traveler);
             } catch (error) {
-                genericErrorApi(error as ApiErrorCustomResponse);
+                const axiosError = error as AxiosError;
+                genericErrorApi(axiosError.response?.data as ApiErrorCustomResponse);
             }
         }
         router.push({ name: 'travelers' });
