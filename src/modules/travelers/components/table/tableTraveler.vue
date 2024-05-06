@@ -68,16 +68,16 @@
                 >{{ record.contractor.client }}
             </template>
             <template v-if="column.dataIndex === 'start_date'">
-                <h4>{{ dayjs(record.start_date).format('DD/MM/YYYY') }}</h4>
+                {{ dayjs(record.start_date).format('DD/MM/YYYY') }}
             </template>
             <template v-if="column.dataIndex === 'born_date' && record.born_date">
-                <h4>{{ dayjs(record.born_date).format('DD/MM/YYYY') }}</h4>
+                {{ dayjs(record.born_date).format('DD/MM/YYYY') }}
             </template>
             <template v-if="column.dataIndex === 'sale_date' && record.sale_date">
-                <h4>{{ dayjs(record.sale_date).format('DD/MM/YYYY') }}</h4>
+                {{ dayjs(record.sale_date).format('DD/MM/YYYY') }}
             </template>
             <template v-if="column.dataIndex === 'end_date_policy'">
-                <h4>{{ dayjs(record.end_date_policy).format('DD/MM/YYYY') }}</h4>
+                {{ dayjs(record.end_date_policy).format('DD/MM/YYYY') }}
             </template>
             <template
                 v-if="column.dataIndex === 'origin_country' && record.origin_country"

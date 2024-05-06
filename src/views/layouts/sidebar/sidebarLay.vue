@@ -82,7 +82,7 @@
                     </router-link></a-menu-item
                 >
                 <a-menu-item v-if="acces('manually_import')"
-                         @click="downloadExcel('traveler/manually_import',undefined,'Viajeros Importados Manualmente')"
+                         @click="downloadExcel('traveler/manually_import',undefined,'Viajeros Insertados Manualmente')"
                          > Exportar fichero de viajeros  insertados manualmente 
                     </a-menu-item
                 >

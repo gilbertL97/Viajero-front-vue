@@ -276,7 +276,6 @@
 
     watch(()=>props.trav,()=>{
     props.trav && intializateTraveler(props.trav);
-    console.log(props.planss)
 })
     const layout = {
         labelCol: { span: 13 },
