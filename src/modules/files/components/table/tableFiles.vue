@@ -1,5 +1,11 @@
 <template>
-    <a-table :columns="columns" size="small" :loading="loading" :data-source="data">
+    <a-table 
+    :columns="columns" 
+    size="small" 
+    :loading="loading" 
+    :data-source="data"
+    :pagination="false"
+    >
         <template #customFilterIcon>
             <slot name="export"></slot>
         </template>
