@@ -22,7 +22,7 @@
             >
                 <a-input-number
                     v-model:value="plain.price"
-                    :max="100"
+                    :max="500"
                     :min="0.1"
                     :step="0.1"
                     string-mode
@@ -32,11 +32,10 @@
                 has-feedback
                 :name="['high_risk']"
                 label="Tarifa alto Riesgo"
-                :rules="[{ min: 0.1 }]"
             >
                 <a-input-number
                     v-model:value="plain.high_risk"
-                    :max="100"
+                    :max="500"
                     :min="0"
                     :step="0.1"
                     string-mode
@@ -63,7 +62,7 @@
                 has-feedback
                 :name="['config_string']"
                 label="Cadena de Configuracion"
-                :rules="[{ min: 4 }]"
+                :rules="[{ min: 3}]"
             >
                 <a-input
                     placeholder="Cadena de Configuracion "
@@ -186,7 +185,7 @@
         plain.daily = plainR.daily;
         plain.number_of_days = plainR.number_of_days ?? 0;
         plain.config_string = plainR.config_string;
-        7;
+       
     };
     const beforeUpload: UploadProps['beforeUpload'] = (file1) => {
         const isPDF = file1.type === 'application/pdf';
