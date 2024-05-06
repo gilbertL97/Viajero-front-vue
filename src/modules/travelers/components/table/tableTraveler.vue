@@ -20,7 +20,7 @@
                 "
             >
                 <a-popconfirm
-                    :title="`Desea eliminar al Usuario ${record.name} ?`"
+                    :title="`Desea eliminar al Viajero ${record.name} ?`"
                     @confirm="onDelete(record.id)"
                 >
                     <a-tooltip>
