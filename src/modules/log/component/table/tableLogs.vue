@@ -7,6 +7,7 @@
             :loading="props.loading"
             :row-class-name="(_record:any, index:any) => (index % 2 === 1 ? 'table-striped' : null)"
             :scroll="{ y: 400, x: 2200 }"
+            :pagination="false"
             >
             <template #customFilterIcon><slot></slot></template>
             <template #bodyCell="{ column, record }">
