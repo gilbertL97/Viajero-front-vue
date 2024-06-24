@@ -7,8 +7,8 @@
         :show-search="true"/>
         <a-divider type="vertical" />
         <DropdownGeneric
-        :data="filterLevel"
-        :property-search="{value:'', label:''}" 
+        :data="filterData"
+        :property-search="{value:'value', label:'label'}" 
         v-model:model-value="filterLevel" 
         />
         <a-divider type="vertical" />
@@ -27,30 +27,52 @@
 
 <script setup lang="ts">
 import DropdownGeneric from '@/common/components/dropdown/dropdownGeneric.vue';
+import { DeleteOutlined } from '@ant-design/icons-vue';
 import { User } from '@/modules/user/types/user.types';
 import { HeaderFilterLog } from '../../types/type.Log';
 
 const filter = reactive<HeaderFilterLog>({
-    user:undefined,
     level:undefined,
-    date:undefined,
+    userId:undefined,
+    createdAtInit:undefined,
+    createdAtEnd:undefined,
+
 })
 const props = defineProps<{
     dataUser:User[];
 }>()
     const filterUser = ref<User>();
-    const filterLevel = ref<any[]>( [ 
+    const filterData = ref<any[]>( [ 
         { value: 'info', label: 'Informacion' },
         { value: 'error', label: 'Error' },
         { value: 'warning', label: 'Advertencia' }
     ]);
-    const filterDate = ref<string[]>();
+    const filterLevel = ref<any>();
+    const filterDate = ref<string[]>([]);
 
     const deleteFilter = () => {
-        filter.user =undefined;
-
-
+        filter.userId = undefined;
+        filter.createdAtInit= undefined;
+        filter.level=undefined;
+        filter.createdAtEnd =undefined;
+        filterDate.value = [];
+        filterUser.value = undefined;
+        filterLevel.value=undefined;
+        emit('filter',filter);
     };
+    const emit = defineEmits<{
+        (e: 'filter', filterLogs:HeaderFilterLog): void;
+    }>()
+    watch([filterUser,filterDate,filterLevel],()=>{
+        if(filterDate.value?.length>1){
+            filter.createdAtInit=filterDate.value[0];
+            filter.createdAtEnd =filterDate.value[1];
+        }
+        if(filterUser.value)filter.userId=filterUser.value?.id
+        if(filterLevel.value)filter.level=filterLevel.value.value
+        emit('filter',filter);
+
+    })
 </script>
 
 <style scoped>

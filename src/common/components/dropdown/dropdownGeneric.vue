@@ -57,7 +57,6 @@ import type { SelectProps } from 'ant-design-vue';
                 value.label = undefined;
                 value.value =undefined;
             }
-            console.log(value)
         },
     );
     const handleChange: SelectProps['onChange'] = (value2: any) => {

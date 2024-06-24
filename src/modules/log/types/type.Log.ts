@@ -13,9 +13,10 @@ export interface Log {
     errorStack?: string;
 }
 export type HeaderFilterLog = {
-    user:number|undefined,
-    level:string|undefined,
-    date:string|undefined,
+    level?: string;
+    userId?: number;
+    createdAtInit?: string;
+    createdAtEnd?: string;
 };
 export type LogFilter = {
     message?: string;
