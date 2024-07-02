@@ -4,20 +4,23 @@
         :data="dataUser"
         :property-search="{value:'id', label:'name'}" 
         v-model:model-value="filterUser" 
-        :show-search="true"/>
+        :show-search="true"
+         placeholder="Nombre de Usuario"/>
         <a-divider type="vertical" />
         <DropdownGeneric
         :data="filterData"
         :property-search="{value:'value', label:'label'}" 
+        placeholder="Tipo de Log"
         v-model:model-value="filterLevel" 
         />
         <a-divider type="vertical" />
         <a-range-picker
-            size="small"
+            size="medium"
             v-model:value="filterDate"
             value-format="YYYY-MM-DD"
             format="DD/MM/YYYY"
         />
+        <a-divider type="vertical" />
         <a-button type="primary" @click="deleteFilter"
             >Borrar Filtros <DeleteOutlined
         /></a-button>

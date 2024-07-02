@@ -1,7 +1,6 @@
 <template>
     <div>
-<a-table
-            :columns="columns"
+       <a-table    :columns="columns"
             :data-source="props.data"
             size="small"
             :loading="props.loading"
@@ -10,15 +9,25 @@
             :pagination="false"
             >
             <template #customFilterIcon><slot></slot></template>
-            <template #bodyCell="{ column, record }">
-            </template>
+            <template #bodyCell="{text, record, index, column}">
+              <template v-if="column.dataIndex === 'errorStack' && (record.errorStack&& record.errorStack!='-')">     
+            <a-tooltip>
+              <template #title>ver Pila de Error</template>
+                    <a-button type="primary" danger @click="emits('viewError',index)">
+                        <template #icon>
+                          <EyeOutlined/>
+                        </template>
+                    </a-button>
+              </a-tooltip>
+           </template>
+          </template>
         </a-table>
     </div>
 </template>
 
 <script setup lang="ts">
 import { Log } from '../../types/type.Log';
-
+import { EyeOutlined } from '@ant-design/icons-vue';
 
    const props = defineProps<{
         data: Log[]
@@ -69,6 +78,10 @@ const columns = [
       dataIndex: 'errorStack',
     },
 ];
+const emits = defineEmits<{
+  (e: 'viewError', id:number): void;
+}>()
+
 </script>
 
 <style scoped>
