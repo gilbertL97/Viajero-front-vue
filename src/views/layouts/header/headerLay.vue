@@ -1,7 +1,7 @@
 <template>
     <a-layout-header class="header" :style="{ zIndex: 1, width: '100%' }">
         <div class="sello">
-            <router-link :to="{ path: '/home' }">
+            <router-link :to="{ path: '/index' }">
                 <img
                     src="../../../assets/imagenes/sello/blanco.png"
                     alt=""
@@ -11,7 +11,7 @@
             </router-link>
         </div>
         <div class="logo">
-            <router-link :to="{ path: '/home' }">
+            <router-link :to="{ path: '/index' }">
                 <img
                     src="../../../assets/imagenes/logogenericosinletras.png"
                     alt="logoEsicuba"
@@ -23,7 +23,7 @@
         <div class="breadc">
             <a-breadcrumb class="breadcrumb">
                 <template #separator
-                    ><span v-if="name != 'home'" style="color: white">></span></template
+                    ><span v-if="name != 'index'" style="color: white">></span></template
                 >
                 <a-breadcrumb-item v-for="(item, index) in breadList" :key="item.name">
                     <router-link

@@ -67,11 +67,11 @@ const mainRoutes: RouteRecordRaw[] = [
             },*/
             {
                 path: '',
-                redirect: '/home',
+                redirect: '/index',
             },
             {
-                path: '/home',
-                name: 'home',
+                path: '/index',
+                name: 'index',
 
                 component: () => import('@/views/default/backTemp.vue'),
                 meta: {
