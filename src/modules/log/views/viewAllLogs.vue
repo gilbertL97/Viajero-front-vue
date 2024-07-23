@@ -1,6 +1,6 @@
 <template>
   <TableHeaderLogs :data-user="user"  @filter="filterLog"/>
-  <TableLogs :data ="dataLogs":loading="loading" @viewError="openErrorModal" />
+  <TableLogs :data ="dataLogs" :loading="loading" @viewError="openErrorModal" :user-data="user" />
   <PaginationTable :total="totalLogs" @page="paginateLog"/>
   <a-modal
         v-model:open="viewError"

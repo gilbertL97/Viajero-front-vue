@@ -1,6 +1,7 @@
 <template>
     <div>
-       <a-table    :columns="columns"
+       <a-table 
+            :columns="columns"
             :data-source="props.data"
             size="small"
             :loading="props.loading"
@@ -10,9 +11,12 @@
             >
             <template #customFilterIcon><slot></slot></template>
             <template #bodyCell="{text, record, index, column}">
-              <template v-if="column.dataIndex === 'errorStack' && (record.errorStack&& record.errorStack!='-')">     
-            <a-tooltip>
-              <template #title>ver Pila de Error</template>
+              <template v-if="column.dataIndex == 'userId'">
+              {{ getUserName(record.userId) }}
+              </template>
+              <template v-if="column.dataIndex == 'errorStack' && (record.errorStack && record.errorStack!='-')">     
+              <a-tooltip>
+                <template #title>ver Pila de Error</template>
                     <a-button type="primary" danger @click="emits('viewError',index)">
                         <template #icon>
                           <EyeOutlined/>
@@ -26,14 +30,20 @@
 </template>
 
 <script setup lang="ts">
+import { User } from '@/modules/user/types/user.types';
 import { Log } from '../../types/type.Log';
 import { EyeOutlined } from '@ant-design/icons-vue';
 
    const props = defineProps<{
         data: Log[]
         loading?: boolean ;
+        userData:User[];
     }>();
 const columns = [
+{
+    title: 'Usuario',
+    dataIndex: 'userId',
+  },
   {
     title: 'Mensaje',
     dataIndex: 'message', 
@@ -70,10 +80,6 @@ const columns = [
     width: 250,
   },
   {
-    title: 'Usuario',
-    dataIndex: 'userId',
-  },
-  {
       title: 'Pila de Error', 
       dataIndex: 'errorStack',
     },
@@ -81,7 +87,20 @@ const columns = [
 const emits = defineEmits<{
   (e: 'viewError', id:number): void;
 }>()
-
+ const getUserName=(id:number):string => {
+  console.log(id);
+  if(id){
+    const user = props.userData.find(user=>{
+    if(user.id==id)
+    {
+      console.log(user);
+      return user
+    }
+    })
+    return user ? user.name : '-'
+  }
+  return '-'
+ }
 </script>
 
 <style scoped>
