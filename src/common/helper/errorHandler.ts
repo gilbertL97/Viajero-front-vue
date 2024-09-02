@@ -2,8 +2,8 @@ export const getErrorLogin = (error: any) => {
     let title = '';
     let desc = '';
     if (!error.response) {
-        title = 'HAY un problema con la API';
-        desc = 'No se encuentra disponible la API';
+        title = 'Error en el servicio';
+        desc = 'No se encuentra disponible el Servicio';
     } else {
         if (error.response.status == 401) {
             title = 'Credenciales Inválidas';
