@@ -5,6 +5,7 @@ import refreshTokens from '@/modules/auth/composable/useRefreshTokenService';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 // import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
+import { addToken } from '@/intercerptors/request.interceptors/addTokenRequestInterceptor';
 
 type AxiosRequestConfigRetry = AxiosRequestConfig & { _retry?: boolean }; //?extiendo la clase para agregarle una propiedad para saber si se reintento
 export default function useHttpMethods() {
@@ -60,12 +61,7 @@ export default function useHttpMethods() {
     //     logout();
     //     router.push({ name: 'login' });
     // };
-    API.interceptors.request.use((config) => {
-        if (acces_token.value) {
-            config.headers!.Authorization = `Bearer ${acces_token.value}`;
-        }
-        return config;
-    });
+    API.interceptors.request.use((config) => addToken(config,acces_token.value));
     API.interceptors.response.use(
         (res) => {
             return res;
