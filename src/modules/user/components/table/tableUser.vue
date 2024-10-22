@@ -8,6 +8,13 @@
             :loading="state.loading"
         >
             <template #bodyCell="{ column, record }">
+                <template v-if="column.dataIndex === 'active'">
+                    <span>
+                        <a-tag :color="record.active == false ? 'red' : 'green'">
+                            {{ record.active == false ? 'Inactivo' : 'Activo' }}
+                        </a-tag>
+                    </span>
+                </template>
                 <template v-if="column.dataIndex === 'action'">
                     <a-popconfirm
                         :title="`Desea eliminar al Usuario ${record.name} ?`"
@@ -95,6 +102,10 @@
         {
             title: 'Rol',
             dataIndex: 'role',
+        },
+        {
+            title: 'Activo',
+            dataIndex: 'active',
         },
         { title: 'Operaciones', dataIndex: 'action' },
     ];

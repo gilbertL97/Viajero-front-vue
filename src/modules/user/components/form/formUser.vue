@@ -83,8 +83,8 @@
                     />
                 </a-form-item>
             </div>
-            <a-form-item :name="['isActive']" label="Activo">
-                <a-checkbox v-model:checked="user.isActive" />
+            <a-form-item :name="['active']" label="Activo">
+                <a-checkbox v-model:checked="user.active" />
             </a-form-item>
             <div class="btns">
                 <a-form-item :wrapper-col="{ wraper: 2, offset: 13 }">
@@ -143,7 +143,7 @@
         name: '',
         email: '',
         role: UserRole.CONSULT,
-        isActive: false,
+        active: false,
         contractor: undefined,
     });
     //const contractor=props.user.contractors[0].id;
@@ -212,7 +212,7 @@
         user.name = userR.name;
         user.email = userR.email;
         user.role = userR.role;
-        user.isActive = false;
+        user.active = userR.active;
         if (userR.contractors?.length != 0) {
             user.contractor = userR.contractors?.[0].id;
             setContract(userR.contractors![0]);
