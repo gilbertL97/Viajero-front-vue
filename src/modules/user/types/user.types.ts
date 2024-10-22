@@ -3,7 +3,7 @@ import { Contractor } from '@/modules/contratctor/types/contractor.types';
 export interface User {
     id: number;
     name: string;
-    active: boolean;
+    isActive: boolean;
     email: string;
     role: string;
     password?: string;
