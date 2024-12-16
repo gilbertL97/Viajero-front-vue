@@ -83,6 +83,9 @@
                     />
                 </a-form-item>
             </div>
+            <a-form-item :name="['active']" label="Activo">
+                <a-checkbox v-model:checked="user.active" />
+            </a-form-item>
             <div class="btns">
                 <a-form-item :wrapper-col="{ wraper: 2, offset: 13 }">
                     <a-button type="primary" html-type="submit">Aceptar</a-button>
@@ -209,7 +212,7 @@
         user.name = userR.name;
         user.email = userR.email;
         user.role = userR.role;
-        user.active = false;
+        user.active = userR.active;
         if (userR.contractors?.length != 0) {
             user.contractor = userR.contractors?.[0].id;
             setContract(userR.contractors![0]);
