@@ -4,19 +4,19 @@
     </div>
 </template>
 <script lang="ts" setup>
-import useRefreshTokenService from '@/modules/auth/composable/useRefreshTokenService';
+import useAuth from '@/modules/auth/composable/useAuth';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/modules/auth/store/auth.store.c';
 const router = useRouter();
 const { clearAll } = useAuthStore();
-const { postRfresh, logout } = useRefreshTokenService();
+const { postRfresh, logout } = useAuth();
 
 onMounted(async () => {
     const token = await postRfresh().catch(async () => await clearAll());
     if (!token) await logoutHome();
 });
 const logoutHome = async () => {
-    await clearAll().catch(() => {
+    await logout().catch(() => {
         clearAll();
     });
     //cancelInterceptor();

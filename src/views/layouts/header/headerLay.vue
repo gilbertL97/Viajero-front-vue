@@ -49,7 +49,7 @@
 <script setup lang="ts">
 import FormChangePass from '@/modules/auth/components/form/formChangePass.vue';
 import { ref } from 'vue';
-import useRefreshTokenService from '@/modules/auth/composable/useRefreshTokenService';
+import useAuth from '@/modules/auth/composable/useAuth';
 import { RouteLocationMatched, useRouter } from 'vue-router';
 import { useRoute } from 'vue-router';
 import { useAuthStore } from '@/modules/auth/store/auth.store.c';
@@ -57,7 +57,7 @@ import { useAuthStore } from '@/modules/auth/store/auth.store.c';
 const route = useRoute();
 const router = useRouter();
 const { userInfo } = useAuthStore()
-const { logout } = useRefreshTokenService();
+const { logout } = useAuth();
 const visible = ref(false);
 const name = ref<string>();
 const breadList = ref<RouteLocationMatched[]>([]);

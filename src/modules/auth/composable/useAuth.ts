@@ -4,7 +4,7 @@ import { UserLogin } from '../types/authTypes';
 import useHttpMethods from '@/service/useHttpMethods';
 import { getErrorLogin } from '@/common/helper/errorHandler';
 
-export default function useLogin() {
+export default function useAuth() {
     const { post } = useHttpMethods();
     const store = useAuthStore();
     const router = useRouter();
@@ -16,7 +16,7 @@ export default function useLogin() {
         password: '',
     });
     const loading = ref(false);
-    const { setInfo, getRefresh_token } = store;
+    const { setInfo, getRefresh_token, clearAll } = store;
 
     onMounted(async () => {
         if (getRefresh_token()) router.push('/hom');
@@ -45,6 +45,30 @@ export default function useLogin() {
 
         loading.value = false;
     };
+    const postRfresh = async () => {
+        const token = getRefresh_token();
+        if (token) {
+            try {
+                const data = (await post('/auth/refresh', { refresh_token: token })).data;
+                setInfo(data);
+                return data;
+            } catch (error) {
+                throw error;
+            }
+        }
+        throw new Error('no token');
+    };
+    const logout = async () => {
+        try {
+            const token = getRefresh_token();
+            const status = (await post('/auth/logout', { refresh_token: token })).status;
+            if (status == 201) {
+                clearAll();
+            }
+        } catch (error) {
+            throw error;
+        }
+    };
     return {
         form,
         loading,
@@ -52,5 +76,7 @@ export default function useLogin() {
         message,
         description,
         login,
+        logout,
+        postRfresh,
     };
 }

@@ -1,7 +1,7 @@
 import { Payload } from '@/common/types/generic.type';
 import API from './api';
 import { useAuthStore } from '@/modules/auth/store/auth.store.c';
-import useRefreshTokens from '@/modules/auth/composable/useRefreshTokenService';
+import useAuth from '@/modules/auth/composable/useAuth';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 // import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
@@ -10,10 +10,9 @@ import { resendRefreshTokenIfExpire } from '@/intercerptors/response.interceptor
 
 type AxiosRequestConfigRetry = AxiosRequestConfig & { _retry?: boolean }; //?extiendo la clase para agregarle una propiedad para saber si se reintento
 export default function useHttpMethods() {
-    const { logout } = useAuthStore();
     const { acces_token } = storeToRefs(useAuthStore());
     // const router = useRouter();
-    const { postRfresh } = useRefreshTokens();
+    const { postRfresh } = useAuth();
     const get = (path: string, query?: any) => {
         return API.request({
             method: 'GET',
@@ -58,14 +57,14 @@ export default function useHttpMethods() {
             responseType: 'json',
         });
     };
-    API.interceptors.request.use((config) => addToken(config,acces_token.value));
+    API.interceptors.request.use((config) => addToken(config, acces_token.value));
     API.interceptors.response.use(
         (res) => {
             return res;
         },
-        async (error: AxiosError)=> resendRefreshTokenIfExpire(error)
+        async (error: AxiosError) => resendRefreshTokenIfExpire(error)
     );
-  
+
     return {
         get,
         patch,

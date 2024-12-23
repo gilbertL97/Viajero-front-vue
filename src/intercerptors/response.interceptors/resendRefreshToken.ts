@@ -1,10 +1,10 @@
-import useRefreshTokenService from "@/modules/auth/composable/useRefreshTokenService";
+import useAuth from "@/modules/auth/composable/useAuth";
 import { useAuthStore } from "@/modules/auth/store/auth.store.c";
 import API from "@/service/api";
 import { AxiosError, AxiosRequestConfig } from "axios";
 
 
-const { postRfresh } = useRefreshTokenService();
+const { postRfresh } = useAuth();
 const { clearAll } = useAuthStore();
 type AxiosRequestConfigRetry = AxiosRequestConfig & { _retry?: boolean };
 
