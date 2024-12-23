@@ -51,13 +51,12 @@ export const useAuthStore = defineStore('app-user', () => {
         if (can) return true;
         return false;
     };
-    const logout = () => {
+    const clearAll = (): void => {
         accesToken.value = null;
         refreshToken.value = null;
         localStorage.removeItem('refresh_token');
         isloggedIn.value = false;
     };
-
     return {
         acces_token: accesToken,
         refresh_token: refreshToken,
@@ -67,7 +66,7 @@ export const useAuthStore = defineStore('app-user', () => {
 
         getRefresh_token,
         setInfo,
-        logout,
         canAccess,
+        clearAll,
     };
 });

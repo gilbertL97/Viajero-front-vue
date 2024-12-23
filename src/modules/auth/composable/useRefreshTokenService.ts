@@ -1,6 +1,6 @@
 import useHttpMethods from '@/service/useHttpMethods';
 import { useAuthStore } from '../store/auth.store.c';
-const { getRefresh_token, setInfo, logout } = useAuthStore();
+const { getRefresh_token, setInfo, clearAll } = useAuthStore();
 const { post } = useHttpMethods();
 
 export default function useRefreshTokenService() {
@@ -17,19 +17,19 @@ export default function useRefreshTokenService() {
         }
         throw new Error('no token');
     };
-    const logout2 = async () => {
+    const logout = async () => {
         try {
             const token = getRefresh_token();
             const status = (await post('/auth/logout', { refresh_token: token })).status;
             if (status == 201) {
-                logout();
+                clearAll();
             }
         } catch (error) {
             throw error;
         }
     };
     return {
-        logout2,
+        logout,
         postRfresh,
     };
 }
